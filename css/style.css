@@ -1,5 +1,29 @@
 @charset "UTF-8";
 /**
+-webkit-transition: all .35s ease-in-out;
+    -moz-transition: all .35s ease-in-out;
+    -o-transition: all .35s ease-in-out;
+    transition: all .5s ease-in-out;
+    z-index: 10;
+}
+
+#owl-slider .owl-prev:hover, #owl-slider .owl-next:hover {
+    opacity: 0.7;
+    -webkit-transition: all .35s ease-in-out;
+    -moz-transition: all .35s ease-in-out;
+    -o-transition: all .35s ease-in-out;
+    transition: all .35s ease-in-out;
+}
+
+.owl-slider .owl-buttons {
+    height: 30px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 50px;
+    margin: auto;
+    z-index: -999999;
+}
  * [Table of contents]
  *   1 Base
  *   2 Components
