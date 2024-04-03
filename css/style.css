@@ -3108,7 +3108,7 @@ textarea.form-input {
 }
 
 .project-mary-content {
-	padding: 20px 15px;
+	padding: 20rem 15px;
 	color: #ffffff;
 	background: #282828;
 }
@@ -3117,6 +3117,7 @@ textarea.form-input {
 	overflow: hidden;
 	margin-left: -17px;
 	margin-right: -17px;
+	padding: 20rem;
 }
 
 .project-mary-panel > * {
