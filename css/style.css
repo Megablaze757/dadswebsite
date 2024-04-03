@@ -10,11 +10,7 @@
 /*
 * Contexts
 */
-    @media (max-width: 768px) {
-      .section-horace-left {
-        text-align: center;
-      }
-    }
+
 
   .commonninja_component {
     display: flex;
@@ -1359,7 +1355,8 @@ p + .list-marked {
 */
 img {
 	display: inline-block;
-	max-width: 100%;
+	max-width: auto;
+	width: auto;
 	height: auto;
 }
 
