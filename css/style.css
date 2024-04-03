@@ -10,6 +10,51 @@
 /*
 * Contexts
 */
+
+.gallery-wrap {
+    width: 100%;
+    display: block;
+}
+
+@media only screen and (max-width: 500px) {
+.gallery-wrap {
+    width: 100%;
+    display: inline;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.gallery-row {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  flex-direction: column;
+}
+}
+
+.gallery-row {
+    width: 80%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery-col {
+    width: 33.3%;
+    float: left;
+}
+
+@media only screen and (max-width: 500px) {
+.gallery-col {
+    width: 100%;
+}
+}
+
+.gallery-img {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
 .center {
   display: block;
   margin-left: auto;
