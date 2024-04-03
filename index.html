@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/js/swiffy-slider.min.js" crossorigin="anonymous" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/swiffy-slider@1.6.0/dist/css/swiffy-slider.min.css" rel="stylesheet" crossorigin="anonymous">
 
+
     
     <link rel="stylesheet" href="css/style.css">
     <style>.ie-panel{display: none;background: #343235;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
@@ -136,7 +137,7 @@
           </div>
 		
           <!-- Owl Carousel-->
-          <div class="owl-carousel" data-items="1" data-sm-items="2" data-md-items="3" data-xl-items="4" data-margin="5" data-dots="true" data-mouse-drag="false">
+          <!-- <div class="owl-carousel" data-items="1" data-sm-items="2" data-md-items="3" data-xl-items="4" data-margin="5" data-dots="true" data-mouse-drag="false">
             <article class="team-classic wow fadeInUp" data-wow-delay=".1s">
               <div class="team-classic-figure"><img src="images/Untitled design 4/1.png" alt="" width="290" height="284"/>
               </div>
@@ -211,7 +212,25 @@
             </article>
           </div>
         </div>
-      </section>
+      </section> -->
+<section id="app" class="section-padding">
+	<!-- carousel -->
+        <div class="container">   
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h2>How It Works</h2>                  
+                </div>  
+             
+                <div id="owl-slider" class="owl-carousel owl-theme">
+                    <img src="images/Untitled design 4/4.png" alt="browse movie" class="img-responsive">
+                    <img src="images/Untitled design 4/3.png" alt="groups" class="img-responsive">
+                    <img src="images/Untitled design 4/2.png" alt="popular spot" class="img-responsive">
+                    <img src="images/Untitled design 4/1.png" alt="chats" class="img-responsive">
+                </div> 
+            </div>
+        </div> 
+        <!-- end carousel -->
+    </section>
 
 
 
@@ -287,11 +306,23 @@
 </div>
 </section>
 
-<footer><p>Designed test connectwiser.co.uk</p></footer>
+<footer><p>Designed t connectwiser.co.uk</p></footer>
 	  <a href=''> item created by  - https://monsterone.com</a>
     
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
+     <script>
+        $(document).ready(function() {
+            $("#owl-slider").owlCarousel({
+                autoplay: true,
+                autoplayHoverPause: true,
+                autoplayTimeout: 4000,
+                items: 1,
+                loop: true,              
+              })
+        })
+
+    </script>
 <!-- Basic stylesheet -->
 <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
  
