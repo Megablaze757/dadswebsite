@@ -10,6 +10,11 @@
 /*
 * Contexts
 */
+    @media (max-width: 768px) {
+      .section-horace-left {
+        text-align: center;
+      }
+    }
 
   .commonninja_component {
     display: flex;
