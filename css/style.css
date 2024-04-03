@@ -1351,8 +1351,9 @@ p + .list-marked {
 img {
 	display: inline-block;
 	max-width: auto;
-	width: 10rem;
-	height: 10rem;
+	width: auto;
+	height: auto;
+	padding: 10rem;
 }
 
 .img-responsive {
