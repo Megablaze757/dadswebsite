@@ -10,7 +10,17 @@
 /*
 * Contexts
 */
-
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center; /* Center the content horizontally */
+  }
+  
+  ul li {
+    display: inline-block;
+    margin: 10px; /* Adjust the margin as needed */
+  }
 img {
 	width: 100%;
 	display: block;
