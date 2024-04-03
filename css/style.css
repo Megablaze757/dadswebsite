@@ -3071,7 +3071,7 @@ textarea.form-input {
 }
 
 .project-mary {
-	position: relative;
+	position: centre;
 }
 
 .project-mary-figure {
@@ -3105,6 +3105,7 @@ textarea.form-input {
 
 .project-mary-link img {
 	display: none;
+	
 }
 
 .project-mary-content {
@@ -3118,11 +3119,13 @@ textarea.form-input {
 	margin-left: -17px;
 	margin-right: -17px;
 	padding: 20rem;
+	position: centre;
 }
 
 .project-mary-panel > * {
 	padding-left: 17px;
 	padding-right: 17px;
+	position: centre;
 }
 
 .project-mary-panel-item {
@@ -3133,7 +3136,7 @@ textarea.form-input {
 }
 
 .project-mary-panel-item + .project-mary-panel-item::before {
-	position: absolute;
+	position: centre;
 	content: '';
 	top: 50%;
 	left: -1px;
@@ -3190,7 +3193,7 @@ textarea.form-input {
 		line-height: 61px;
 	}
 	.project-mary-content {
-		position: absolute;
+		position: centre;
 		top: 50%;
 		left: 0;
 		max-width: 300px;
