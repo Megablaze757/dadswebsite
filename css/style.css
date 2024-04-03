@@ -1353,6 +1353,8 @@ img {
 	max-width: auto;
 	width: auto;
 	height: auto;
+	position: center;
+	
 	
 	
 }
@@ -3072,16 +3074,16 @@ textarea.form-input {
 }
 
 .project-mary {
-	position: centre;
+	position: center;
 }
 
 .project-mary-figure {
-	position: centre;
+	position: center;
 	overflow: hidden;
 }
 
 .project-mary-link-wrap {
-	position: centre;
+	position: center;
 	right: 0;
 	bottom: 0;
 }
@@ -3106,7 +3108,7 @@ textarea.form-input {
 
 .project-mary-link img {
 	display: none;
-	position: centre;
+	position: center;
 	
 }
 
@@ -3114,7 +3116,7 @@ textarea.form-input {
 	padding: 20rem 15px;
 	color: #ffffff;
 	background: #282828;
-	position: centre;
+	position: center;
 }
 
 .project-mary-panel {
@@ -3122,24 +3124,24 @@ textarea.form-input {
 	margin-left: -17px;
 	margin-right: -17px;
 	padding: 20rem;
-	position: centre;
+	position: center;
 }
 
 .project-mary-panel > * {
 	padding-left: 17px;
 	padding-right: 17px;
-	position: centre;
+	position: center;
 }
 
 .project-mary-panel-item {
-	position: centre;
+	position: center;
 	display: inline-block;
 	vertical-align: middle;
 	text-transform: uppercase;
 }
 
 .project-mary-panel-item + .project-mary-panel-item::before {
-	position: centre;
+	position: center;
 	content: '';
 	top: 50%;
 	left: -1px;
@@ -3167,7 +3169,7 @@ textarea.form-input {
 
 * + .project-mary {
 	margin-top: 30px;
-	position: centre;
+	position: center;
 }
 
 * + .project-mary-title {
@@ -3197,7 +3199,7 @@ textarea.form-input {
 		line-height: 61px;
 	}
 	.project-mary-content {
-		position: centre;
+		position: center;
 		top: 50%;
 		left: 0;
 		max-width: 300px;
@@ -3210,7 +3212,7 @@ textarea.form-input {
 	.project-mary-content {
 		max-width: auto;
 		padding: 45px 30px;
-		position : centre
+		position: center
 	}
 }
 
