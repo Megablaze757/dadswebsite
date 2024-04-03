@@ -39,15 +39,9 @@ ul {
   
   ul li {
     display: inline-block;
-    margin: 10px; /* Adjust the margin as needed */
+    margin: 30px; /* Adjust the margin as needed */
   }
-img {
-	width: 100%;
-	display: block;
-	aspect-ratio: 1 / 1;
-	object-fit: cover;
-	transition: transform 1000ms;
-}
+
 
 ul {
 	list-style: none;
