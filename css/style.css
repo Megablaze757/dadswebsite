@@ -10,6 +10,14 @@
 /*
 * Contexts
 */
+
+  /* CSS to center the widget and prevent squashing on mobile */
+.commonninja_component {
+    margin: 0 auto; /* Center the widget horizontally */
+    max-width: 100%; /* Ensure the widget doesn't exceed the viewport width */
+    overflow-x: auto; /* Allow horizontal scrolling if the widget is wider than the viewport */
+  }
+
 ul {
     list-style-type: none;
     padding: 0;
