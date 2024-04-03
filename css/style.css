@@ -19,12 +19,7 @@
     overflow: auto; /* Enable scrolling if the widget overflows */
   }
 
-  @media only screen and (max-width: 600px) {
-    /* Adjustments for mobile devices */
-    .commonninja_component {
-      flex-direction: column; /* Stack items vertically on small screens */
-    }
-  }
+
 
 ul {
     list-style-type: none;
@@ -1356,8 +1351,8 @@ p + .list-marked {
 img {
 	display: inline-block;
 	max-width: auto;
-	width: auto;
-	height: auto;
+	width: 10rem;
+	height: 10rem;
 }
 
 .img-responsive {
