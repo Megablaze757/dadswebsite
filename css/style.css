@@ -1353,7 +1353,7 @@ img {
 	max-width: auto;
 	width: auto;
 	height: auto;
-	position: center;
+	/*position: center; */
 	
 	
 	
@@ -3199,7 +3199,7 @@ textarea.form-input {
 		line-height: 61px;
 	}
 	.project-mary-content {
-		position: center;
+		
 		top: 50%;
 		left: 0;
 		max-width: 300px;
