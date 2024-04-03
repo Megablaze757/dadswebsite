@@ -11,11 +11,18 @@
 * Contexts
 */
 
-  /* CSS to center the widget and prevent squashing on mobile */
-.commonninja_component {
-    margin: 0 auto; /* Center the widget horizontally */
-    max-width: 100%; /* Ensure the widget doesn't exceed the viewport width */
-    overflow-x: auto; /* Allow horizontal scrolling if the widget is wider than the viewport */
+  .commonninja_component {
+    display: flex;
+    justify-content: center; /* Center the widget horizontally */
+    align-items: center; /* Center the widget vertically */
+    overflow: auto; /* Enable scrolling if the widget overflows */
+  }
+
+  @media only screen and (max-width: 600px) {
+    /* Adjustments for mobile devices */
+    .commonninja_component {
+      flex-direction: column; /* Stack items vertically on small screens */
+    }
   }
 
 ul {
