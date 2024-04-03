@@ -13,7 +13,36 @@
     <style>.ie-panel{display: none;background: #343235;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
-  
+  <style>
+  /* CSS to center the list items and prevent squashing on mobile */
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center; /* Center the content horizontally */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  ul li {
+    margin: 10px; /* Adjust the margin as needed */
+    flex: 0 0 auto;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Optional: Adjust the width of the images */
+  @media only screen and (max-width: 600px) {
+    /* Adjustments for mobile devices */
+    ul li {
+      margin: 5px; /* Reduce margin on small screens */
+    }
+  }
+</style>
     <div class="preloader">
       <div class="cssload-box-loading"></div>
     </div>
