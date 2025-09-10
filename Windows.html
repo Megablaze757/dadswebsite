@@ -1,408 +1,678 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sash Window Calculator | Natural Windows</title>
+    <title>Sash Window Price Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --border-radius: 4px;
-            --box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f7f9;
-            color: #333;
+            background-color: #f0f5f9;
+            color: #2c3e50;
             line-height: 1.6;
             padding: 20px;
         }
-        
-        .calculator-container {
-            max-width: 800px;
+
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border-radius: 8px;
-            box-shadow: var(--box-shadow);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        
-        .calculator-header {
-            background-color: var(--primary-color);
+
+        header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             color: white;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .calculator-container {
+            display: flex;
+            flex-wrap: wrap;
             padding: 20px;
+            gap: 20px;
+        }
+
+        .design-section {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .options-section {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .result-section {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
             text-align: center;
         }
-        
-        .calculator-body {
-            padding: 25px;
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8e8e8;
         }
-        
+
+        .designs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .design-item {
+            text-align: center;
+            padding: 15px 10px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .design-item:hover {
+            border-color: #3498db;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .design-item.selected {
+            border-color: #3498db;
+            background-color: #e1f0fa;
+        }
+
+        .design-preview {
+            width: 100%;
+            height: 100px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(45deg, #e6e6e6, #f9f9f9);
+            position: relative;
+        }
+
+        /* Design preview styles */
+        .design-preview.six-over-six {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+        }
+
+        .design-preview.two-over-two {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+        }
+
+        .design-preview.one-over-one {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+        }
+
+        .design-preview.six-over-six::before,
+        .design-preview.six-over-six::after {
+            content: "";
+            position: absolute;
+            width: 80%;
+            height: 1px;
+            background-color: #2c3e50;
+        }
+
+        .design-preview.six-over-six::before {
+            top: 33%;
+        }
+
+        .design-preview.six-over-six::after {
+            top: 66%;
+        }
+
+        .design-preview.two-over-two::before {
+            content: "";
+            position: absolute;
+            width: 80%;
+            height: 1px;
+            background-color: #2c3e50;
+            top: 50%;
+        }
+
+        .design-preview.georgian {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+            padding: 5px;
+        }
+
+        .design-preview.georgian div {
+            background-color: #7fa0af;
+            border: 1px solid #2c3e50;
+        }
+
+        .design-preview.victorian {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            position: relative;
+        }
+
+        .design-preview.victorian::before {
+            content: "";
+            position: absolute;
+            width: 80%;
+            height: 1px;
+            background-color: #2c3e50;
+            top: 50%;
+        }
+
+        .design-preview.victorian::after {
+            content: "";
+            position: absolute;
+            width: 1px;
+            height: 70%;
+            background-color: #2c3e50;
+            left: 50%;
+            top: 15%;
+        }
+
+        .design-preview.four-over-four {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 2px;
+            padding: 5px;
+        }
+
+        .design-preview.four-over-four div {
+            background-color: #7fa0af;
+            border: 1px solid #2c3e50;
+        }
+
+        .design-preview.eight-over-eight {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1px;
+            padding: 3px;
+        }
+
+        .design-preview.eight-over-eight div {
+            background-color: #7fa0af;
+            border: 1px solid #2c3e50;
+        }
+
+        .design-preview.twelve-over-twelve {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr;
+            gap: 1px;
+            padding: 2px;
+        }
+
+        .design-preview.twelve-over-twelve div {
+            background-color: #7fa0af;
+            border: 1px solid #2c3e50;
+        }
+
+        .design-preview.arched-top {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 70%, #a4c0cc 70%, #a4c0cc 100%);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .design-preview.curved {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            border-radius: 20px;
+        }
+
+        .design-preview.elliptical {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
+            border-radius: 50% / 100% 100% 0 0;
+        }
+
+        .design-preview.fixed-sash {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 100%);
+        }
+
+        .design-preview.arched-sash {
+            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 70%, #a4c0cc 70%, #a4c0cc 100%);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
-        
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px 15px;
-        }
-        
-        .form-column {
-            flex: 1;
-            padding: 0 10px;
-            min-width: 250px;
-        }
-        
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dark-color);
+            color: #2c3e50;
         }
-        
-        input, select {
+
+        select,
+        input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            transition: border 0.3s;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
         }
-        
-        input:focus, select:focus {
+
+        select:focus,
+        input:focus {
+            border-color: #3498db;
             outline: none;
-            border-color: var(--secondary-color);
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
-        
-        .dimension-inputs {
-            display: flex;
+
+        .dimensions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-        
-        .dimension-inputs .form-column {
-            flex: 1;
-        }
-        
-        .help-text {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            background-color: var(--secondary-color);
+
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
             color: white;
             border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 1.1rem;
             font-weight: 600;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
         }
-        
-        .btn:hover {
-            background-color: #2980b9;
+
+        .calculate-btn:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1e2a38 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
-        
-        .btn-calculate {
-            background-color: var(--success-color);
-            width: 100%;
-            margin-top: 10px;
+
+        .result-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 15px 0;
         }
-        
-        .btn-calculate:hover {
-            background-color: #27ae60;
+
+        .result-details {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
         }
-        
-        .result-container {
-            margin-top: 30px;
+
+        .breakdown {
+            text-align: left;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .breakdown h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        footer {
+            text-align: center;
             padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-            display: none;
+            color: #7f8c8d;
+            border-top: 1px solid #e8e8e8;
+            background: #f8f9fa;
         }
-        
-        .result-container.visible {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        
-        .price-display {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin: 10px 0;
-        }
-        
-        .error-message {
-            color: var(--accent-color);
-            font-size: 14px;
+
+        .design-name {
+            font-weight: 600;
             margin-top: 5px;
-            display: none;
         }
-        
-        .error-message.visible {
-            display: block;
+
+        .design-price {
+            color: #2c3e50;
+            font-size: 0.9rem;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @media (max-width: 600px) {
-            .form-column {
-                min-width: 100%;
-            }
-            
-            .dimension-inputs {
+
+        @media (max-width: 900px) {
+            .calculator-container {
                 flex-direction: column;
-                gap: 0;
             }
+
+            .designs-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        Fbas @media (max-width: 600px) {
+            .designs-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .design-preview {
+                height: 80px;
+            }
+
+            .dimensions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        <title>Multiverse by HTML5 UP</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /><link rel="stylesheet" href="assets/css/main.css" /><noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"><link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/fonts.css"><link rel="stylesheet" href="css/style.css"><style>.social-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .social-icon {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .social-icon img {
+            width: 40px;
+            /* Adjust size as needed */
+            height: 40px;
+            /* Adjust size as needed */
         }
     </style>
+    </style>
 </head>
+
 <body>
-    <div class="calculator-container">
-        <div class="calculator-header">
-            <h1>Timber Sash Window Calculator</h1>
-            <p>Get an instant estimate for your custom timber windows</p>
-        </div>
-        
-        <div class="calculator-body">
-            <form id="windowCalculator">
+    <div class="container">
+        <header>
+            <h1>Sash Window Price Calculator</h1>
+            <p>Calculate the price of your custom sash windows based on your specifications.</p>
+        </header>
+        <nav id="header-nav-wrap">
+            <ul class="header-main-nav">
+                <li class="current"><a class="smoothscroll" href="#home" title="home">Home</a></li>
+                <li><a class="smoothscroll" href="about.html" title="about">Projects</a></li>
+                <li><a class="smoothscroll" href="Testomonials.html" title="pricing">Testimonials</a></li>
+                <li><a class="smoothscroll" href="#contact" title="testimonials">Contact</a></li>
+                <li><a class="smoothscroll" href="Windows.html" title="Windows">Windows</a></li>
+
+            </ul>
+
+
+        </nav>
+
+        <div class="calculator-container">
+            <div class="design-section">
+                <h2 class="section-title">Choose a Sash Window Design</h2>
+                <div class="designs-grid">
+                    <div class="design-item selected" data-design="standard-weights" data-base-price="518.41">
+                        <div class="design-preview six-over-six"></div>
+                        <div class="design-name">Standard Weights</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="standard-spring" data-base-price="496.17">
+                        <div class="design-preview six-over-six"></div>
+                        <div class="design-name">Standard Spring</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="full-sapele" data-base-price="667.70">
+                        <div class="design-preview six-over-six"></div>
+                        <div class="design-name">Full Sapele</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern1" data-base-price="572.97">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 1</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern2" data-base-price="607.67">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 2</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern3" data-base-price="667.48">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 3</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern4" data-base-price="639.83">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 4</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern5" data-base-price="731.80">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 5</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern6" data-base-price="706.70">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 6</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="bars-pattern7" data-base-price="865.52">
+                        <div class="design-preview georgian">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="design-name">Bars Pattern 7</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="fixed-sash" data-base-price="432.15">
+                        <div class="design-preview fixed-sash"></div>
+                        <div class="design-name">Fixed Sash</div>
+                        <div class="design-price"></div>
+                    </div>
+                    <div class="design-item" data-design="arched-sash" data-base-price="602.87">
+                        <div class="design-preview arched-sash"></div>
+                        <div class="design-name">Arched Sash</div>
+                        <div class="design-price"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="options-section">
+                <h2 class="section-title">Configuration Options</h2>
+
                 <div class="form-group">
-                    <h2>Window Dimensions</h2>
-                    <p class="help-text">Measure your window opening height and width in millimeters, including the frame.</p>
-                    
-                    <div class="form-row dimension-inputs">
-                        <div class="form-column">
-                            <label for="width">Width (mm)</label>
-                            <input type="number" id="width" name="width" min="400" max="2000" required>
-                            <div class="error-message" id="widthError">Width must be between 400mm and 2000mm</div>
-                        </div>
-                        
-                        <div class="form-column">
-                            <label for="height">Height (mm)</label>
-                            <input type="number" id="height" name="height" min="500" max="2200" required>
-                            <div class="error-message" id="heightError">Height must be between 500mm and 2200mm</div>
-                        </div>
+                    <label for="width">Width (mm):</label>
+                    <input type="number" id="width" min="500" max="3000" placeholder="Enter width" value="1000">
+                </div>
+
+                <div class="form-group">
+                    <label for="height">Height (mm):</label>
+                    <input type="number" id="height" min="500" max="3000" placeholder="Enter height" value="1000">
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" min="1" value="1">
+                </div>
+
+                <button class="calculate-btn" id="calculate">CALCULATE PRICE</button>
+            </div>
+
+            <div class="result-section">
+                <h2 class="section-title">Estimated Price</h2>
+                <div class="result-price">£0.00</div>
+                <p class="result-details">Configure your window and click calculate to see the price</p>
+
+                <div class="breakdown">
+                    <h3>Price Breakdown</h3>
+                    <div class="breakdown-item">
+                        <span>Base Design Price:</span>
+                        <span>£0.00</span>
+
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Size Adjustment:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item" style="font-weight: bold; border-top: 1px solid #ddd;">
+                        <span>Total per Unit:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item" style="font-weight: bold;">
+                        <span>Quantity:</span>
+                        <span>1</span>
+                    </div>
+                    <div class="breakdown-item" style="font-weight: bold; border-top: 1px solid #ddd;">
+                        <span>Total Price:</span>
+                        <span>£0.00</span>
                     </div>
                 </div>
-                
-                <div class="form-row">
-                    <div class="form-column">
-                        <label for="productType">Product Type</label>
-                        <select id="productType" name="productType">
-                            <option value="sash">Timber Sash Window</option>
-                            <option value="casement">Timber Casement Window</option>
-                            <option value="door">Wooden Door</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-column">
-                        <label for="sashType">Sash Type</label>
-                        <select id="sashType" name="sashType">
-                            <option value="spiral">Spiral Balance System</option>
-                            <option value="cords">Cords and Weights System</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-column">
-                        <label for="timberType">Timber Type</label>
-                        <select id="timberType" name="timberType">
-                            <option value="oak">Oak</option>
-                            <option value="pine" selected>Pine</option>
-                            <option value="mahogany">Mahogany</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-column">
-                        <label for="finish">Finish</label>
-                        <select id="finish" name="finish">
-                            <option value="primed">Primed</option>
-                            <option value="painted">Painted</option>
-                            <option value="varnished">Varnished</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-column">
-                        <label for="glassType">Glass Type</label>
-                        <select id="glassType" name="glassType">
-                            <option value="double">Double Glazed</option>
-                            <option value="single">Single Glazed</option>
-                            <option value="laminated">Laminated</option>
-                            <option value="toughened">Toughened</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-column">
-                        <label for="glazingBars">Glazing Bars</label>
-                        <select id="glazingBars" name="glazingBars">
-                            <option value="none">None</option>
-                            <option value="standard">Standard</option>
-                            <option value="georgian">Georgian</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn btn-calculate">Calculate Price</button>
-            </form>
-            
-            <div class="result-container" id="resultContainer">
-                <h2>Estimated Quotation</h2>
-                <p>Based on your specifications, your estimated price is:</p>
-                <div class="price-display" id="priceDisplay">£0.00</div>
-                <p class="help-text">This is an estimated quotation only. Please contact us for a detailed quote based on your specific requirements.</p>
-                <button type="button" class="btn" id="resetButton">Start New Calculation</button>
             </div>
         </div>
+
+        <footer>
+            <p>All our windows are made to order and based on your specifications. If you cannot find a style or design
+                you require, please get in touch.</p>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('windowCalculator');
+        document.addEventListener('DOMContentLoaded', function () {
+            // DOM elements
+            const designItems = document.querySelectorAll('.design-item');
             const widthInput = document.getElementById('width');
             const heightInput = document.getElementById('height');
-            const widthError = document.getElementById('widthError');
-            const heightError = document.getElementById('heightError');
-            const resultContainer = document.getElementById('resultContainer');
-            const priceDisplay = document.getElementById('priceDisplay');
-            const resetButton = document.getElementById('resetButton');
-            
-            // Base prices per square cm for different products
-            const basePrices = {
-                sash: 0.45,
-                casement: 0.40,
-                door: 0.55
-            };
-            
-            // Multipliers for different options
-            const multipliers = {
-                sashType: {
-                    spiral: 1.0,
-                    cords: 1.15
-                },
-                timberType: {
-                    oak: 1.4,
-                    pine: 1.0,
-                    mahogany: 1.8
-                },
-                finish: {
-                    primed: 1.0,
-                    painted: 1.15,
-                    varnished: 1.25
-                },
-                glassType: {
-                    single: 1.0,
-                    double: 1.3,
-                    laminated: 1.5,
-                    toughened: 1.4
-                },
-                glazingBars: {
-                    none: 1.0,
-                    standard: 1.15,
-                    georgian: 1.25
-                }
-            };
-            
-            // Validate dimension inputs
-            function validateDimension(input, min, max, errorElement) {
-                const value = parseInt(input.value);
-                if (isNaN(value) || value < min || value > max) {
-                    errorElement.classList.add('visible');
-                    return false;
-                } else {
-                    errorElement.classList.remove('visible');
-                    return true;
-                }
-            }
-            
-            widthInput.addEventListener('blur', function() {
-                validateDimension(this, 400, 2000, widthError);
+            const quantityInput = document.getElementById('quantity');
+            const calculateBtn = document.getElementById('calculate');
+            const resultPrice = document.querySelector('.result-price');
+            const breakdownItems = document.querySelectorAll('.breakdown-item span:last-child');
+
+            // Set initial values
+            let selectedDesign = 'standard-weights';
+            let basePrice = 518.41;
+
+            // Design selection
+            designItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    // Update UI
+                    designItems.forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Update selected design and base price
+                    selectedDesign = this.dataset.design;
+                    basePrice = parseFloat(this.dataset.basePrice);
+                });
             });
-            
-            heightInput.addEventListener('blur', function() {
-                validateDimension(this, 500, 2200, heightError);
-            });
-            
-            // Calculate the price
-            function calculatePrice(data) {
-                // Calculate area in square centimeters
-                const areaSqCm = (data.width / 10) * (data.height / 10);
-                
-                // Get base price based on product type
-                let price = areaSqCm * basePrices[data.productType];
-                
-                // Apply multipliers for selected options
-                price *= multipliers.sashType[data.sashType];
-                price *= multipliers.timberType[data.timberType];
-                price *= multipliers.finish[data.finish];
-                price *= multipliers.glassType[data.glassType];
-                price *= multipliers.glazingBars[data.glazingBars];
-                price *= 1.3;
-                
-                return price.toFixed(2);
-            }
-            
-            // Form submission handler
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Validate dimensions
-                const isWidthValid = validateDimension(widthInput, 400, 2000, widthError);
-                const isHeightValid = validateDimension(heightInput, 500, 2200, heightError);
-                
-                if (!isWidthValid || !isHeightValid) {
+
+            // Calculate estimate
+            calculateBtn.addEventListener('click', function () {
+                // Validate inputs
+                if (!widthInput.value || !heightInput.value) {
+                    alert('Please enter both width and height');
                     return;
                 }
-                
-                // Get form data
-                const formData = {
-                    width: parseInt(widthInput.value),
-                    height: parseInt(heightInput.value),
-                    productType: document.getElementById('productType').value,
-                    sashType: document.getElementById('sashType').value,
-                    timberType: document.getElementById('timberType').value,
-                    finish: document.getElementById('finish').value,
-                    glassType: document.getElementById('glassType').value,
-                    glazingBars: document.getElementById('glazingBars').value
-                };
-                
-                // Calculate and display price
-                const price = calculatePrice(formData);
-                priceDisplay.textContent = `£${price}`;
-                
-                // Show result container
-                resultContainer.classList.add('visible');
+
+                // Get values
+                const width = parseInt(widthInput.value);
+                const height = parseInt(heightInput.value);
+                const quantity = parseInt(quantityInput.value);
+
+                // Calculate area in square mm
+                const area = width * height;
+
+                // Reference area for base price (1000x1000mm = 1,000,000 mm²)
+                const referenceArea = 1000000;
+
+                // Calculate size adjustment factor (non-linear pricing)
+                const sizeFactor = Math.pow(area / referenceArea, 0.8);
+
+                // Calculate adjusted price
+                const adjustedPrice = basePrice * sizeFactor * 1.3;
+
+                // Update breakdown
+                breakdownItems[0].textContent = `£${adjustedPrice.toFixed(2)}`;;
+                breakdownItems[1].textContent = `${(sizeFactor > 1 ? '+' : '')}${((sizeFactor - 1) * 100).toFixed(1)}%`;
+                breakdownItems[2].textContent = `£${adjustedPrice.toFixed(2)}`;
+                breakdownItems[3].textContent = quantity;
+                breakdownItems[4].textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
+
+                // Format and display price
+                resultPrice.textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
             });
-            
-            // Reset button handler
-            resetButton.addEventListener('click', function() {
-                form.reset();
-                resultContainer.classList.remove('visible');
-            });
+
+            // Calculate initial price on load
+            calculateBtn.click();
         });
     </script>
 </body>
+
 </html>
