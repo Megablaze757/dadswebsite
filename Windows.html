@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>AR building services</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" />
-	</noscript>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/fonts.css">
-	<link rel="stylesheet" href="css/style.css">
-	<style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sash Window Price Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AR Building Services - Sash Window Calculator</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
         * {
             box-sizing: border-box;
@@ -145,45 +139,11 @@
         }
 
         /* Design preview styles */
-        .design-preview.six-over-six {
+        .design-preview.standard {
             background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
         }
 
-        .design-preview.two-over-two {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-        }
-
-        .design-preview.one-over-one {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-        }
-
-        .design-preview.six-over-six::before,
-        .design-preview.six-over-six::after {
-            content: "";
-            position: absolute;
-            width: 80%;
-            height: 1px;
-            background-color: #2c3e50;
-        }
-
-        .design-preview.six-over-six::before {
-            top: 33%;
-        }
-
-        .design-preview.six-over-six::after {
-            top: 66%;
-        }
-
-        .design-preview.two-over-two::before {
-            content: "";
-            position: absolute;
-            width: 80%;
-            height: 1px;
-            background-color: #2c3e50;
-            top: 50%;
-        }
-
-        .design-preview.georgian {
+        .design-preview.with-bars {
             background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -192,97 +152,16 @@
             padding: 5px;
         }
 
-        .design-preview.georgian div {
+        .design-preview.with-bars div {
             background-color: #7fa0af;
             border: 1px solid #2c3e50;
         }
 
-        .design-preview.victorian {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-            position: relative;
-        }
-
-        .design-preview.victorian::before {
-            content: "";
-            position: absolute;
-            width: 80%;
-            height: 1px;
-            background-color: #2c3e50;
-            top: 50%;
-        }
-
-        .design-preview.victorian::after {
-            content: "";
-            position: absolute;
-            width: 1px;
-            height: 70%;
-            background-color: #2c3e50;
-            left: 50%;
-            top: 15%;
-        }
-
-        .design-preview.four-over-four {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 2px;
-            padding: 5px;
-        }
-
-        .design-preview.four-over-four div {
-            background-color: #7fa0af;
-            border: 1px solid #2c3e50;
-        }
-
-        .design-preview.eight-over-eight {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 1px;
-            padding: 3px;
-        }
-
-        .design-preview.eight-over-eight div {
-            background-color: #7fa0af;
-            border: 1px solid #2c3e50;
-        }
-
-        .design-preview.twelve-over-twelve {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr 1fr;
-            gap: 1px;
-            padding: 2px;
-        }
-
-        .design-preview.twelve-over-twelve div {
-            background-color: #7fa0af;
-            border: 1px solid #2c3e50;
-        }
-
-        .design-preview.arched-top {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 70%, #a4c0cc 70%, #a4c0cc 100%);
-            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-        }
-
-        .design-preview.curved {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-            border-radius: 20px;
-        }
-
-        .design-preview.elliptical {
-            background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 50%, #a4c0cc 50%, #a4c0cc 100%);
-            border-radius: 50% / 100% 100% 0 0;
-        }
-
-        .design-preview.fixed-sash {
+        .design-preview.fixed {
             background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 100%);
         }
 
-        .design-preview.arched-sash {
+        .design-preview.arched {
             background: linear-gradient(to bottom, #8fb0bf 0%, #8fb0bf 70%, #a4c0cc 70%, #a4c0cc 100%);
             border-radius: 50% 50% 0 0 / 100% 100% 0 0;
         }
@@ -403,7 +282,7 @@
             }
         }
 
-        Fbas @media (max-width: 600px) {
+        @media (max-width: 600px) {
             .designs-grid {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
@@ -417,25 +296,34 @@
             }
         }
 
-        <title>Multiverse by HTML5 UP</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /><link rel="stylesheet" href="assets/css/main.css" /><noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"><link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="css/bootstrap.css"><link rel="stylesheet" href="css/fonts.css"><link rel="stylesheet" href="css/style.css"><style>.social-bar {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
+        nav#header-nav-wrap {
+            background: #2c3e50;
+            padding: 15px 0;
+            text-align: center;
         }
 
-        .social-icon {
-            display: inline-block;
-            margin-right: 10px;
+        ul.header-main-nav {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .social-icon img {
-            width: 40px;
-            /* Adjust size as needed */
-            height: 40px;
-            /* Adjust size as needed */
+        ul.header-main-nav li {
+            margin: 0 15px;
         }
-    </style>
+
+        ul.header-main-nav li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        ul.header-main-nav li a:hover {
+            color: #3498db;
+        }
     </style>
 </head>
 
@@ -445,117 +333,64 @@
             <h1>Sash Window Price Calculator</h1>
             <p>Calculate the price of your custom sash windows based on your specifications.</p>
         </header>
+        
         <nav id="header-nav-wrap">
             <ul class="header-main-nav">
                 <li class="current"><a class="smoothscroll" href="index.html" title="home">Home</a></li>
                 <li><a class="smoothscroll" href="about.html" title="about">Projects</a></li>
                 <li><a class="smoothscroll" href="Testomonials.html" title="pricing">Testimonials</a></li>
-                
                 <li><a class="smoothscroll" href="Windows.html" title="Windows">Windows</a></li>
-
             </ul>
-
-
         </nav>
 
         <div class="calculator-container">
             <div class="design-section">
                 <h2 class="section-title">Choose a Sash Window Design</h2>
                 <div class="designs-grid">
-                    <div class="design-item selected" data-design="standard-weights" data-base-price="518.41">
-                        <div class="design-preview six-over-six"></div>
-                        <div class="design-name">Standard Weights</div>
-                        <div class="design-price"></div>
+                    <div class="design-item selected" data-design="weights-pine-nobars" data-base-price="518.41">
+                        <div class="design-preview standard"></div>
+                        <div class="design-name">Weights Balance<br>Pine, No Bars</div>
+                        <div class="design-price">Base: £518.41</div>
                     </div>
-                    <div class="design-item" data-design="standard-spring" data-base-price="496.17">
-                        <div class="design-preview six-over-six"></div>
-                        <div class="design-name">Standard Spring</div>
-                        <div class="design-price"></div>
-                    </div>
-                    <div class="design-item" data-design="full-sapele" data-base-price="667.70">
-                        <div class="design-preview six-over-six"></div>
-                        <div class="design-name">Full Sapele</div>
-                        <div class="design-price"></div>
-                    </div>
-                    <div class="design-item" data-design="bars-pattern1" data-base-price="572.97">
-                        <div class="design-preview georgian">
+                    <div class="design-item" data-design="spring-pine-bars" data-base-price="522.34">
+                        <div class="design-preview with-bars">
                             <div></div>
                             <div></div>
                             <div></div>
                             <div></div>
                         </div>
-                        <div class="design-name">Bars Pattern 1</div>
-                        <div class="design-price"></div>
+                        <div class="design-name">Spring Balance<br>Pine, With Bars</div>
+                        <div class="design-price">Base: £522.34</div>
                     </div>
-                    <div class="design-item" data-design="bars-pattern2" data-base-price="607.67">
-                        <div class="design-preview georgian">
+                    <div class="design-item" data-design="weights-sapele-bars" data-base-price="740.32">
+                        <div class="design-preview with-bars">
                             <div></div>
                             <div></div>
                             <div></div>
                             <div></div>
                         </div>
-                        <div class="design-name">Bars Pattern 2</div>
-                        <div class="design-price"></div>
+                        <div class="design-name">Weights Balance<br>Sapele, With Bars</div>
+                        <div class="design-price">Base: £740.32</div>
                     </div>
-                    <div class="design-item" data-design="bars-pattern3" data-base-price="667.48">
-                        <div class="design-preview georgian">
+                    <div class="design-item" data-design="weights-pine-bars" data-base-price="731.80">
+                        <div class="design-preview with-bars">
                             <div></div>
                             <div></div>
                             <div></div>
                             <div></div>
                         </div>
-                        <div class="design-name">Bars Pattern 3</div>
-                        <div class="design-price"></div>
+                        <div class="design-name">Weights Balance<br>Pine, With Bars</div>
+                        <div class="design-price">Base: £731.80</div>
                     </div>
-                    <div class="design-item" data-design="bars-pattern4" data-base-price="639.83">
-                        <div class="design-preview georgian">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <div class="design-name">Bars Pattern 4</div>
-                        <div class="design-price"></div>
+                    <div class="design-item" data-design="fixed-pine-nobars" data-base-price="432.15">
+                        <div class="design-preview fixed"></div>
+                        <div class="design-name">Fixed Sash<br>Pine, No Bars</div>
+                        <div class="design-price">Base: £432.15</div>
                     </div>
-                    <div class="design-item" data-design="bars-pattern5" data-base-price="731.80">
-                        <div class="design-preview georgian">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <div class="design-name">Bars Pattern 5</div>
-                        <div class="design-price"></div>
-                    </div>
-                    <div class="design-item" data-design="bars-pattern6" data-base-price="706.70">
-                        <div class="design-preview georgian">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <div class="design-name">Bars Pattern 6</div>
-                        <div class="design-price"></div>
-                    </div>
-                    <div class="design-item" data-design="bars-pattern7" data-base-price="865.52">
-                        <div class="design-preview georgian">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <div class="design-name">Bars Pattern 7</div>
-                        <div class="design-price"></div>
-                    </div>
-                    <div class="design-item" data-design="fixed-sash" data-base-price="432.15">
-                        <div class="design-preview fixed-sash"></div>
-                        <div class="design-name">Fixed Sash</div>
-                        <div class="design-price"></div>
-                    </div>
-                    <div class="design-item" data-design="arched-sash" data-base-price="602.87">
-                        <div class="design-preview arched-sash"></div>
-                        <div class="design-name">Arched Sash</div>
-                        <div class="design-price"></div>
+                    <div class="design-item" data-design="arched-pine-nobars" data-base-price="602.87">
+                        <div class="design-preview arched"></div>
+                        <div class="design-name">Arched Sash<br>Pine, No Bars</div>
+                        <div class="design-price">Base: £602.87</div>
                     </div>
                 </div>
             </div>
@@ -578,6 +413,40 @@
                     <input type="number" id="quantity" min="1" value="1">
                 </div>
 
+                <div class="form-group">
+                    <label for="timber">Timber Type:</label>
+                    <select id="timber">
+                        <option value="pine">Engineered Pine with Sapele Sill</option>
+                        <option value="sapele">Full Hardwood Sapele</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bars">Window Bars:</label>
+                    <select id="bars">
+                        <option value="none">No Bars</option>
+                        <option value="with-bars">22mm Bars with Spacer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="balance">Balance Mechanism:</label>
+                    <select id="balance">
+                        <option value="weights">Weights Balance</option>
+                        <option value="spring">Spring Balance</option>
+                        <option value="fixed">Fixed (No Opening)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="design">Special Design:</label>
+                    <select id="design">
+                        <option value="standard">Standard</option>
+                        <option value="arched">Arched Top</option>
+                        <option value="fixed-panels">Fixed Side Panels</option>
+                    </select>
+                </div>
+
                 <button class="calculate-btn" id="calculate">CALCULATE PRICE</button>
             </div>
 
@@ -589,12 +458,27 @@
                 <div class="breakdown">
                     <h3>Price Breakdown</h3>
                     <div class="breakdown-item">
-                        <span>Base Design Price:</span>
+                        <span>Base Area Cost (1m²):</span>
                         <span>£0.00</span>
-
                     </div>
                     <div class="breakdown-item">
                         <span>Size Adjustment:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Timber Upgrade:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Bars Addition:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Balance Mechanism:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Special Design:</span>
                         <span>£0.00</span>
                     </div>
                     <div class="breakdown-item" style="font-weight: bold; border-top: 1px solid #ddd;">
@@ -626,12 +510,28 @@
             const widthInput = document.getElementById('width');
             const heightInput = document.getElementById('height');
             const quantityInput = document.getElementById('quantity');
+            const timberSelect = document.getElementById('timber');
+            const barsSelect = document.getElementById('bars');
+            const balanceSelect = document.getElementById('balance');
+            const designSelect = document.getElementById('design');
             const calculateBtn = document.getElementById('calculate');
             const resultPrice = document.querySelector('.result-price');
             const breakdownItems = document.querySelectorAll('.breakdown-item span:last-child');
 
+            // Pricing parameters from regression analysis
+            const baseCost = 150;
+            const areaCostPerSqM = 485;
+            const featureAddOns = {
+                springBalance: -15,
+                hardwood: 220,
+                bars: 200,
+                arched: 80,
+                fixedPanels: 230,
+                fixedWindow: -85
+            };
+
             // Set initial values
-            let selectedDesign = 'standard-weights';
+            let selectedDesign = 'weights-pine-nobars';
             let basePrice = 518.41;
 
             // Design selection
@@ -644,10 +544,43 @@
                     // Update selected design and base price
                     selectedDesign = this.dataset.design;
                     basePrice = parseFloat(this.dataset.basePrice);
+                    
+                    // Update form selections based on design
+                    if (selectedDesign === 'weights-pine-nobars') {
+                        timberSelect.value = 'pine';
+                        barsSelect.value = 'none';
+                        balanceSelect.value = 'weights';
+                        designSelect.value = 'standard';
+                    } else if (selectedDesign === 'spring-pine-bars') {
+                        timberSelect.value = 'pine';
+                        barsSelect.value = 'with-bars';
+                        balanceSelect.value = 'spring';
+                        designSelect.value = 'standard';
+                    } else if (selectedDesign === 'weights-sapele-bars') {
+                        timberSelect.value = 'sapele';
+                        barsSelect.value = 'with-bars';
+                        balanceSelect.value = 'weights';
+                        designSelect.value = 'standard';
+                    } else if (selectedDesign === 'weights-pine-bars') {
+                        timberSelect.value = 'pine';
+                        barsSelect.value = 'with-bars';
+                        balanceSelect.value = 'weights';
+                        designSelect.value = 'standard';
+                    } else if (selectedDesign === 'fixed-pine-nobars') {
+                        timberSelect.value = 'pine';
+                        barsSelect.value = 'none';
+                        balanceSelect.value = 'fixed';
+                        designSelect.value = 'standard';
+                    } else if (selectedDesign === 'arched-pine-nobars') {
+                        timberSelect.value = 'pine';
+                        barsSelect.value = 'none';
+                        balanceSelect.value = 'weights';
+                        designSelect.value = 'arched';
+                    }
                 });
             });
 
-            // Calculate estimate
+            // Calculate estimate using the correct formula
             calculateBtn.addEventListener('click', function () {
                 // Validate inputs
                 if (!widthInput.value || !heightInput.value) {
@@ -656,31 +589,79 @@
                 }
 
                 // Get values
-                const width = parseInt(widthInput.value);
-                const height = parseInt(heightInput.value);
+                const width = parseInt(widthInput.value) / 1000; // Convert to meters
+                const height = parseInt(heightInput.value) / 1000; // Convert to meters
                 const quantity = parseInt(quantityInput.value);
-
-                // Calculate area in square mm
                 const area = width * height;
+                
+                // Get feature selections
+                const timber = timberSelect.value;
+                const bars = barsSelect.value;
+                const balance = balanceSelect.value;
+                const specialDesign = designSelect.value;
 
-                // Reference area for base price (1000x1000mm = 1,000,000 mm²)
-                const referenceArea = 1000000;
+                // Calculate base area cost
+                const baseAreaCost = baseCost + (areaCostPerSqM * area);
+                
+                // Calculate feature add-ons
+                let featureCost = 0;
+                let breakdownText = {
+                    timber: '£0.00',
+                    bars: '£0.00',
+                    balance: '£0.00',
+                    design: '£0.00'
+                };
 
-                // Calculate size adjustment factor (non-linear pricing)
-                const sizeFactor = Math.pow(area / referenceArea, 0.8);
+                // Timber upgrade
+                if (timber === 'sapele') {
+                    featureCost += featureAddOns.hardwood;
+                    breakdownText.timber = `+£${featureAddOns.hardwood}`;
+                }
 
-                // Calculate adjusted price
-                const adjustedPrice = basePrice * sizeFactor * 1.3;
+                // Bars addition
+                if (bars === 'with-bars') {
+                    featureCost += featureAddOns.bars;
+                    breakdownText.bars = `+£${featureAddOns.bars}`;
+                }
 
+                // Balance mechanism
+                if (balance === 'spring') {
+                    featureCost += featureAddOns.springBalance;
+                    breakdownText.balance = `£${featureAddOns.springBalance}`;
+                } else if (balance === 'fixed') {
+                    featureCost += featureAddOns.fixedWindow;
+                    breakdownText.balance = `£${featureAddOns.fixedWindow}`;
+                } else {
+                    breakdownText.balance = '£0.00';
+                }
+
+                // Special design
+                if (specialDesign === 'arched') {
+                    featureCost += featureAddOns.arched;
+                    breakdownText.design = `+£${featureAddOns.arched}`;
+                } else if (specialDesign === 'fixed-panels') {
+                    featureCost += featureAddOns.fixedPanels;
+                    breakdownText.design = `+£${featureAddOns.fixedPanels}`;
+                } else {
+                    breakdownText.design = '£0.00';
+                }
+
+                // Calculate total price per unit
+                const pricePerUnit = baseAreaCost + featureCost;
+                
                 // Update breakdown
-                breakdownItems[0].textContent = `£${adjustedPrice.toFixed(2)}`;;
-                breakdownItems[1].textContent = `${(sizeFactor > 1 ? '+' : '')}${((sizeFactor - 1) * 100).toFixed(1)}%`;
-                breakdownItems[2].textContent = `£${adjustedPrice.toFixed(2)}`;
-                breakdownItems[3].textContent = quantity;
-                breakdownItems[4].textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
+                breakdownItems[0].textContent = `£${baseAreaCost.toFixed(2)}`;
+                breakdownItems[1].textContent = `£${(areaCostPerSqM * area).toFixed(2)}`;
+                breakdownItems[2].textContent = breakdownText.timber;
+                breakdownItems[3].textContent = breakdownText.bars;
+                breakdownItems[4].textContent = breakdownText.balance;
+                breakdownItems[5].textContent = breakdownText.design;
+                breakdownItems[6].textContent = `£${pricePerUnit.toFixed(2)}`;
+                breakdownItems[7].textContent = quantity;
+                breakdownItems[8].textContent = `£${(pricePerUnit * quantity).toFixed(2)}`;
 
                 // Format and display price
-                resultPrice.textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
+                resultPrice.textContent = `£${(pricePerUnit * quantity).toFixed(2)}`;
             });
 
             // Calculate initial price on load
@@ -688,5 +669,4 @@
         });
     </script>
 </body>
-
 </html>
