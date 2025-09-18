@@ -19,14 +19,11 @@
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
-            max-width: 1000px;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -198,6 +195,64 @@
             color: #5a6c7d;
         }
         
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .design-item {
+            text-align: center;
+            padding: 15px 10px;
+            border: 2px solid #e8e8e8;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .design-item:hover {
+            border-color: #3498db;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .design-item.selected {
+            border-color: #3498db;
+            background-color: #e1f0fa;
+        }
+        
+        .design-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(45deg, #e6e6e6, #f9f9f9);
+            position: relative;
+        }
+        
+        .design-name {
+            font-weight: 600;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        .design-price {
+            color: #2c3e50;
+            font-size: 12px;
+        }
+        
+        .info-text {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
         @media (max-width: 768px) {
             .content {
                 flex-direction: column;
@@ -211,12 +266,37 @@
             .dimensions {
                 grid-template-columns: 1fr;
             }
+            
+            .design-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
         }
         
-        .info-text {
-            font-size: 14px;
-            color: #7f8c8d;
+        .breakdown {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eaecee;
+        }
+        
+        .breakdown h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .breakdown-total {
+            font-weight: bold;
+            border-top: 2px solid #eee;
             margin-top: 5px;
+            padding-top: 10px;
         }
     </style>
 </head>
@@ -231,34 +311,79 @@
                 <h2 class="section-title">Device & Design of Your Setup Windows</h2>
                 
                 <div class="form-group">
-                    <label for="subtype">Select sub-type</label>
-                    <select id="subtype">
-                        <option value="standard">Standard Sash Window</option>
-                        <option value="spring">Spring Balance</option>
-                        <option value="weights">Weights Balance</option>
-                        <option value="fixed">Fixed Sash</option>
-                        <option value="arched">Arched Top</option>
-                    </select>
+                    <label for="design">Select Design</label>
+                    <div class="design-grid">
+                        <div class="design-item selected" data-design="1" data-base-price="518.41">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Standard Weights</div>
+                            <div class="design-price">£518.41</div>
+                        </div>
+                        <div class="design-item" data-design="2" data-base-price="522.34">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Spring Balance</div>
+                            <div class="design-price">£522.34</div>
+                        </div>
+                        <div class="design-item" data-design="3" data-base-price="740.32">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Full Sapele</div>
+                            <div class="design-price">£740.32</div>
+                        </div>
+                        <div class="design-item" data-design="4" data-base-price="705.08">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Wider Design</div>
+                            <div class="design-price">£705.08</div>
+                        </div>
+                        <div class="design-item" data-design="5" data-base-price="673.88">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Taller Design</div>
+                            <div class="design-price">£673.88</div>
+                        </div>
+                        <div class="design-item" data-design="6" data-base-price="731.80">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Bars Pattern 1</div>
+                            <div class="design-price">£731.80</div>
+                        </div>
+                        <div class="design-item" data-design="7" data-base-price="706.70">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Bars Pattern 2</div>
+                            <div class="design-price">£706.70</div>
+                        </div>
+                        <div class="design-item" data-design="8" data-base-price="865.52">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Bars Pattern 3</div>
+                            <div class="design-price">£865.52</div>
+                        </div>
+                        <div class="design-item" data-design="9" data-base-price="432.15">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Fixed Sash</div>
+                            <div class="design-price">£432.15</div>
+                        </div>
+                        <div class="design-item" data-design="10" data-base-price="602.87">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Arched Sash</div>
+                            <div class="design-price">£602.87</div>
+                        </div>
+                        <div class="design-item" data-design="11" data-base-price="1854.43">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Large Window</div>
+                            <div class="design-price">£1854.43</div>
+                        </div>
+                        <div class="design-item" data-design="12" data-base-price="2084.46">
+                            <div class="design-preview"></div>
+                            <div class="design-name">Fixed Panels</div>
+                            <div class="design-price">£2084.46</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="timber">Select timber</label>
-                    <select id="timber">
-                        <option value="pine">Engineered Pine with Sapele Sill</option>
-                        <option value="sapele">Full Hardwood Sapele</option>
-                        <option value="oak">Solid Oak</option>
-                    </select>
+                    <label for="width">Width (mm)</label>
+                    <input type="number" id="width" min="500" max="3000" value="1000">
                 </div>
                 
-                <div class="form-group dimensions">
-                    <div>
-                        <label for="width">Width (mm)</label>
-                        <input type="number" id="width" min="500" max="3000" value="1000">
-                    </div>
-                    <div>
-                        <label for="height">Height (mm)</label>
-                        <input type="number" id="height" min="500" max="3000" value="1000">
-                    </div>
+                <div class="form-group">
+                    <label for="height">Height (mm)</label>
+                    <input type="number" id="height" min="500" max="3000" value="1000">
                 </div>
                 
                 <div class="form-group">
@@ -268,6 +393,30 @@
                 </div>
                 
                 <button class="calculate-btn">CALCULATE PRICE</button>
+                
+                <div class="breakdown">
+                    <h3>Price Breakdown</h3>
+                    <div class="breakdown-item">
+                        <span>Base Design Price:</span>
+                        <span>£518.41</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Size Adjustment:</span>
+                        <span>£0.00</span>
+                    </div>
+                    <div class="breakdown-item breakdown-total">
+                        <span>Total per Unit:</span>
+                        <span>£518.41</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Quantity:</span>
+                        <span>1</span>
+                    </div>
+                    <div class="breakdown-item breakdown-total">
+                        <span>Total Price:</span>
+                        <span>£518.41</span>
+                    </div>
+                </div>
             </div>
             
             <div class="preview">
@@ -295,52 +444,81 @@
                     <p><i class="fas fa-info-circle"></i> Price includes VAT, delivery, and standard installation</p>
                     <p><i class="fas fa-bolt"></i> Energy rating: A (U-value: 1.1W/m²K)</p>
                     <p><i class="fas fa-paint-roller"></i> Finish: Internal & External RAL9016 White</p>
+                    <p><i class="fas fa-tree"></i> Timber: Engineered Pine with Sapele Sill</p>
+                    <p><i class="fas fa-expand"></i> Glass: 4mm/12 Argon/4mm Low-E</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Simple interactivity for the preview
         document.addEventListener('DOMContentLoaded', function() {
-            const subtypeSelect = document.getElementById('subtype');
-            const timberSelect = document.getElementById('timber');
+            const designItems = document.querySelectorAll('.design-item');
             const widthInput = document.getElementById('width');
             const heightInput = document.getElementById('height');
             const quantityInput = document.getElementById('quantity');
             const calculateBtn = document.querySelector('.calculate-btn');
             const priceDisplay = document.querySelector('.price');
+            const breakdownItems = document.querySelectorAll('.breakdown-item span:last-child');
             
-            // Update price when calculate button is clicked
-            calculateBtn.addEventListener('click', function() {
-                // Simple calculation based on inputs
-                const width = parseInt(widthInput.value) / 1000; // Convert to meters
-                const height = parseInt(heightInput.value) / 1000; // Convert to meters
-                const area = width * height;
-                const quantity = parseInt(quantityInput.value);
-                
-                // Base price per square meter
-                let basePrice = 500;
-                
-                // Adjust for subtype
-                if (subtypeSelect.value === 'spring') basePrice += 20;
-                if (subtypeSelect.value === 'weights') basePrice += 40;
-                if (subtypeSelect.value === 'fixed') basePrice -= 50;
-                if (subtypeSelect.value === 'arched') basePrice += 80;
-                
-                // Adjust for timber
-                if (timberSelect.value === 'sapele') basePrice += 150;
-                if (timberSelect.value === 'oak') basePrice += 200;
-                
-                // Calculate total
-                const totalPrice = (basePrice * area * quantity).toFixed(2);
-                
-                // Update display
-                priceDisplay.textContent = `£${totalPrice}`;
+            // Set initial values
+            let selectedDesign = '1';
+            let basePrice = 518.41;
+            
+            // Design selection
+            designItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Update UI
+                    designItems.forEach(i => i.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // Update selected design and base price
+                    selectedDesign = this.dataset.design;
+                    basePrice = parseFloat(this.dataset.basePrice);
+                    
+                    // Recalculate price
+                    calculatePrice();
+                });
             });
             
+            // Calculate price function
+            function calculatePrice() {
+                // Get values
+                const width = parseInt(widthInput.value);
+                const height = parseInt(heightInput.value);
+                const quantity = parseInt(quantityInput.value);
+                
+                // Calculate area in square mm
+                const area = width * height;
+                
+                // Reference area for base price (1000x1000mm = 1,000,000 mm²)
+                const referenceArea = 1000000;
+                
+                // Calculate size adjustment factor (non-linear pricing)
+                const sizeFactor = Math.pow(area / referenceArea, 0.8);
+                
+                // Calculate adjusted price
+                const adjustedPrice = basePrice * sizeFactor;
+                
+                // Update breakdown
+                breakdownItems[0].textContent = `£${basePrice.toFixed(2)}`;
+                breakdownItems[1].textContent = `${(sizeFactor > 1 ? '+' : '')}${((sizeFactor - 1) * 100).toFixed(1)}%`;
+                breakdownItems[2].textContent = `£${adjustedPrice.toFixed(2)}`;
+                breakdownItems[3].textContent = quantity;
+                breakdownItems[4].textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
+                
+                // Format and display price
+                priceDisplay.textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
+            }
+            
+            // Add event listeners for inputs
+            widthInput.addEventListener('input', calculatePrice);
+            heightInput.addEventListener('input', calculatePrice);
+            quantityInput.addEventListener('input', calculatePrice);
+            calculateBtn.addEventListener('click', calculatePrice);
+            
             // Initial calculation
-            calculateBtn.click();
+            calculatePrice();
         });
     </script>
 </body>
