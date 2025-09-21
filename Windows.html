@@ -740,11 +740,16 @@ function addReport() {
   
   reports.push(report);
   renderReports();
+  saveReportsToStorage();
+  
+  // Scroll to the reports section
+  document.querySelector('.reports-section').scrollIntoView({ behavior: 'smooth' });
 }
 
 function deleteReport(id) {
   reports = reports.filter(report => report.id !== id);
   renderReports();
+  saveReportsToStorage();
 }
 
 function clearReports() {
@@ -754,6 +759,7 @@ function clearReports() {
     reports = [];
     reportCounter = 1;
     renderReports();
+    saveReportsToStorage();
   }
 }
 
@@ -761,15 +767,18 @@ function renderReports() {
   const container = document.getElementById('reportsContainer');
   const noReportsMessage = document.getElementById('noReportsMessage');
   const totalElement = document.getElementById('reportsTotalPrice');
+  const reportsTotalSection = document.getElementById('reportsTotal');
   
   if (reports.length === 0) {
     noReportsMessage.style.display = 'block';
     container.innerHTML = '';
     totalElement.textContent = '£0.00';
+    reportsTotalSection.style.display = 'none';
     return;
   }
   
   noReportsMessage.style.display = 'none';
+  reportsTotalSection.style.display = 'flex';
   
   let totalPrice = 0;
   let html = '';
@@ -825,7 +834,28 @@ function renderReports() {
   totalElement.textContent = `£${totalPrice.toFixed(2)}`;
 }
 
+// Save reports to localStorage
+function saveReportsToStorage() {
+  localStorage.setItem('windowReports', JSON.stringify(reports));
+  localStorage.setItem('reportCounter', reportCounter.toString());
+}
+
+// Load reports from localStorage
+function loadReportsFromStorage() {
+  const savedReports = localStorage.getItem('windowReports');
+  const savedCounter = localStorage.getItem('reportCounter');
+  
+  if (savedReports) {
+    reports = JSON.parse(savedReports);
+    reportCounter = savedCounter ? parseInt(savedCounter) : (reports.length > 0 ? Math.max(...reports.map(r => r.number)) + 1 : 1);
+    renderReports();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  // Load any saved reports
+  loadReportsFromStorage();
+  
   document.querySelectorAll('.design-item').forEach(item => {
     item.addEventListener('click', function() {
       document.querySelectorAll('.design-item').forEach(i => i.classList.remove('selected'));
@@ -916,6 +946,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   calculatePrice();
 });
+
+// Save reports before page unload
+window.addEventListener('beforeunload', saveReportsToStorage);
 
 </script>
 </body>
