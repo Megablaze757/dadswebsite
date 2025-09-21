@@ -77,14 +77,49 @@ select:focus,input:focus { outline:none; border-color:#3498db; box-shadow:0 0 0 
 .dimensions { display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:end; }
 .calculate-btn { width:100%; padding:15px; background:#3498db; color:white; border:none; border-radius:6px; font-size:16px; font-weight:600; cursor:pointer; transition:background .3s; margin-top:10px; }
 .calculate-btn:hover { background:#2980b9; }
-.window-preview { width:360px; height:630px; background:#fff; border:3px solid #2c3e50; border-radius:5px; margin-bottom:16px; position:relative; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,.1); display:flex; align-items:center; justify-content:center; }
-.window-preview img { max-width:100%; max-height:100%; object-fit:contain; display:block; }
+.window-preview { 
+  width:100%; 
+  max-width:360px; 
+  height:auto;
+  aspect-ratio: 36/63; /* Maintain window aspect ratio */
+  background:#fff; 
+  border:3px solid #2c3e50; 
+  border-radius:5px; 
+  margin-bottom:16px; 
+  position:relative; 
+  overflow:hidden; 
+  box-shadow:0 5px 15px rgba(0,0,0,.1); 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+}
+.window-preview img { 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; /* Changed to cover for better filling */
+  display:block; 
+}
 .design-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; margin-top:8px; }
 .design-item { text-align:center; padding:10px; border:2px solid #e8e8e8; border-radius:8px; cursor:pointer; transition:all .25s; background:white; }
 .design-item:hover { border-color:#3498db; transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,.06); }
 .design-item.selected { border-color:#3498db; background:#e1f0fa; transform:none; }
-.design-preview { width:100px; height:175px; border-radius:4px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(45deg, #e6e6e6, #f9f9f9); }
-.design-preview img { width:100%; height:100%; object-fit:contain; display:block; }
+.design-preview { 
+  width:100px; 
+  height:175px; 
+  border-radius:4px; 
+  margin:0 auto 8px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  overflow:hidden; 
+  background:linear-gradient(45deg, #e6e6e6, #f9f9f9); 
+}
+.design-preview img { 
+  width:100%; 
+  height:100%; 
+  object-fit:cover; /* Changed to cover for better filling */
+  display:block; 
+}
 .breakdown { margin-top:16px; background:white; padding:14px; border-radius:8px; border:1px solid #eaecee; }
 .breakdown-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
 .breakdown-total { font-weight:bold; border-top:2px solid #eee; margin-top:6px; padding-top:10px; }
@@ -213,6 +248,26 @@ input.valid { border-color:#27ae60 !important; box-shadow:0 0 0 2px rgba(39,174,
   font-style: italic; 
 }
 
+/* Preview image controls */
+.preview-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: center;
+}
+.preview-controls button {
+  padding: 8px 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background .3s;
+}
+.preview-controls button:hover {
+  background: #2980b9;
+}
+
 @media (max-width:768px) { 
   .content { flex-direction:column; } 
   .configurator { border-right:none; border-bottom:1px solid #eaecee; } 
@@ -244,6 +299,11 @@ input.valid { border-color:#27ae60 !important; box-shadow:0 0 0 2px rgba(39,174,
   .hamburger {
     display: block;
   }
+  
+  /* Adjust preview on mobile */
+  .window-preview {
+    max-width: 280px;
+  }
 }
 
 </style>
@@ -259,7 +319,6 @@ input.valid { border-color:#27ae60 !important; box-shadow:0 0 0 2px rgba(39,174,
       <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
       <li class="nav-item"><a href="about.html" class="nav-link">Projects</a></li>
       <li class="nav-item"><a href="testimonials" class="nav-link">Testimonials</a></li>
-
     </ul>
     <div class="hamburger">
       <i class="fas fa-bars"></i>
@@ -419,7 +478,14 @@ input.valid { border-color:#27ae60 !important; box-shadow:0 0 0 2px rgba(39,174,
     </div>
     <div class="preview">
       <h2 class="section-title">Window Preview</h2>
-      <div class="window-preview"><img id="preview-image" src="design1.png" alt="Window Preview"></div>
+      <div class="window-preview">
+        <img id="preview-image" src="design1.png" alt="Window Preview">
+      </div>
+      <div class="preview-controls">
+        <button id="zoomInBtn"><i class="fas fa-search-plus"></i> Zoom In</button>
+        <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> Zoom Out</button>
+        <button id="resetZoomBtn"><i class="fas fa-sync"></i> Reset</button>
+      </div>
       <div class="price-display">
         <div class="price-label">Estimated Price</div>
         <div class="price" id="mainPrice">£0.00</div>
@@ -460,6 +526,7 @@ const featureCosts = {
 // Report management
 let reports = [];
 let reportCounter = 1;
+let zoomLevel = 1; // For image zoom controls
 
 // Mobile menu toggle
 const hamburger = document.querySelector(".hamburger");
@@ -546,6 +613,13 @@ function getBarsText(value) {
     'with-bars': '22mm Bars with Spacer'
   };
   return barsTypes[value] || value;
+}
+
+// Function to update image zoom
+function updateImageZoom() {
+  const previewImage = document.getElementById('preview-image');
+  previewImage.style.transform = `scale(${zoomLevel})`;
+  previewImage.style.transformOrigin = 'center';
 }
 
 function calculatePrice() {
@@ -772,7 +846,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       // Update preview image
-      if (this.dataset.preview) document.getElementById('preview-image').src = this.dataset.preview;
+      if (this.dataset.preview) {
+        document.getElementById('preview-image').src = this.dataset.preview;
+        // Reset zoom when changing designs
+        zoomLevel = 1;
+        updateImageZoom();
+      }
       
       updateSizeHelp(designId);
       calculatePrice();
@@ -800,6 +879,32 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const clearReportsBtn = document.getElementById('clearReportsBtn');
   if (clearReportsBtn) clearReportsBtn.addEventListener('click', clearReports);
+
+  // Add event listeners for zoom controls
+  const zoomInBtn = document.getElementById('zoomInBtn');
+  const zoomOutBtn = document.getElementById('zoomOutBtn');
+  const resetZoomBtn = document.getElementById('resetZoomBtn');
+  
+  if (zoomInBtn) {
+    zoomInBtn.addEventListener('click', () => {
+      zoomLevel = Math.min(zoomLevel + 0.1, 2);
+      updateImageZoom();
+    });
+  }
+  
+  if (zoomOutBtn) {
+    zoomOutBtn.addEventListener('click', () => {
+      zoomLevel = Math.max(zoomLevel - 0.1, 0.5);
+      updateImageZoom();
+    });
+  }
+  
+  if (resetZoomBtn) {
+    resetZoomBtn.addEventListener('click', () => {
+      zoomLevel = 1;
+      updateImageZoom();
+    });
+  }
 
   const initiallySelected = document.querySelector('.design-item.selected') || document.querySelector('.design-item');
   if (initiallySelected) {
