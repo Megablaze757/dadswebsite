@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sash Window Configurator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -28,16 +28,21 @@
         .price-label { font-size:16px; color:#7f8c8d; margin-bottom:5px; }
         .price { font-size:32px; font-weight:700; color:#2c3e50; }
         .details { margin-top:25px; background:#f9fafb; padding:15px; border-radius:6px; font-size:14px; color:#5a6c7d; }
-        .design-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:15px; margin-top:15px; }
+        .design-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:15px; margin-top:15px; }
         .design-item { text-align:center; padding:15px 10px; border:2px solid #e8e8e8; border-radius:8px; cursor:pointer; transition:all .3s ease; background:white; }
         .design-item:hover { border-color:#3498db; transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,.1); }
         .design-item.selected { border-color:#3498db; background-color:#e1f0fa; }
-        .design-preview { width:100%; height:80px; border-radius:4px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(45deg,#e6e6e6,#f9f9f9); position:relative; }
+        .design-preview { width:100%; height:80px; border-radius:4px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(45deg, #e6e6e6, #f9f9f9); position:relative; }
         .design-preview img { width:100%; height:100%; object-fit:cover; }
         .design-name { font-weight:600; margin-top:5px; font-size:14px; }
         .design-price { color:#2c3e50; font-size:12px; }
         .info-text { font-size:14px; color:#7f8c8d; margin-top:5px; }
-        @media (max-width:768px) { .content { flex-direction:column; } .configurator { border-right:none; border-bottom:1px solid #eaecee; } .dimensions { grid-template-columns:1fr; } .design-grid { grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); } }
+        @media (max-width:768px) {
+            .content { flex-direction:column; }
+            .configurator { border-right:none; border-bottom:1px solid #eaecee; }
+            .dimensions { grid-template-columns:1fr; }
+            .design-grid { grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); }
+        }
         .breakdown { margin-top:20px; background:white; padding:15px; border-radius:8px; border:1px solid #eaecee; }
         .breakdown h3 { margin-bottom:10px; color:#2c3e50; }
         .breakdown-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
@@ -47,9 +52,11 @@
 <body>
     <div class="container">
         <header><h1>Sash Window Configurator</h1></header>
+
         <div class="content">
             <div class="configurator">
                 <h2 class="section-title">Device & Design of Your Setup Windows</h2>
+
                 <div class="form-group">
                     <label for="design">Select Design</label>
                     <div class="design-grid">
@@ -104,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="balance">Balance Type:</label>
                     <select id="balance">
@@ -113,7 +120,7 @@
                         <option value="fixed">Fixed (No Opening)</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="wood">Wood Type:</label>
                     <select id="wood">
@@ -121,7 +128,7 @@
                         <option value="sapele">Full Hardwood Sapele</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="bars">Window Bars:</label>
                     <select id="bars">
@@ -129,18 +136,18 @@
                         <option value="with-bars">22mm Bars with Spacer</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group dimensions">
                     <div><label for="width">Width (mm)</label><input type="number" id="width" min="500" max="3000" value="1000"></div>
                     <div><label for="height">Height (mm)</label><input type="number" id="height" min="500" max="3000" value="1000"></div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="quantity">Quantity</label><input type="number" id="quantity" min="1" value="1"><p class="info-text">Bulk discounts available for orders over 5 units</p>
                 </div>
-                
+
                 <button class="calculate-btn">CALCULATE PRICE</button>
-                
+
                 <div class="breakdown">
                     <h3>Price Breakdown</h3>
                     <div class="breakdown-item"><span>Base Design Price:</span><span>£518.41</span></div>
@@ -153,15 +160,15 @@
                     <div class="breakdown-item breakdown-total"><span>Total Price:</span><span>£518.41</span></div>
                 </div>
             </div>
-            
+
             <div class="preview">
                 <h2 class="section-title">Window Preview</h2>
                 <div class="window-preview">
                     <img id="preview-image" src="windows/window1.png" alt="Window Preview">
                 </div>
-                
+
                 <div class="price-display"><div class="price-label">Estimated Price</div><div class="price">£518.41</div></div>
-                
+
                 <div class="details">
                     <p><i class="fas fa-info-circle"></i> Price includes VAT, delivery, and standard installation</p>
                     <p><i class="fas fa-bolt"></i> Energy rating: A (U-value: 1.1W/m²K)</p>
@@ -172,6 +179,7 @@
             </div>
         </div>
     </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const designItems = document.querySelectorAll('.design-item');
@@ -185,35 +193,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const priceDisplay = document.querySelector('.price');
     const breakdownItems = document.querySelectorAll('.breakdown-item span:last-child');
     const previewImg = document.getElementById('preview-image');
-    
+
     // Set initial values
     let selectedDesign = '1';
     let basePrice = 518.41;
-    
+
     // Design selection
     designItems.forEach(item => {
         item.addEventListener('click', function() {
             // Update UI
             designItems.forEach(i => i.classList.remove('selected'));
             this.classList.add('selected');
-            
+
             // Update selected design and base price
             selectedDesign = this.dataset.design;
             basePrice = parseFloat(this.dataset.basePrice);
-            
+
             // Update dropdowns to match design
             if(this.dataset.balance) balanceSelect.value = this.dataset.balance;
             if(this.dataset.wood) woodSelect.value = this.dataset.wood;
             if(this.dataset.bars) barsSelect.value = this.dataset.bars;
-            
+
             // Update preview image
             if(this.dataset.preview) previewImg.src = this.dataset.preview;
-            
+
             // Recalculate price
             calculatePrice();
         });
     });
-    
+
     // Feature cost modifiers
     const featureCosts = {
         balance: {
@@ -230,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'with-bars': 213.39
         }
     };
-    
+
     // Calculate price function
     function calculatePrice() {
         // Get values
@@ -240,19 +248,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const balance = balanceSelect.value;
         const wood = woodSelect.value;
         const bars = barsSelect.value;
-        
+
         // Calculate area in square mm
         const area = width * height;
+
+        // Reference area for base price (1000x1000mm = 1,000,000 mm²)
         const referenceArea = 1000000;
+
+        // Calculate size adjustment factor (non-linear pricing)
         const sizeFactor = Math.pow(area / referenceArea, 0.8);
-        
+
+        // Calculate feature adjustments
         const balanceAdjustment = featureCosts.balance[balance] || 0;
         const woodAdjustment = featureCosts.wood[wood] || 0;
         const barsAdjustment = featureCosts.bars[bars] || 0;
-        
+
+        // Calculate adjusted price
         const adjustedPrice = (basePrice + balanceAdjustment + woodAdjustment + barsAdjustment) * sizeFactor;
-        
-        // Update breakdown display (ensure elements exist)
+
+        // Update breakdown
         if(breakdownItems.length >= 8) {
             breakdownItems[0].textContent = `£${basePrice.toFixed(2)}`;
             breakdownItems[1].textContent = `${(sizeFactor > 1 ? '+' : '')}${((sizeFactor - 1) * 100).toFixed(1)}%`;
@@ -263,11 +277,11 @@ document.addEventListener('DOMContentLoaded', function() {
             breakdownItems[6].textContent = quantity;
             breakdownItems[7].textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
         }
-        
+
         // Format and display price
         priceDisplay.textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
     }
-    
+
     // Add event listeners for inputs
     balanceSelect.addEventListener('change', calculatePrice);
     woodSelect.addEventListener('change', calculatePrice);
@@ -276,9 +290,8 @@ document.addEventListener('DOMContentLoaded', function() {
     heightInput.addEventListener('input', calculatePrice);
     quantityInput.addEventListener('input', calculatePrice);
     calculateBtn.addEventListener('click', calculatePrice);
-    
+
     // Initial calculation and preview
-    // find initially selected design and set preview
     const initiallySelected = document.querySelector('.design-item.selected') || document.querySelector('.design-item');
     if(initiallySelected && initiallySelected.dataset.preview) previewImg.src = initiallySelected.dataset.preview;
     calculatePrice();
