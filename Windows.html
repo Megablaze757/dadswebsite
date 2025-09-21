@@ -1,198 +1,819 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sash Window Configurator</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sash Window Configurator — With Real Designs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-body { font-family: Arial, sans-serif; background:#f5f7f9; margin:20px; color:#2c3e50; }
-.container { max-width:1200px; margin:0 auto; }
-header { background:#2c3e50; color:white; padding:20px; text-align:center; border-radius:8px; margin-bottom:20px; }
-h1 { margin:0; font-size:24px; }
+/* kept readable, mirrors old styling */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color:#f5f7f9; color:#2c3e50; line-height:1.6; padding:20px; min-height:100vh; }
 
-.configurator { display:flex; flex-wrap:wrap; gap:20px; }
-.config-panel, .preview-panel { background:white; padding:20px; border-radius:8px; flex:1; min-width:300px; box-shadow:0 5px 15px rgba(0,0,0,.05); }
-.form-group { margin-bottom:15px; }
-label { display:block; margin-bottom:5px; font-weight:bold; }
-input, select { width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; font-size:14px; }
-button { padding:10px 15px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-#calculateBtn { background:#3498db; color:white; margin-top:10px; }
-#calculateBtn:hover { background:#2980b9; }
-#clearReports { background:#e74c3c; color:white; margin-top:10px; }
-#clearReports:hover { background:#c0392b; }
-
-.window-preview { width:100%; max-width:320px; height:240px; border:3px solid #2c3e50; border-radius:5px; display:flex; align-items:center; justify-content:center; margin-bottom:15px; overflow:hidden; }
-.window-preview img { width:100%; height:100%; object-fit:contain; }
-
-.reports-container { margin-top:30px; }
-.report { border:1px solid #ccc; border-radius:8px; padding:15px; margin-bottom:15px; background:white; display:flex; gap:15px; }
-.report img { width:100px; height:175px; object-fit:cover; border-radius:4px; border:1px solid #ddd; }
-.report-details { flex:1; }
-.report-details h3 { margin:0 0 5px; }
-.report-details p { margin:3px 0; font-size:14px; }
-.total-price { text-align:right; font-weight:bold; margin-top:5px; }
-.grand-total { text-align:right; font-size:22px; font-weight:bold; margin-top:15px; }
-
-@media(max-width:768px){
-  .configurator { flex-direction:column; }
-  .report { flex-direction:column; align-items:center; }
-  .report-details { text-align:center; }
+/* Navigation Bar Styles */
+.navbar { 
+  background-color: #2c3e50; 
+  padding: 0 20px; 
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
 }
+.nav-container { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  height: 70px;
+}
+.nav-logo { 
+  color: white; 
+  font-size: 24px; 
+  font-weight: bold; 
+  text-decoration: none; 
+  display: flex; 
+  align-items: center;
+}
+.nav-logo i { 
+  margin-right: 10px; 
+}
+.nav-menu { 
+  display: flex; 
+  list-style: none; 
+  margin: 0; 
+  padding: 0;
+}
+.nav-item { 
+  margin-left: 20px; 
+}
+.nav-link { 
+  color: white; 
+  text-decoration: none; 
+  padding: 10px 15px; 
+  display: block; 
+  border-radius: 5px; 
+  transition: background-color 0.3s;
+}
+.nav-link:hover, .nav-link.active { 
+  background-color: #3498db; 
+}
+.hamburger { 
+  display: none; 
+  cursor: pointer; 
+  color: white; 
+  font-size: 24px;
+}
+
+.container { max-width:1200px; margin:0 auto; background:white; border-radius:0 0 10px 10px; box-shadow:0 5px 20px rgba(0,0,0,.1); overflow:hidden; }
+header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+.content { display:flex; flex-wrap:wrap; }
+.configurator { flex:1; min-width:300px; padding:25px; background:#f9fafb; border-right:1px solid #eaecee; }
+.preview { flex:1; min-width:300px; padding:25px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:white; }
+.section-title { font-size:18px; font-weight:600; margin-bottom:20px; color:#2c3e50; padding-bottom:10px; border-bottom:2px solid #eaecee; }
+.form-group { margin-bottom:20px; }
+label { display:block; margin-bottom:8px; font-weight:500; color:#2c3e50; }
+select,input { width:100%; padding:12px 15px; border:1px solid #d1d8e0; border-radius:6px; font-size:15px; background:white; transition:all .3s; }
+select:focus,input:focus { outline:none; border-color:#3498db; box-shadow:0 0 0 3px rgba(52,152,219,.2); }
+.dimensions { display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:end; }
+.calculate-btn { width:100%; padding:15px; background:#3498db; color:white; border:none; border-radius:6px; font-size:16px; font-weight:600; cursor:pointer; transition:background .3s; margin-top:10px; }
+.calculate-btn:hover { background:#2980b9; }
+.window-preview { width:360px; height:630px; background:#fff; border:3px solid #2c3e50; border-radius:5px; margin-bottom:16px; position:relative; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,.1); display:flex; align-items:center; justify-content:center; }
+.window-preview img { max-width:100%; max-height:100%; object-fit:contain; display:block; }
+.design-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; margin-top:8px; }
+.design-item { text-align:center; padding:10px; border:2px solid #e8e8e8; border-radius:8px; cursor:pointer; transition:all .25s; background:white; }
+.design-item:hover { border-color:#3498db; transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,.06); }
+.design-item.selected { border-color:#3498db; background:#e1f0fa; transform:none; }
+.design-preview { width:100px; height:175px; border-radius:4px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(45deg, #e6e6e6, #f9f9f9); }
+.design-preview img { width:100%; height:100%; object-fit:contain; display:block; }
+.breakdown { margin-top:16px; background:white; padding:14px; border-radius:8px; border:1px solid #eaecee; }
+.breakdown-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+.breakdown-total { font-weight:bold; border-top:2px solid #eee; margin-top:6px; padding-top:10px; }
+#sizeHelp { grid-column: 1 / -1; font-size:13px; color:#7f8c8d; margin-bottom:6px; }
+#errorMsg { font-size:14px; margin-top:8px; padding:8px 12px; border-radius:6px; display:inline-block; }
+#errorMsg.error { color:#a94442; background:#f2dede; border:1px solid #ebccd1; }
+#errorMsg.success { color:#3c763d; background:#dff0d8; border:1px solid #d6e9c6; }
+input.invalid { border-color:#e74c3c !important; box-shadow:0 0 0 2px rgba(231,76,60,.18); }
+input.valid { border-color:#27ae60 !important; box-shadow:0 0 0 2px rgba(39,174,96,.18); }
+#sizeHelp.default { color:#7f8c8d; }
+#sizeHelp.valid { color:#27ae60; }
+#sizeHelp.invalid { color:#e74c3c; }
+
+/* New styles for reports section */
+.reports-section { 
+  margin-top: 30px; 
+  padding: 25px; 
+  border-top: 1px solid #eaecee; 
+  width: 100%; 
+}
+.report-controls { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
+}
+.add-report-btn { 
+  padding: 12px 20px; 
+  background: #2ecc71; 
+  color: white; 
+  border: none; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: background .3s; 
+}
+.add-report-btn:hover { 
+  background: #27ae60; 
+}
+.clear-reports-btn { 
+  padding: 12px 20px; 
+  background: #e74c3c; 
+  color: white; 
+  border: none; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: background .3s; 
+}
+.clear-reports-btn:hover { 
+  background: #c0392b; 
+}
+.reports-container { 
+  max-height: 500px; 
+  overflow-y: auto; 
+  border: 1px solid #eaecee; 
+  border-radius: 8px; 
+  padding: 15px; 
+  background: #f9fafb; 
+}
+.report-item { 
+  background: white; 
+  border-radius: 8px; 
+  padding: 20px; 
+  margin-bottom: 15px; 
+  box-shadow: 0 2px 10px rgba(0,0,0,.05); 
+  position: relative; 
+}
+.report-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 15px; 
+  padding-bottom: 10px; 
+  border-bottom: 1px solid #eaecee; 
+}
+.report-title { 
+  font-weight: 600; 
+  font-size: 18px; 
+  color: #2c3e50; 
+}
+.delete-report { 
+  color: #e74c3c; 
+  background: none; 
+  border: none; 
+  font-size: 16px; 
+  cursor: pointer; 
+  padding: 5px; 
+}
+.report-details { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  gap: 15px; 
+}
+.report-detail-item { 
+  margin-bottom: 8px; 
+}
+.report-detail-label { 
+  font-weight: 600; 
+  color: #7f8c8d; 
+  margin-right: 5px; 
+}
+.report-footer { 
+  margin-top: 15px; 
+  padding-top: 15px; 
+  border-top: 1px solid #eaecee; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+.reports-total { 
+  margin-top: 20px; 
+  padding: 15px; 
+  background: #2c3e50; 
+  color: white; 
+  border-radius: 8px; 
+  display: flex; 
+  justify-content: space-between; 
+  font-weight: 600; 
+  font-size: 18px; 
+}
+.no-reports { 
+  text-align: center; 
+  padding: 30px; 
+  color: #7f8c8d; 
+  font-style: italic; 
+}
+
+@media (max-width:768px) { 
+  .content { flex-direction:column; } 
+  .configurator { border-right:none; border-bottom:1px solid #eaecee; } 
+  .dimensions { grid-template-columns:1fr; } 
+  .design-grid { grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); } 
+  .report-controls { flex-direction: column; gap: 10px; }
+  .report-details { grid-template-columns: 1fr; }
+  
+  /* Mobile navigation styles */
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    flex-direction: column;
+    background-color: #2c3e50;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    padding: 20px 0;
+    z-index: 999;
+  }
+  .nav-menu.active {
+    left: 0;
+  }
+  .nav-item {
+    margin: 15px 0;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+
 </style>
 </head>
 <body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#" class="nav-logo">
+      <i class="fas fa-window-restore"></i>Sash Windows
+    </a>
+    <ul class="nav-menu">
+      <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Products</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Services</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Gallery</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+</nav>
 
 <div class="container">
-  <header>
-    <h1>Sash Window Configurator</h1>
-  </header>
-
-  <div class="configurator">
-    <!-- CONFIG PANEL -->
-    <div class="config-panel">
+  <header><h1>Sash Window Configurator</h1></header>
+  <div class="content">
+    <div class="configurator">
+      <h2 class="section-title">Choose Your Design</h2>
       <div class="form-group">
-        <label for="designSelect">Design</label>
-        <select id="designSelect">
-          <option value="1">Design 1</option>
-          <option value="2">Design 2</option>
-          <option value="3">Design 3</option>
-          <option value="4">Design 4</option>
-          <option value="5">Design 5</option>
-          <option value="6">Design 6</option>
-          <option value="7">Design 7</option>
-          <option value="8">Design 8</option>
-          <option value="9">Design 9</option>
-          <option value="10">Design 10</option>
-          <option value="11">Design 11</option>
-          <option value="12">Design 12</option>
+        <div class="design-grid">
+          <!-- Design items with image containers -->
+          <div class="design-item selected" data-design="1" data-base-price="518.41" data-balance="weights" data-wood="pine" data-bars="none" data-preview="design1.png">
+            <div class="design-preview">
+              <img src="design1.png" alt="Design 1">
+            </div>
+            <div class="design-name">Design 1</div>
+            <div class="design-price">£518.41</div>
+          </div>
+          <div class="design-item" data-design="2" data-base-price="522.34" data-balance="spring" data-wood="pine" data-bars="with-bars" data-preview="design2.png">
+            <div class="design-preview">
+              <img src="design2.png" alt="Design 2">
+            </div>
+            <div class="design-name">Design 2</div>
+            <div class="design-price">£522.34</div>
+          </div>
+          <div class="design-item" data-design="3" data-base-price="740.32" data-balance="weights" data-wood="sapele" data-bars="with-bars" data-preview="design3.png">
+            <div class="design-preview">
+              <img src="design3.png" alt="Design 3">
+            </div>
+            <div class="design-name">Design 3</div>
+            <div class="design-price">£740.32</div>
+          </div>
+          <div class="design-item" data-design="4" data-base-price="705.08" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design4.png">
+            <div class="design-preview">
+              <img src="design4.png" alt="Design 4">
+            </div>
+            <div class="design-name">Design 4</div>
+            <div class="design-price">£705.08</div>
+          </div>
+          <div class="design-item" data-design="5" data-base-price="673.88" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design5.png">
+            <div class="design-preview">
+              <img src="design5.png" alt="Design 5">
+            </div>
+            <div class="design-name">Design 5</div>
+            <div class="design-price">£673.88</div>
+          </div>
+          <div class="design-item" data-design="6" data-base-price="731.8" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design6.png">
+            <div class="design-preview">
+              <img src="design6.png" alt="Design 6">
+            </div>
+            <div class="design-name">Design 6</div>
+            <div class="design-price">£731.80</div>
+          </div>
+          <div class="design-item" data-design="7" data-base-price="706.7" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design7.png">
+            <div class="design-preview">
+              <img src="design7.png" alt="Design 7">
+            </div>
+            <div class="design-name">Design 7</div>
+            <div class="design-price">£706.70</div>
+          </div>
+          <div class="design-item" data-design="8" data-base-price="865.52" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design8.png">
+            <div class="design-preview">
+              <img src="design8.png" alt="Design 8">
+            </div>
+            <div class="design-name">Design 8</div>
+            <div class="design-price">£865.52</div>
+          </div>
+          <!-- Updated Design 9 - removed fixed wood type -->
+          <div class="design-item" data-design="9" data-base-price="432.15" data-balance="fixed" data-bars="none" data-preview="design9.png">
+            <div class="design-preview">
+              <img src="design9.png" alt="Design 9">
+            </div>
+            <div class="design-name">Design 9</div>
+            <div class="design-price">£432.15</div>
+          </div>
+          <div class="design-item" data-design="10" data-base-price="602.87" data-balance="weights" data-wood="pine" data-bars="none" data-preview="design10.png">
+            <div class="design-preview">
+              <img src="design10.png" alt="Design 10">
+            </div>
+            <div class="design-name">Design 10</div>
+            <div class="design-price">£602.87</div>
+          </div>
+          
+          <!-- New Design 11 -->
+          <div class="design-item" data-design="11" data-base-price="950.00" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design11.png">
+            <div class="design-preview">
+              <img src="design11.png" alt="Design 11">
+            </div>
+            <div class="design-name">Design 11</div>
+            <div class="design-price">£950.00</div>
+          </div>
+          
+          <!-- New Design 12 -->
+          <div class="design-item" data-design="12" data-base-price="1100.00" data-balance="weights" data-wood="sapele" data-bars="with-bars" data-preview="design12.png">
+            <div class="design-preview">
+              <img src="design12.png" alt="Design 12">
+            </div>
+            <div class="design-name">Design 12</div>
+            <div class="design-price">£1100.00</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="balance">Balance Type:</label>
+        <select id="balance">
+          <option value="weights">Weights Balance</option>
+          <option value="spring">Spring Balance</option>
+          <option value="fixed">Fixed (No Opening)</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="widthInput">Width (mm)</label>
-        <input type="number" id="widthInput" value="1000">
+        <label for="wood">Wood Type:</label>
+        <select id="wood">
+          <option value="pine">Engineered Pine with Sapele Sill</option>
+          <option value="sapele">Full Hardwood Sapele</option>
+        </select>
       </div>
       <div class="form-group">
-        <label for="heightInput">Height (mm)</label>
-        <input type="number" id="heightInput" value="1000">
+        <label for="bars">Window Bars:</label>
+        <select id="bars">
+          <option value="none">No Bars</option>
+          <option value="with-bars">22mm Bars with Spacer</option>
+        </select>
+      </div>
+      <div class="form-group dimensions">
+        <div>
+          <label for="width">Width (mm)</label>
+          <input type="number" id="widthInput" min="100" max="3000" value="1000">
+        </div>
+        <div>
+          <label for="height">Height (mm)</label>
+          <input type="number" id="heightInput" min="100" max="3000" value="1000">
+        </div>
+        <div id="sizeHelp" class="default">Enter dimensions (max 2400mm).</div>
       </div>
       <div class="form-group">
-        <label for="quantityInput">Quantity</label>
-        <input type="number" id="quantityInput" value="1">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" min="1" value="1">
+        <p class="info-text">Bulk discounts available for orders over 5 units</p>
       </div>
-      <button id="calculateBtn">Calculate Window</button>
-      <button id="clearReports">Clear All Reports</button>
+      <button class="calculate-btn" id="calcBtn">CALCULATE PRICE</button>
+      <div class="breakdown">
+        <h3>Price Breakdown</h3>
+        <div class="breakdown-item"><span>Base Design Price:</span><span id="break_base">£0.00</span></div>
+        <div class="breakdown-item"><span>Size Adjustment:</span><span id="break_size">£0.00</span></div>
+        <div class="breakdown-item"><span>Balance Type:</span><span id="break_balance">£0.00</span></div>
+        <div class="breakdown-item"><span>Wood Type:</span><span id="break_wood">£0.00</span></div>
+        <div class="breakdown-item"><span>Window Bars:</span><span id="break_bars">£0.00</span></div>
+        <div class="breakdown-item breakdown-total"><span>Total per Unit:</span><span id="break_unit">£0.00</span></div>
+        <div class="breakdown-item"><span>Quantity:</span><span id="break_qty">1</span></div>
+        <div class="breakdown-item breakdown-total"><span>Total Price:</span><span id="break_total">£0.00</span></div>
+      </div>
     </div>
-
-    <!-- PREVIEW PANEL -->
-    <div class="preview-panel">
-      <div class="window-preview" id="windowPreview">
-        <img id="previewImage" src="" alt="Window Preview">
-      </div>
+    <div class="preview">
+      <h2 class="section-title">Window Preview</h2>
+      <div class="window-preview"><img id="preview-image" src="design1.png" alt="Window Preview"></div>
       <div class="price-display">
-        <span id="priceLabel">Unit Price: £0</span>
+        <div class="price-label">Estimated Price</div>
+        <div class="price" id="mainPrice">£0.00</div>
+        <div id="errorMsg" class="" role="status" aria-live="polite" style="display:inline-block;"></div>
       </div>
     </div>
   </div>
-
-  <!-- REPORTS -->
-  <div class="reports-container" id="reportsContainer"></div>
-  <div class="grand-total" id="grandTotal">Grand Total: £0.00</div>
+  
+  <!-- New Reports Section -->
+  <div class="reports-section">
+    <h2 class="section-title">Your Reports</h2>
+    <div class="report-controls">
+      <button class="add-report-btn" id="addReportBtn">
+        <i class="fas fa-plus"></i> Add Current Configuration to Report
+      </button>
+      <button class="clear-reports-btn" id="clearReportsBtn">
+        <i class="fas fa-trash"></i> Clear All Reports
+      </button>
+    </div>
+    <div class="reports-container" id="reportsContainer">
+      <div class="no-reports" id="noReportsMessage">No reports added yet. Click "Add to Report" to create your first report.</div>
+    </div>
+    <div class="reports-total" id="reportsTotal">
+      <span>Total for All Reports:</span>
+      <span id="reportsTotalPrice">£0.00</span>
+    </div>
+  </div>
 </div>
-
 <script>
-// === Prices for old website ===
-const designPrices = {
-  1: 865.52, 2: 900, 3: 950, 4: 1000,
-  5: 1050, 6: 1100, 7: 1150, 8: 1200,
-  9: 1250, 10: 1300, 11: 2000, 12: 2200
+
+/* === Data (mirrors server-side constants) === */
+const featureCosts = {
+  balance: { weights:0, spring:3.93, fixed:-86.26 },
+  wood: { pine:0, sapele:221.91 },
+  bars: { none:0, 'with-bars':213.39 }
 };
 
-// === Design images from uploaded capture ===
-// You can replace with separate image files if available
-const designImages = {
-  1: 'file-XWZT4g89quGmaCVfQyYjBL', // uploaded image placeholder
-  2: 'file-XWZT4g89quGmaCVfQyYjBL',
-  3: 'file-XWZT4g89quGmaCVfQyYjBL',
-  4: 'file-XWZT4g89quGmaCVfQyYjBL',
-  5: 'file-XWZT4g89quGmaCVfQyYjBL',
-  6: 'file-XWZT4g89quGmaCVfQyYjBL',
-  7: 'file-XWZT4g89quGmaCVfQyYjBL',
-  8: 'file-XWZT4g89quGmaCVfQyYjBL',
-  9: 'file-XWZT4g89quGmaCVfQyYjBL',
-  10: 'file-XWZT4g89quGmaCVfQyYjBL',
-  11: 'file-XWZT4g89quGmaCVfQyYjBL',
-  12: 'file-XWZT4g89quGmaCVfQyYjBL'
-};
+// Report management
+let reports = [];
+let reportCounter = 1;
 
-// Global grand total
-let grandTotal = 0;
+// Mobile menu toggle
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
 
-document.getElementById('calculateBtn').addEventListener('click', () => {
-  const design = parseInt(document.getElementById('designSelect').value);
-  const width = parseInt(document.getElementById('widthInput').value);
-  const height = parseInt(document.getElementById('heightInput').value);
-  const quantity = parseInt(document.getElementById('quantityInput').value);
+if (hamburger) {
+  hamburger.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+  });
+}
 
-  // === VALIDATION ===
-  let valid = true;
-  let msg = '';
+document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+  navMenu.classList.remove("active");
+}));
 
+function toInt(v) { return parseInt(v) || 0; }
+
+function validateSize(design, width, height) {
+  if (width > 2400 || height > 2400) return "Width and height cannot exceed 2400mm.";
   if (design >=1 && design <=10) {
-    if (width < 500 || width > 1400) { valid=false; msg='Width must be 500-1400mm'; }
-    if (height < 1000 || height > 2500) { valid=false; msg='Height must be 1000-2500mm'; }
-  } else if (design === 11) {
-    if (width < 1500 || width > 2400) { valid=false; msg='Width must be 1500-2400mm'; }
-    if (height < 1500 || height > 2400) { valid=false; msg='Height must be 1500-2400mm'; }
-  } else if (design === 12) {
-    if (width < 1800 || width > 2700) { valid=false; msg='Width must be 1800-2700mm'; }
-    if (height < 1500 || height > 2400) { valid=false; msg='Height must be 1500-2400mm'; }
+    if (width < 500 || width > 1400 || height < 1000 || height > 2500) return "Designs 1–10 require width 500–1400mm and height 1000–2500mm.";
+    return "";
+  }
+  if (design === 11) {
+    if (width < 1500 || width > 2400 || height < 1500 || height > 2400) return "Design 11 requires width 1500–2400mm and height 1500–2400mm.";
+    return "";
+  }
+  if (design === 12) {
+    if (width < 1500 || width > 2400 || height < 1500 || height > 2400) return "Design 12 requires width 1500–2400mm and height 1500–2400mm.";
+    return "";
+  }
+  return "";
+}
+
+function toggleOptionsForDesign(design) {
+  const balance = document.getElementById('balance');
+  const wood = document.getElementById('wood');
+  const bars = document.getElementById('bars');
+  
+  // For Design 9, only lock balance and bars, allow wood selection
+  if (design === 9) {
+    balance.disabled = true;
+    bars.disabled = true;
+    balance.value = 'fixed';
+    bars.value = 'none';
+    // Wood remains enabled and can be changed
+    wood.disabled = false;
+  } else {
+    balance.disabled = false;
+    wood.disabled = false;
+    bars.disabled = false;
+  }
+}
+
+function updateSizeHelp(design) {
+  const help = document.getElementById('sizeHelp');
+  if (!help) return;
+  if (design >=1 && design <=10) help.textContent = "Designs 1–10: width 500–1400mm, height 1000–2500mm.";
+  else if (design === 11) help.textContent = "Design 11: width 1500–2400mm, height 1500–2400mm.";
+  else if (design === 12) help.textContent = "Design 12: width 1500–2400mm, height 1500–2400mm.";
+  else help.textContent = "Enter dimensions (max 2400mm).";
+}
+
+function getBalanceTypeText(value) {
+  const balanceTypes = {
+    'weights': 'Weights Balance',
+    'spring': 'Spring Balance',
+    'fixed': 'Fixed (No Opening)'
+  };
+  return balanceTypes[value] || value;
+}
+
+function getWoodTypeText(value) {
+  const woodTypes = {
+    'pine': 'Engineered Pine with Sapele Sill',
+    'sapele': 'Full Hardwood Sapele'
+  };
+  return woodTypes[value] || value;
+}
+
+function getBarsText(value) {
+  const barsTypes = {
+    'none': 'No Bars',
+    'with-bars': '22mm Bars with Spacer'
+  };
+  return barsTypes[value] || value;
+}
+
+function calculatePrice() {
+  const selected = document.querySelector('.design-item.selected');
+  const errorBox = document.getElementById('errorMsg');
+  const helpBox = document.getElementById('sizeHelp');
+  const widthInput = document.getElementById('widthInput');
+  const heightInput = document.getElementById('heightInput');
+  const qtyInput = document.getElementById('quantity');
+  const mainPrice = document.getElementById('mainPrice');
+
+  errorBox.textContent = ""; errorBox.className = "";
+  if (helpBox) { helpBox.className = helpBox.className || 'default'; }
+
+  if (!selected) return;
+  const designId = toInt(selected.dataset.design);
+  var basePrice = parseFloat(selected.dataset.basePrice) || 0;
+
+  const width = toInt(widthInput.value);
+  const height = toInt(heightInput.value);
+  const qty = Math.max(1, toInt(qtyInput.value));
+
+  const validationError = validateSize(designId, width, height);
+  if (validationError) {
+    errorBox.textContent = validationError;
+    errorBox.className = 'error';
+    if (widthInput) { widthInput.classList.add('invalid'); widthInput.classList.remove('valid'); }
+    if (heightInput) { heightInput.classList.add('invalid'); heightInput.classList.remove('valid'); }
+    if (helpBox) { helpBox.classList.remove('valid'); helpBox.classList.add('invalid'); }
+    document.getElementById('break_base').textContent = '£0.00';
+    document.getElementById('break_size').textContent = '£0.00';
+    document.getElementById('break_balance').textContent = '£0.00';
+    document.getElementById('break_wood').textContent = '£0.00';
+    document.getElementById('break_bars').textContent = '£0.00';
+    document.getElementById('break_unit').textContent = '£0.00';
+    document.getElementById('break_qty').textContent = qty;
+    document.getElementById('break_total').textContent = '£0.00';
+    mainPrice.textContent = '£0.00';
+    toggleOptionsForDesign(designId);
+    return;
   }
 
-  if (!valid) { alert(msg); return; }
+  // valid
+  errorBox.textContent = '✅ Size OK'; errorBox.className = 'success';
+  if (widthInput) { widthInput.classList.remove('invalid'); widthInput.classList.add('valid'); }
+  if (heightInput) { heightInput.classList.remove('invalid'); heightInput.classList.add('valid'); }
+  if (helpBox) { helpBox.classList.remove('invalid'); helpBox.classList.add('valid'); }
 
-  const unitPrice = designPrices[design];
-  const totalPrice = unitPrice * quantity;
-  grandTotal += totalPrice;
+  toggleOptionsForDesign(designId);
 
-  // --- Update preview ---
-  document.getElementById('previewImage').src = designImages[design];
-  document.getElementById('priceLabel').textContent = `Unit Price: £${unitPrice.toFixed(2)}`;
+  const area = width * height;
+  const referenceArea = 1000000;
+  const sizeFactor = Math.pow(area / referenceArea, 0.8);
 
-  // --- Generate report card ---
-  const report = document.createElement('div');
-  report.className = 'report';
-  report.innerHTML = `
-    <img src="${designImages[design]}" alt="Design Image">
-    <div class="report-details">
-      <h3>Design ${design}</h3>
-      <p>Window Size: ${width} mm x ${height} mm</p>
-      <p>Quantity: ${quantity}</p>
-      <p>Unit Price: £${unitPrice.toFixed(2)}</p>
-      <p class="total-price">Total: £${totalPrice.toFixed(2)}</p>
-      <p>Profile: Traditional 147mm sash box with weights balance</p>
-      <p>Timber: Engineered core wood PINE with hardwood SAPELE sill</p>
-      <p>Finish: Internal/External RAL9016 White</p>
-      <p>Glass: 4mm / 12 argon / 4mm Low-E / 1.1W/m2K</p>
-      <p>Bars: 22mm bars with spacer</p>
-      <p>Ironmongery: Lockable fastener, sash lifts & pulleys</p>
-      <p>Sill: Flush hardwood SAPELE</p>
-      <p>Board: Not requested / no groove</p>
-      <p>Ventilation: Not requested</p>
-      <button onclick="alert('PDF Download for Design ${design}')">Download PDF Sketch</button>
-    </div>
-  `;
-  document.getElementById('reportsContainer').appendChild(report);
+  const balanceVal = document.getElementById('balance').value;
+  const woodVal = document.getElementById('wood').value;
+  const barsVal = document.getElementById('bars').value;
 
-  // Update grand total
-  document.getElementById('grandTotal').textContent = `Grand Total: £${grandTotal.toFixed(2)}`;
+  const balanceAdj = featureCosts.balance[balanceVal] || 0;
+  const woodAdj = featureCosts.wood[woodVal] || 0;
+  const barsAdj = featureCosts.bars[barsVal] || 0;
+
+  const adjustedPrice = (basePrice + balanceAdj + woodAdj + barsAdj) * sizeFactor;
+  const totalPrice = adjustedPrice * qty;
+
+  document.getElementById('break_base').textContent = '£' + basePrice.toFixed(2);
+  var sign = (sizeFactor > 1) ? '+' : '';
+  document.getElementById('break_size').textContent = sign + ((sizeFactor - 1) * 100).toFixed(1) + '%';
+  document.getElementById('break_balance').textContent = (balanceAdj !== 0) ? '£' + balanceAdj.toFixed(2) : '£0.00';
+  document.getElementById('break_wood').textContent = (woodAdj !== 0) ? '£' + woodAdj.toFixed(2) : '£0.00';
+  document.getElementById('break_bars').textContent = (barsAdj !== 0) ? '£' + barsAdj.toFixed(2) : '£0.00';
+  document.getElementById('break_unit').textContent = '£' + adjustedPrice.toFixed(2);
+  document.getElementById('break_qty').textContent = qty;
+  document.getElementById('break_total').textContent = '£' + totalPrice.toFixed(2);
+
+  mainPrice.textContent = '£' + totalPrice.toFixed(2);
+  
+  // Return the calculated values for use in reports
+  return {
+    designId,
+    basePrice,
+    width,
+    height,
+    qty,
+    balanceVal,
+    woodVal,
+    barsVal,
+    adjustedPrice,
+    totalPrice
+  };
+}
+
+function addReport() {
+  const calculation = calculatePrice();
+  
+  if (!calculation) {
+    alert("Please fix validation errors before adding to report.");
+    return;
+  }
+  
+  const selected = document.querySelector('.design-item.selected');
+  const designName = selected.querySelector('.design-name').textContent;
+  
+  const report = {
+    id: Date.now(),
+    number: reportCounter++,
+    designId: calculation.designId,
+    designName: designName,
+    balanceType: calculation.balanceVal,
+    woodType: calculation.woodVal,
+    bars: calculation.barsVal,
+    width: calculation.width,
+    height: calculation.height,
+    quantity: calculation.qty,
+    unitPrice: calculation.adjustedPrice,
+    totalPrice: calculation.totalPrice
+  };
+  
+  reports.push(report);
+  renderReports();
+}
+
+function deleteReport(id) {
+  reports = reports.filter(report => report.id !== id);
+  renderReports();
+}
+
+function clearReports() {
+  if (reports.length === 0) return;
+  
+  if (confirm("Are you sure you want to clear all reports?")) {
+    reports = [];
+    reportCounter = 1;
+    renderReports();
+  }
+}
+
+function renderReports() {
+  const container = document.getElementById('reportsContainer');
+  const noReportsMessage = document.getElementById('noReportsMessage');
+  const totalElement = document.getElementById('reportsTotalPrice');
+  
+  if (reports.length === 0) {
+    noReportsMessage.style.display = 'block';
+    container.innerHTML = '';
+    totalElement.textContent = '£0.00';
+    return;
+  }
+  
+  noReportsMessage.style.display = 'none';
+  
+  let totalPrice = 0;
+  let html = '';
+  
+  reports.forEach(report => {
+    totalPrice += report.totalPrice;
+    
+    html += `
+      <div class="report-item">
+        <div class="report-header">
+          <div class="report-title">Report #${report.number}: ${report.designName}</div>
+          <button class="delete-report" onclick="deleteReport(${report.id})">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="report-details">
+          <div class="report-detail-item">
+            <span class="report-detail-label">Profile:</span>
+            <span>${getBalanceTypeText(report.balanceType)}</span>
+          </div>
+          <div class="report-detail-item">
+            <span class="report-detail-label">Timber:</span>
+            <span>${getWoodTypeText(report.woodType)}</span>
+          </div>
+          <div class="report-detail-item">
+            <span class="report-detail-label">Bars:</span>
+            <span>${getBarsText(report.bars)}</span>
+          </div>
+          <div class="report-detail-item">
+            <span class="report-detail-label">Window size:</span>
+            <span>${report.width} mm x ${report.height} mm</span>
+          </div>
+          <div class="report-detail-item">
+            <span class="report-detail-label">Quantity:</span>
+            <span>${report.quantity} unit${report.quantity !== 1 ? 's' : ''}</span>
+          </div>
+        </div>
+        <div class="report-footer">
+          <div class="report-detail-item">
+            <span class="report-detail-label">Unit price:</span>
+            <span>£${report.unitPrice.toFixed(2)}</span>
+          </div>
+          <div class="report-detail-item">
+            <span class="report-detail-label">Total price:</span>
+            <span>£${report.totalPrice.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+  totalElement.textContent = `£${totalPrice.toFixed(2)}`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.design-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.design-item').forEach(i => i.classList.remove('selected'));
+      this.classList.add('selected');
+      
+      // For Design 9, don't set the wood type from data attributes
+      // so the user can choose their preferred wood type
+      const designId = toInt(this.dataset.design);
+      const bal = this.dataset.balance; 
+      const br = this.dataset.bars;
+      
+      if (document.getElementById('balance')) document.getElementById('balance').value = bal;
+      if (document.getElementById('bars')) document.getElementById('bars').value = br;
+      
+      // Only set wood type if it's specified in the data attribute and not Design 9
+      if (this.dataset.wood && designId !== 9) {
+        if (document.getElementById('wood')) document.getElementById('wood').value = this.dataset.wood;
+      }
+      
+      // Update preview image
+      if (this.dataset.preview) document.getElementById('preview-image').src = this.dataset.preview;
+      
+      updateSizeHelp(designId);
+      calculatePrice();
+    });
+  });
+
+  const widthInput = document.getElementById('widthInput');
+  const heightInput = document.getElementById('heightInput');
+  [widthInput, heightInput].forEach(inp => {
+    if (!inp) return;
+    inp.addEventListener('input', function() { calculatePrice(); });
+  });
+
+  ['balance','wood','bars','quantity'].forEach(id => { 
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', calculatePrice);
+  });
+
+  const calcBtn = document.getElementById('calcBtn');
+  if (calcBtn) calcBtn.addEventListener('click', function(e) { e.preventDefault(); calculatePrice(); });
+  
+  // Add event listeners for report buttons
+  const addReportBtn = document.getElementById('addReportBtn');
+  if (addReportBtn) addReportBtn.addEventListener('click', addReport);
+  
+  const clearReportsBtn = document.getElementById('clearReportsBtn');
+  if (clearReportsBtn) clearReportsBtn.addEventListener('click', clearReports);
+
+  const initiallySelected = document.querySelector('.design-item.selected') || document.querySelector('.design-item');
+  if (initiallySelected) {
+    updateSizeHelp(toInt(initiallySelected.dataset.design));
+    // Set initial preview image
+    if (initiallySelected.dataset.preview) {
+      document.getElementById('preview-image').src = initiallySelected.dataset.preview;
+    }
+  }
+  calculatePrice();
 });
 
-// Clear all reports
-document.getElementById('clearReports').addEventListener('click', () => {
-  document.getElementById('reportsContainer').innerHTML = '';
-  grandTotal = 0;
-  document.getElementById('grandTotal').textContent = `Grand Total: £0.00`;
-});
 </script>
 </body>
 </html>
