@@ -1,300 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Sash Window Configurator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color:#f5f7f9; color:#2c3e50; line-height:1.6; padding:20px; min-height:100vh; }
-        .container { max-width:1200px; margin:0 auto; background:white; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,.1); overflow:hidden; }
-        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
-        header h1 { font-size:24px; font-weight:600; }
-        .content { display:flex; flex-wrap:wrap; }
-        .configurator { flex:1; min-width:300px; padding:25px; background:#f9fafb; border-right:1px solid #eaecee; }
-        .preview { flex:1; min-width:300px; padding:25px; display:flex; flex-direction:column; align-items:center; justify-content:center; background:white; }
-        .section-title { font-size:18px; font-weight:600; margin-bottom:20px; color:#2c3e50; padding-bottom:10px; border-bottom:2px solid #eaecee; }
-        .form-group { margin-bottom:20px; }
-        label { display:block; margin-bottom:8px; font-weight:500; color:#2c3e50; }
-        select,input { width:100%; padding:12px 15px; border:1px solid #d1d8e0; border-radius:6px; font-size:15px; background:white; transition:all .3s; }
-        select:focus,input:focus { outline:none; border-color:#3498db; box-shadow:0 0 0 3px rgba(52,152,219,.2); }
-        .dimensions { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
-        .calculate-btn { width:100%; padding:15px; background:#3498db; color:white; border:none; border-radius:6px; font-size:16px; font-weight:600; cursor:pointer; transition:background .3s; margin-top:10px; }
-        .calculate-btn:hover { background:#2980b9; }
-        .window-preview { width:320px; height:240px; background:#8fb0bf; border:3px solid #2c3e50; border-radius:5px; margin-bottom:30px; position:relative; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,.1); display:flex; align-items:center; justify-content:center; }
-        .window-preview img { width:100%; height:100%; object-fit:contain; display:block; }
-        .price-display { text-align:center; margin-top:20px; }
-        .price-label { font-size:16px; color:#7f8c8d; margin-bottom:5px; }
-        .price { font-size:32px; font-weight:700; color:#2c3e50; }
-        .details { margin-top:25px; background:#f9fafb; padding:15px; border-radius:6px; font-size:14px; color:#5a6c7d; }
-        .design-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:15px; margin-top:15px; }
-        .design-item { text-align:center; padding:15px 10px; border:2px solid #e8e8e8; border-radius:8px; cursor:pointer; transition:all .3s ease; background:white; }
-        .design-item:hover { border-color:#3498db; transform:translateY(-3px); box-shadow:0 5px 15px rgba(0,0,0,.1); }
-        .design-item.selected { border-color:#3498db; background-color:#e1f0fa; }
-        .design-preview { width:100%; height:80px; border-radius:4px; margin-bottom:10px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(45deg, #e6e6e6, #f9f9f9); position:relative; }
-        .design-preview img { width:100%; height:100%; object-fit:cover; }
-        .design-name { font-weight:600; margin-top:5px; font-size:14px; }
-        .design-price { color:#2c3e50; font-size:12px; }
-        .info-text { font-size:14px; color:#7f8c8d; margin-top:5px; }
-        @media (max-width:768px) {
-            .content { flex-direction:column; }
-            .configurator { border-right:none; border-bottom:1px solid #eaecee; }
-            .dimensions { grid-template-columns:1fr; }
-            .design-grid { grid-template-columns:repeat(auto-fill, minmax(120px,1fr)); }
-        }
-        .breakdown { margin-top:20px; background:white; padding:15px; border-radius:8px; border:1px solid #eaecee; }
-        .breakdown h3 { margin-bottom:10px; color:#2c3e50; }
-        .breakdown-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
-        .breakdown-total { font-weight:bold; border-top:2px solid #eee; margin-top:5px; padding-top:10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sash Window Configurator</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f5f7f9; margin:20px; color:#2c3e50; }
+.container { max-width:1200px; margin:0 auto; }
+header { background:#2c3e50; color:white; padding:20px; text-align:center; border-radius:8px; margin-bottom:20px; }
+h1 { margin:0; font-size:24px; }
+
+.configurator { display:flex; flex-wrap:wrap; gap:20px; }
+.config-panel, .preview-panel { background:white; padding:20px; border-radius:8px; flex:1; min-width:300px; box-shadow:0 5px 15px rgba(0,0,0,.05); }
+.form-group { margin-bottom:15px; }
+label { display:block; margin-bottom:5px; font-weight:bold; }
+input, select { width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; font-size:14px; }
+button { padding:10px 15px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+#calculateBtn { background:#3498db; color:white; margin-top:10px; }
+#calculateBtn:hover { background:#2980b9; }
+#clearReports { background:#e74c3c; color:white; margin-top:10px; }
+#clearReports:hover { background:#c0392b; }
+
+.window-preview { width:100%; max-width:320px; height:240px; border:3px solid #2c3e50; border-radius:5px; display:flex; align-items:center; justify-content:center; margin-bottom:15px; overflow:hidden; }
+.window-preview img { width:100%; height:100%; object-fit:contain; }
+
+.reports-container { margin-top:30px; }
+.report { border:1px solid #ccc; border-radius:8px; padding:15px; margin-bottom:15px; background:white; display:flex; gap:15px; }
+.report img { width:100px; height:175px; object-fit:cover; border-radius:4px; border:1px solid #ddd; }
+.report-details { flex:1; }
+.report-details h3 { margin:0 0 5px; }
+.report-details p { margin:3px 0; font-size:14px; }
+.total-price { text-align:right; font-weight:bold; margin-top:5px; }
+.grand-total { text-align:right; font-size:22px; font-weight:bold; margin-top:15px; }
+
+@media(max-width:768px){
+  .configurator { flex-direction:column; }
+  .report { flex-direction:column; align-items:center; }
+  .report-details { text-align:center; }
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header><h1>Sash Window Configurator</h1></header>
 
-        <div class="content">
-            <div class="configurator">
-                <h2 class="section-title">Device & Design of Your Setup Windows</h2>
+<div class="container">
+  <header>
+    <h1>Sash Window Configurator</h1>
+  </header>
 
-                <div class="form-group">
-                    <label for="design">Select Design</label>
-                    <div class="design-grid">
-                        <!-- 12 designs: data-preview points to generated images in /windows -->
-                        <div class="design-item selected" data-design="1" data-base-price="518.41" data-balance="weights" data-wood="pine" data-bars="none" data-preview="windows/window1.png">
-                            <div class="design-preview"><img src="Design1.png" alt="Design 1"></div>
-                            <div class="design-name">Standard Weights</div><div class="design-price">£518.41</div>
-                        </div>
-                        <div class="design-item" data-design="2" data-base-price="522.34" data-balance="spring" data-wood="pine" data-bars="with-bars" data-preview="windows/window2.png">
-                            <div class="design-preview"><img src="windows/window2.png" alt="Design 2"></div>
-                            <div class="design-name">Spring Balance</div><div class="design-price">£522.34</div>
-                        </div>
-                        <div class="design-item" data-design="3" data-base-price="740.32" data-balance="weights" data-wood="sapele" data-bars="with-bars" data-preview="windows/window3.png">
-                            <div class="design-preview"><img src="windows/window3.png" alt="Design 3"></div>
-                            <div class="design-name">Full Sapele</div><div class="design-price">£740.32</div>
-                        </div>
-                        <div class="design-item" data-design="4" data-base-price="705.08" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="windows/window4.png">
-                            <div class="design-preview"><img src="windows/window4.png" alt="Design 4"></div>
-                            <div class="design-name">Wider Design</div><div class="design-price">£705.08</div>
-                        </div>
-                        <div class="design-item" data-design="5" data-base-price="673.88" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="windows/window5.png">
-                            <div class="design-preview"><img src="windows/window5.png" alt="Design 5"></div>
-                            <div class="design-name">Taller Design</div><div class="design-price">£673.88</div>
-                        </div>
-                        <div class="design-item" data-design="6" data-base-price="731.80" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="windows/window6.png">
-                            <div class="design-preview"><img src="windows/window6.png" alt="Design 6"></div>
-                            <div class="design-name">Bars Pattern 1</div><div class="design-price">£731.80</div>
-                        </div>
-                        <div class="design-item" data-design="7" data-base-price="706.70" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="windows/window7.png">
-                            <div class="design-preview"><img src="windows/window7.png" alt="Design 7"></div>
-                            <div class="design-name">Bars Pattern 2</div><div class="design-price">£706.70</div>
-                        </div>
-                        <div class="design-item" data-design="8" data-base-price="865.52" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="windows/window8.png">
-                            <div class="design-preview"><img src="windows/window8.png" alt="Design 8"></div>
-                            <div class="design-name">Bars Pattern 3</div><div class="design-price">£865.52</div>
-                        </div>
-                        <div class="design-item" data-design="9" data-base-price="432.15" data-balance="fixed" data-wood="pine" data-bars="none" data-preview="windows/window9.png">
-                            <div class="design-preview"><img src="windows/window9.png" alt="Design 9"></div>
-                            <div class="design-name">Fixed Sash</div><div class="design-price">£432.15</div>
-                        </div>
-                        <div class="design-item" data-design="10" data-base-price="602.87" data-balance="weights" data-wood="pine" data-bars="none" data-preview="windows/window10.png">
-                            <div class="design-preview"><img src="windows/window10.png" alt="Design 10"></div>
-                            <div class="design-name">Arched Sash</div><div class="design-price">£602.87</div>
-                        </div>
-                        <div class="design-item" data-design="11" data-base-price="1854.43" data-balance="weights" data-wood="pine" data-bars="none" data-preview="windows/window11.png">
-                            <div class="design-preview"><img src="windows/window11.png" alt="Design 11"></div>
-                            <div class="design-name">Large Window</div><div class="design-price">£1854.43</div>
-                        </div>
-                        <div class="design-item" data-design="12" data-base-price="2084.46" data-balance="weights" data-wood="pine" data-bars="none" data-preview="windows/window12.png">
-                            <div class="design-preview"><img src="windows/window12.png" alt="Design 12"></div>
-                            <div class="design-name">Fixed Panels</div><div class="design-price">£2084.46</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="balance">Balance Type:</label>
-                    <select id="balance">
-                        <option value="weights">Weights Balance</option>
-                        <option value="spring">Spring Balance</option>
-                        <option value="fixed">Fixed (No Opening)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="wood">Wood Type:</label>
-                    <select id="wood">
-                        <option value="pine">Engineered Pine with Sapele Sill</option>
-                        <option value="sapele">Full Hardwood Sapele</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="bars">Window Bars:</label>
-                    <select id="bars">
-                        <option value="none">No Bars</option>
-                        <option value="with-bars">22mm Bars with Spacer</option>
-                    </select>
-                </div>
-
-                <div class="form-group dimensions">
-                    <div><label for="width">Width (mm)</label><input type="number" id="width" min="500" max="3000" value="1000"></div>
-                    <div><label for="height">Height (mm)</label><input type="number" id="height" min="500" max="3000" value="1000"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="quantity">Quantity</label><input type="number" id="quantity" min="1" value="1"><p class="info-text">Bulk discounts available for orders over 5 units</p>
-                </div>
-
-                <button class="calculate-btn">CALCULATE PRICE</button>
-
-                <div class="breakdown">
-                    <h3>Price Breakdown</h3>
-                    <div class="breakdown-item"><span>Base Design Price:</span><span>£518.41</span></div>
-                    <div class="breakdown-item"><span>Size Adjustment:</span><span>£0.00</span></div>
-                    <div class="breakdown-item"><span>Balance Type:</span><span>£0.00</span></div>
-                    <div class="breakdown-item"><span>Wood Type:</span><span>£0.00</span></div>
-                    <div class="breakdown-item"><span>Window Bars:</span><span>£0.00</span></div>
-                    <div class="breakdown-item breakdown-total"><span>Total per Unit:</span><span>£518.41</span></div>
-                    <div class="breakdown-item"><span>Quantity:</span><span>1</span></div>
-                    <div class="breakdown-item breakdown-total"><span>Total Price:</span><span>£518.41</span></div>
-                </div>
-            </div>
-
-            <div class="preview">
-                <h2 class="section-title">Window Preview</h2>
-                <div class="window-preview">
-                    <img id="preview-image" src="design1.png" alt="Window Preview">
-                </div>
-
-                <div class="price-display"><div class="price-label">Estimated Price</div><div class="price">£518.41</div></div>
-
-                <div class="details">
-                    <p><i class="fas fa-info-circle"></i> Price includes VAT, delivery, and standard installation</p>
-                    <p><i class="fas fa-bolt"></i> Energy rating: A (U-value: 1.1W/m²K)</p>
-                    <p><i class="fas fa-paint-roller"></i> Finish: Internal & External RAL9016 White</p>
-                    <p><i class="fas fa-tree"></i> Timber: Engineered Pine with Sapele Sill</p>
-                    <p><i class="fas fa-expand"></i> Glass: 4mm/12 Argon/4mm Low-E</p>
-                </div>
-            </div>
-        </div>
+  <div class="configurator">
+    <!-- CONFIG PANEL -->
+    <div class="config-panel">
+      <div class="form-group">
+        <label for="designSelect">Design</label>
+        <select id="designSelect">
+          <option value="1">Design 1</option>
+          <option value="2">Design 2</option>
+          <option value="3">Design 3</option>
+          <option value="4">Design 4</option>
+          <option value="5">Design 5</option>
+          <option value="6">Design 6</option>
+          <option value="7">Design 7</option>
+          <option value="8">Design 8</option>
+          <option value="9">Design 9</option>
+          <option value="10">Design 10</option>
+          <option value="11">Design 11</option>
+          <option value="12">Design 12</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="widthInput">Width (mm)</label>
+        <input type="number" id="widthInput" value="1000">
+      </div>
+      <div class="form-group">
+        <label for="heightInput">Height (mm)</label>
+        <input type="number" id="heightInput" value="1000">
+      </div>
+      <div class="form-group">
+        <label for="quantityInput">Quantity</label>
+        <input type="number" id="quantityInput" value="1">
+      </div>
+      <button id="calculateBtn">Calculate Window</button>
+      <button id="clearReports">Clear All Reports</button>
     </div>
 
+    <!-- PREVIEW PANEL -->
+    <div class="preview-panel">
+      <div class="window-preview" id="windowPreview">
+        <img id="previewImage" src="" alt="Window Preview">
+      </div>
+      <div class="price-display">
+        <span id="priceLabel">Unit Price: £0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="reports-container" id="reportsContainer"></div>
+  <div class="grand-total" id="grandTotal">Grand Total: £0.00</div>
+</div>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const designItems = document.querySelectorAll('.design-item');
-    const balanceSelect = document.getElementById('balance');
-    const woodSelect = document.getElementById('wood');
-    const barsSelect = document.getElementById('bars');
-    const widthInput = document.getElementById('width');
-    const heightInput = document.getElementById('height');
-    const quantityInput = document.getElementById('quantity');
-    const calculateBtn = document.querySelector('.calculate-btn');
-    const priceDisplay = document.querySelector('.price');
-    const breakdownItems = document.querySelectorAll('.breakdown-item span:last-child');
-    const previewImg = document.getElementById('preview-image');
+// === Prices for old website ===
+const designPrices = {
+  1: 865.52, 2: 900, 3: 950, 4: 1000,
+  5: 1050, 6: 1100, 7: 1150, 8: 1200,
+  9: 1250, 10: 1300, 11: 2000, 12: 2200
+};
 
-    // Set initial values
-    let selectedDesign = '1';
-    let basePrice = 518.41;
+// === Design images from uploaded capture ===
+// You can replace with separate image files if available
+const designImages = {
+  1: 'file-XWZT4g89quGmaCVfQyYjBL', // uploaded image placeholder
+  2: 'file-XWZT4g89quGmaCVfQyYjBL',
+  3: 'file-XWZT4g89quGmaCVfQyYjBL',
+  4: 'file-XWZT4g89quGmaCVfQyYjBL',
+  5: 'file-XWZT4g89quGmaCVfQyYjBL',
+  6: 'file-XWZT4g89quGmaCVfQyYjBL',
+  7: 'file-XWZT4g89quGmaCVfQyYjBL',
+  8: 'file-XWZT4g89quGmaCVfQyYjBL',
+  9: 'file-XWZT4g89quGmaCVfQyYjBL',
+  10: 'file-XWZT4g89quGmaCVfQyYjBL',
+  11: 'file-XWZT4g89quGmaCVfQyYjBL',
+  12: 'file-XWZT4g89quGmaCVfQyYjBL'
+};
 
-    // Design selection
-    designItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Update UI
-            designItems.forEach(i => i.classList.remove('selected'));
-            this.classList.add('selected');
+// Global grand total
+let grandTotal = 0;
 
-            // Update selected design and base price
-            selectedDesign = this.dataset.design;
-            basePrice = parseFloat(this.dataset.basePrice);
+document.getElementById('calculateBtn').addEventListener('click', () => {
+  const design = parseInt(document.getElementById('designSelect').value);
+  const width = parseInt(document.getElementById('widthInput').value);
+  const height = parseInt(document.getElementById('heightInput').value);
+  const quantity = parseInt(document.getElementById('quantityInput').value);
 
-            // Update dropdowns to match design
-            if(this.dataset.balance) balanceSelect.value = this.dataset.balance;
-            if(this.dataset.wood) woodSelect.value = this.dataset.wood;
-            if(this.dataset.bars) barsSelect.value = this.dataset.bars;
+  // === VALIDATION ===
+  let valid = true;
+  let msg = '';
 
-            // Update preview image
-            if(this.dataset.preview) previewImg.src = this.dataset.preview;
+  if (design >=1 && design <=10) {
+    if (width < 500 || width > 1400) { valid=false; msg='Width must be 500-1400mm'; }
+    if (height < 1000 || height > 2500) { valid=false; msg='Height must be 1000-2500mm'; }
+  } else if (design === 11) {
+    if (width < 1500 || width > 2400) { valid=false; msg='Width must be 1500-2400mm'; }
+    if (height < 1500 || height > 2400) { valid=false; msg='Height must be 1500-2400mm'; }
+  } else if (design === 12) {
+    if (width < 1800 || width > 2700) { valid=false; msg='Width must be 1800-2700mm'; }
+    if (height < 1500 || height > 2400) { valid=false; msg='Height must be 1500-2400mm'; }
+  }
 
-            // Recalculate price
-            calculatePrice();
-        });
-    });
+  if (!valid) { alert(msg); return; }
 
-    // Feature cost modifiers
-    const featureCosts = {
-        balance: {
-            'weights': 0,
-            'spring': 3.93,
-            'fixed': -86.26
-        },
-        wood: {
-            'pine': 0,
-            'sapele': 221.91
-        },
-        bars: {
-            'none': 0,
-            'with-bars': 213.39
-        }
-    };
+  const unitPrice = designPrices[design];
+  const totalPrice = unitPrice * quantity;
+  grandTotal += totalPrice;
 
-    // Calculate price function
-    function calculatePrice() {
-        // Get values
-        const width = parseInt(widthInput.value) || 1000;
-        const height = parseInt(heightInput.value) || 1000;
-        const quantity = parseInt(quantityInput.value) || 1;
-        const balance = balanceSelect.value;
-        const wood = woodSelect.value;
-        const bars = barsSelect.value;
+  // --- Update preview ---
+  document.getElementById('previewImage').src = designImages[design];
+  document.getElementById('priceLabel').textContent = `Unit Price: £${unitPrice.toFixed(2)}`;
 
-        // Calculate area in square mm
-        const area = width * height;
+  // --- Generate report card ---
+  const report = document.createElement('div');
+  report.className = 'report';
+  report.innerHTML = `
+    <img src="${designImages[design]}" alt="Design Image">
+    <div class="report-details">
+      <h3>Design ${design}</h3>
+      <p>Window Size: ${width} mm x ${height} mm</p>
+      <p>Quantity: ${quantity}</p>
+      <p>Unit Price: £${unitPrice.toFixed(2)}</p>
+      <p class="total-price">Total: £${totalPrice.toFixed(2)}</p>
+      <p>Profile: Traditional 147mm sash box with weights balance</p>
+      <p>Timber: Engineered core wood PINE with hardwood SAPELE sill</p>
+      <p>Finish: Internal/External RAL9016 White</p>
+      <p>Glass: 4mm / 12 argon / 4mm Low-E / 1.1W/m2K</p>
+      <p>Bars: 22mm bars with spacer</p>
+      <p>Ironmongery: Lockable fastener, sash lifts & pulleys</p>
+      <p>Sill: Flush hardwood SAPELE</p>
+      <p>Board: Not requested / no groove</p>
+      <p>Ventilation: Not requested</p>
+      <button onclick="alert('PDF Download for Design ${design}')">Download PDF Sketch</button>
+    </div>
+  `;
+  document.getElementById('reportsContainer').appendChild(report);
 
-        // Reference area for base price (1000x1000mm = 1,000,000 mm²)
-        const referenceArea = 1000000;
+  // Update grand total
+  document.getElementById('grandTotal').textContent = `Grand Total: £${grandTotal.toFixed(2)}`;
+});
 
-        // Calculate size adjustment factor (non-linear pricing)
-        const sizeFactor = Math.pow(area / referenceArea, 0.8);
-
-        // Calculate feature adjustments
-        const balanceAdjustment = featureCosts.balance[balance] || 0;
-        const woodAdjustment = featureCosts.wood[wood] || 0;
-        const barsAdjustment = featureCosts.bars[bars] || 0;
-
-        // Calculate adjusted price
-        const adjustedPrice = (basePrice + balanceAdjustment + woodAdjustment + barsAdjustment) * sizeFactor;
-
-        // Update breakdown
-        if(breakdownItems.length >= 8) {
-            breakdownItems[0].textContent = `£${basePrice.toFixed(2)}`;
-            breakdownItems[1].textContent = `${(sizeFactor > 1 ? '+' : '')}${((sizeFactor - 1) * 100).toFixed(1)}%`;
-            breakdownItems[2].textContent = balanceAdjustment !== 0 ? `£${balanceAdjustment.toFixed(2)}` : '£0.00';
-            breakdownItems[3].textContent = woodAdjustment !== 0 ? `£${woodAdjustment.toFixed(2)}` : '£0.00';
-            breakdownItems[4].textContent = barsAdjustment !== 0 ? `£${barsAdjustment.toFixed(2)}` : '£0.00';
-            breakdownItems[5].textContent = `£${adjustedPrice.toFixed(2)}`;
-            breakdownItems[6].textContent = quantity;
-            breakdownItems[7].textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
-        }
-
-        // Format and display price
-        priceDisplay.textContent = `£${(adjustedPrice * quantity).toFixed(2)}`;
-    }
-
-    // Add event listeners for inputs
-    balanceSelect.addEventListener('change', calculatePrice);
-    woodSelect.addEventListener('change', calculatePrice);
-    barsSelect.addEventListener('change', calculatePrice);
-    widthInput.addEventListener('input', calculatePrice);
-    heightInput.addEventListener('input', calculatePrice);
-    quantityInput.addEventListener('input', calculatePrice);
-    calculateBtn.addEventListener('click', calculatePrice);
-
-    // Initial calculation and preview
-    const initiallySelected = document.querySelector('.design-item.selected') || document.querySelector('.design-item');
-    if(initiallySelected && initiallySelected.dataset.preview) previewImg.src = initiallySelected.dataset.preview;
-    calculatePrice();
+// Clear all reports
+document.getElementById('clearReports').addEventListener('click', () => {
+  document.getElementById('reportsContainer').innerHTML = '';
+  grandTotal = 0;
+  document.getElementById('grandTotal').textContent = `Grand Total: £0.00`;
 });
 </script>
 </body>
