@@ -3,88 +3,875 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Building Services | Design & Build Experts</title>
+    <title>AR Building Services | Premium Design & Construction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== EXCITING VARIABLES & RESET ===== */
         :root {
-            --primary: #1a5fb4;
-            --primary-dark: #0d4a8a;
-            --secondary: #f0b429;
-            --dark: #1a1a1a;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #00A8E8;
+            --accent: #FFD166;
+            --dark: #1A1A2E;
+            --light: #F8F9FF;
+            --gray: #8A8D9B;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.2);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark) 0%, #16213E 100%);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; color: var(--dark); overflow-x: hidden; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-        .header { position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); animation: fadeInUp 0.8s ease; }
-        .logo img { height: 50px; transition: var(--transition); }
-        .logo img:hover { transform: scale(1.05); }
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; font-size: 1rem; position: relative; padding: 0.5rem 0; transition: var(--transition); }
-        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--primary); transition: var(--transition); }
-        .nav-links a:hover { color: var(--primary); }
-        .nav-links a:hover::after { width: 100%; }
-        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--dark); }
-        .hero { height: 100vh; background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/images/slide-3-1339x729.png') center/cover fixed; display: flex; align-items: center; padding: 0 5%; position: relative; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, transparent 30%, rgba(26, 95, 180, 0.1) 100%); }
-        .hero-content { max-width: 600px; color: white; animation: slideInLeft 1s ease; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; line-height: 1.2; background: linear-gradient(45deg, #fff, #f0b429); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: float 3s ease-in-out infinite; }
-        .hero h5 { font-size: 1.2rem; margin-bottom: 2rem; color: rgba(255, 255, 255, 0.9); }
-        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: 500; transition: var(--transition); border: 2px solid transparent; animation: fadeInUp 1s ease 0.3s both; }
-        .btn:hover { background: var(--primary-dark); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-        .social-bar { position: fixed; bottom: 30px; right: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; animation: slideInRight 1s ease 0.5s both; }
-        .social-icon { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: var(--transition); position: relative; overflow: hidden; }
-        .social-icon::before { content: ''; position: absolute; width: 100%; height: 100%; background: var(--primary); transform: scale(0); border-radius: 50%; transition: var(--transition); }
-        .social-icon:hover::before { transform: scale(1); }
-        .social-icon img { width: 24px; height: 24px; position: relative; z-index: 1; transition: var(--transition); }
-        .social-icon:hover img { filter: brightness(0) invert(1); transform: rotate(10deg); }
-        section { padding: 80px 5%; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2.5rem; color: var(--dark); margin-bottom: 1rem; position: relative; display: inline-block; }
-        .section-header h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: var(--secondary); }
-        .about-content { max-width: 800px; margin: 0 auto; text-align: center; }
-        .about-content p { font-size: 1.1rem; color: var(--gray); margin-bottom: 2rem; line-height: 1.8; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .service-card { background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--shadow); transition: var(--transition); text-align: center; animation: fadeInUp 0.6s ease; }
-        .service-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
-        .service-card h3 { color: var(--primary); margin-bottom: 1rem; }
-        .contact-form { max-width: 600px; margin: 0 auto; background: white; padding: 3rem; border-radius: 20px; box-shadow: var(--shadow); animation: fadeInUp 0.8s ease; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--dark); font-weight: 500; }
-        .form-control { width: 100%; padding: 0.8rem 1rem; border: 2px solid #e9ecef; border-radius: 10px; font-size: 1rem; transition: var(--transition); }
-        .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
-        textarea.form-control { min-height: 150px; resize: vertical; }
-        .submit-btn { background: var(--primary); color: white; border: none; padding: 1rem 2rem; border-radius: 50px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: var(--transition); width: 100%; }
-        .submit-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .footer { background: var(--dark); color: white; padding: 3rem 5%; text-align: center; }
-        .footer p { color: rgba(255, 255, 255, 0.7); margin-top: 2rem; }
-        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .animate-on-scroll.animated { opacity: 1; transform: translateY(0); }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* ===== DYNAMIC BACKGROUND ELEMENTS ===== */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 107, 53, 0.05);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            background: rgba(0, 168, 232, 0.05);
+            animation-duration: 25s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            background: rgba(255, 209, 102, 0.05);
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 10%;
+            left: 15%;
+            background: rgba(26, 26, 46, 0.05);
+            animation-duration: 35s;
+        }
+
+        /* ===== BOLD ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, 20px) rotate(90deg);
+            }
+            50% {
+                transform: translate(0, 40px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-20px, 20px) rotate(270deg);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px) skewX(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) skewX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px) skewX(10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) skewX(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 107, 53, 0.6);
+            }
+        }
+
+        @keyframes textShine {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* ===== GLASS MORPHISM HEADER ===== */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .logo img {
+            height: 55px;
+            transition: var(--transition);
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+        }
+
+        .logo img:hover {
+            transform: rotate(-5deg) scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .mobile-menu-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        /* ===== HERO SECTION WITH 3D EFFECT ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+            background: var(--gradient-dark);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/images/slide-3-1339x729.png') center/cover;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            color: white;
+            animation: slideInLeft 1.2s ease;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(90deg, #fff, var(--accent), var(--secondary));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShine 5s ease infinite;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h5 {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            max-width: 500px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2.5rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: none;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* ===== SOCIAL BAR WITH HOVER EFFECTS ===== */
+        .social-bar {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: slideInRight 1s ease 0.5s both;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            transform: scale(0);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover::before {
+            transform: scale(1);
+        }
+
+        .social-icon img {
+            width: 28px;
+            height: 28px;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-10px) rotate(10deg);
+            border-color: var(--primary);
+            animation: glow 1.5s infinite;
+        }
+
+        .social-icon:hover img {
+            filter: brightness(0) invert(1);
+            transform: scale(1.2);
+        }
+
+        /* ===== INTERACTIVE SERVICE CARDS ===== */
+        section {
+            padding: 100px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--gradient);
+            border-radius: 5px;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 100%;
+            background: var(--gradient);
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.9;
+        }
+
+        /* ===== SERVICES SHOWCASE ===== */
+        .services-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--gradient);
+            color: white;
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .service-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* ===== TESTIMONIALS SLIDER ===== */
+        .testimonials {
+            background: var(--gradient-dark);
+            color: white;
+            border-radius: 40px;
+            margin: 100px 5%;
+            padding: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slider {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .testimonial.active {
+            display: block;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-size: 4rem;
+            color: var(--accent);
+            opacity: 0.5;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* ===== CONTACT FORM ===== */
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 4rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background: rgba(248, 249, 255, 0.8);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+            background: white;
+        }
+
+        textarea.form-control {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1.3rem 3rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 5rem 5% 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links h3, .footer-contact h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .section-header h2 {
+                font-size: 2.8rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .header { padding: 1rem 5%; }
-            .nav-links { display: none; position: fixed; top: 70px; left: 0; width: 100%; background: white; flex-direction: column; padding: 2rem; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
-            .nav-links.active { display: flex; }
-            .mobile-menu-btn { display: block; }
-            .hero h1 { font-size: 2.5rem; }
-            .social-bar { bottom: 20px; right: 20px; }
-            .social-icon { width: 45px; height: 45px; }
-            section { padding: 60px 5%; }
+            .header {
+                top: 10px;
+                width: 95%;
+                padding: 1rem;
+            }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 90px;
+                left: 5%;
+                width: 90%;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                padding: 2rem;
+                border-radius: 20px;
+                box-shadow: var(--shadow-lg);
+                z-index: 999;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .social-bar {
+                bottom: 20px;
+                right: 20px;
+            }
+            .social-icon {
+                width: 50px;
+                height: 50px;
+            }
+            .social-icon img {
+                width: 24px;
+                height: 24px;
+            }
+            section {
+                padding: 60px 5%;
+            }
+            .about-content, .contact-form {
+                padding: 2rem;
+            }
+            .testimonials {
+                padding: 3rem 2rem;
+                margin: 60px 5%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            .services-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== ANIMATION CLASSES ===== */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
     </style>
 </head>
 <body>
+    <!-- Dynamic Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
     <header class="header">
         <div class="logo">
             <a href="#home"><img src='images/images/logo.png' alt="AR Building Services Logo"></a>
         </div>
-        <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+        
+        <button class="mobile-menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        
         <nav>
             <ul class="nav-links">
                 <li><a href="#home" onclick="closeMenu()">Home</a></li>
@@ -97,22 +884,26 @@
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>AR Building services</h1>
-            <h5>
-                Hastings and Sussex<br>
-                design<br>
-                and build
-            </h5>
-            <a href="#contact" class="btn">Get in touch</a>
+            <h1>AR Building Services</h1>
+            <h5>Hastings and Sussex<br>
+                Design & Build Excellence<br>
+                30+ Years Experience</h5>
+            <a href="#contact" class="btn">
+                <span>Get in touch</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
+
+        <!-- Social Bar -->
         <div class="social-bar">
             <a href="https://www.instagram.com/design_build_hastings_sussex" class="social-icon">
                 <img src="images/fulls/instagram.png" alt="Instagram">
             </a>
             <a href="https://www.mybuilder.com/profile/a_r_building_services/" class="social-icon">
-                <img src="/images/fulls/mybuildericon.png" alt="MyBuilder">
+                <img src="images/fulls/mybuildericon.png" alt="MyBuilder">
             </a>
             <a href="mailto:info@arbuildingservices.co.uk" class="social-icon">
                 <img src="images/fulls/mail.png" alt="Email">
@@ -123,67 +914,144 @@
         </div>
     </section>
 
+    <!-- About Section -->
     <section id="about" class="animate-on-scroll">
         <div class="section-header">
             <h2>About Us</h2>
         </div>
         <div class="about-content">
             <p>
-                We provide a complete design and build service, from initial design, through to the final finish,
-                our aim to exceed your vision. Having your project fully project managed ensures a minimal stress
-                free process, knowing there is someone who you can deal with on a one to one basis. We pride
-                ourselves on our attention to detail. With 30 years experience in the building industry, our focus
-                is on providing outstanding quality.
+                We provide a complete design and build service, from initial design through to the final finish. 
+                Our aim is to exceed your vision. Having your project fully project managed ensures a minimal 
+                stress-free process, knowing there is someone who you can deal with on a one-to-one basis.
             </p>
             <p>
-                We operate a detailed fixed quotation system with no initial deposit to commence works and payments
-                only against works completed. With larger projects we appoint an independent surveyor to evaluate
+                With 30 years of experience in the building industry, our focus is on providing outstanding quality. 
+                We operate a detailed fixed quotation system with no initial deposit to commence works and payments 
+                only against works completed. For larger projects, we appoint an independent surveyor to evaluate 
                 completed works for payment.
             </p>
             <p>
-                For a stress free, high quality service contact us today for a consultation.
+                For a stress-free, high-quality service contact us today for a consultation.
             </p>
         </div>
     </section>
 
+    <!-- Services Section -->
     <section id="services" class="animate-on-scroll">
         <div class="section-header">
             <h2>Our Services</h2>
         </div>
-        <div class="services-grid">
+        <div class="services-showcase">
             <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-home"></i>
+                </div>
                 <h3>Basement Conversion</h3>
+                <p>Transform unused space into functional living areas</p>
             </div>
             <div class="service-card">
-                <h3>Complete Bathroom Renovation</h3>
+                <div class="service-icon">
+                    <i class="fas fa-bath"></i>
+                </div>
+                <h3>Bathroom Renovation</h3>
+                <p>Luxury bathroom transformations with modern finishes</p>
             </div>
             <div class="service-card">
-                <h3>Complete Kitchen Renovation</h3>
+                <div class="service-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Kitchen Renovation</h3>
+                <p>Modern, functional kitchen designs that inspire</p>
             </div>
             <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-building"></i>
+                </div>
                 <h3>Custom Build Home</h3>
+                <p>Tailored homes built to your exact specifications</p>
             </div>
             <div class="service-card">
-                <h3>Home Renovation</h3>
-            </div>
-            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-expand-alt"></i>
+                </div>
                 <h3>House Extensions</h3>
+                <p>Seamless additions to create more living space</p>
             </div>
             <div class="service-card">
-                <h3>House Restoration</h3>
-            </div>
-            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-vector-square"></i>
+                </div>
                 <h3>Loft Conversion</h3>
+                <p>Transform unused attic space into functional rooms</p>
             </div>
             <div class="service-card">
-                <h3>New Home Build</h3>
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Home Renovation</h3>
+                <p>Complete home transformations from start to finish</p>
             </div>
             <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
                 <h3>Project Management</h3>
+                <p>End-to-end professional oversight of your project</p>
             </div>
         </div>
     </section>
 
+    <!-- Testimonials -->
+    <section class="testimonials animate-on-scroll">
+        <div class="section-header">
+            <h2 style="color: white;">Client Testimonials</h2>
+        </div>
+        <div class="testimonial-slider">
+            <div class="testimonial active" id="testimonial-1">
+                <div class="testimonial-text">
+                    Alton was involved in the redevelopment of our 1840s house, a project that took many
+                    months. During this time Alton was always very generous with his time going above and beyond. He
+                    has a great skill set and knowledge of building regs which proved invaluable. He also has great
+                    IT knowledge designing our security and tech hub. I didn't hesitate to involve Alton when we required 
+                    further work to be done in the garden, his team landscaped the back of our house and built a beautiful 
+                    decking area. I have also just rehired him to renovate our garage into a work space. I have know Alton 
+                    since 2017 and rate him first class.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">DK</div>
+                    <div>
+                        <h4>Dan King</h4>
+                        <p>Complete House Renovation</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial" id="testimonial-2">
+                <div class="testimonial-text">
+                    Alton was very much involved in the building of my new house, he was always very
+                    professional and always came up with a solution to any problems we had with the build. I knew I
+                    could trust and rely on him and he would always give 100%. Would highly recommend.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JS</div>
+                    <div>
+                        <h4>John Smith</h4>
+                        <p>New Home Build</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn prev-btn" onclick="changeTestimonial(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next-btn" onclick="changeTestimonial(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
     <section id="contact" class="animate-on-scroll">
         <div class="section-header">
             <h2>Get In Touch</h2>
@@ -203,6 +1071,18 @@
                     <input type="tel" id="phone" class="form-control">
                 </div>
                 <div class="form-group">
+                    <label for="project">Project Type</label>
+                    <select id="project" class="form-control">
+                        <option value="">Select a project type</option>
+                        <option value="extension">House Extension</option>
+                        <option value="kitchen">Kitchen Renovation</option>
+                        <option value="bathroom">Bathroom Renovation</option>
+                        <option value="loft">Loft Conversion</option>
+                        <option value="full">Full Renovation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="message">Message</label>
                     <textarea id="message" class="form-control" required></textarea>
                 </div>
@@ -211,52 +1091,169 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
-        <p>AR Building Services | Hastings & Sussex</p>
-        <p>Design & Build Specialists | info@arbuildingservices.co.uk | 07359 057111</p>
-        <p>© 2024 AR Building Services. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src='images/images/logo.png' alt="AR Building Services Logo">
+                <p>Premium design and build services in Hastings and Sussex for over 30 years.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Our Services</a></li>
+                    <li><a href="about.html">Projects Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Hastings & Sussex Area</p>
+                <p><i class="fas fa-phone"></i> 07359 057111</p>
+                <p><i class="fas fa-envelope"></i> info@arbuildingservices.co.uk</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 AR Building Services. All rights reserved. | Professional design and build services</p>
+        </div>
     </footer>
 
     <script>
-        function toggleMenu() { const navLinks = document.querySelector('.nav-links'); navLinks.classList.toggle('active'); }
-        function closeMenu() { const navLinks = document.querySelector('.nav-links'); navLinks.classList.remove('active'); }
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const btn = document.querySelector('.mobile-menu-btn i');
+            navLinks.classList.toggle('active');
+            btn.classList.toggle('fa-bars');
+            btn.classList.toggle('fa-times');
+        }
+
+        function closeMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const btn = document.querySelector('.mobile-menu-btn i');
+            navLinks.classList.remove('active');
+            btn.classList.add('fa-bars');
+            btn.classList.remove('fa-times');
+        }
+
+        // Testimonial slider
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        
+        function changeTestimonial(direction) {
+            testimonials[currentTestimonial].classList.remove('active');
+            currentTestimonial += direction;
+            
+            if (currentTestimonial >= testimonials.length) {
+                currentTestimonial = 0;
+            } else if (currentTestimonial < 0) {
+                currentTestimonial = testimonials.length - 1;
+            }
+            
+            testimonials[currentTestimonial].classList.add('active');
+        }
+
+        // Auto-rotate testimonials
+        setInterval(() => {
+            changeTestimonial(1);
+        }, 8000);
+
+        // Scroll animations
         function animateOnScroll() {
             const elements = document.querySelectorAll('.animate-on-scroll');
+            
             elements.forEach(element => {
                 const elementTop = element.getBoundingClientRect().top;
                 const windowHeight = window.innerHeight;
-                if (elementTop < windowHeight - 100) { element.classList.add('animated'); }
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animated');
+                }
             });
         }
+
+        // Form submission handler
         function handleSubmit(event) {
             event.preventDefault();
+            
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
+                project: document.getElementById('project').value,
                 message: document.getElementById('message').value
             };
-            alert('Thank you for your message! We will contact you soon.');
-            document.getElementById('contactForm').reset();
+            
+            // Show success message with animation
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+            submitBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)';
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.background = '';
+                document.getElementById('contactForm').reset();
+            }, 3000);
+            
             return false;
         }
+
+        // Service card hover effects
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.03)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+                
                 const targetId = this.getAttribute('href');
                 if (targetId === '#') return;
+                
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
+
+        // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.querySelector('.header');
-            header.style.boxShadow = window.scrollY > 100 ? '0 5px 20px rgba(0, 0, 0, 0.1)' : '0 2px 20px rgba(0, 0, 0, 0.1)';
+            if (window.scrollY > 50) {
+                header.style.top = '10px';
+                header.style.width = '95%';
+            } else {
+                header.style.top = '20px';
+                header.style.width = '90%';
+            }
+            
             animateOnScroll();
         });
-        window.addEventListener('load', animateOnScroll);
+
+        // Initial animations
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            
+            // Animate elements sequentially
+            document.querySelectorAll('.service-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
     </script>
 </body>
 </html>
