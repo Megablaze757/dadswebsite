@@ -206,7 +206,7 @@
             margin: 0 auto;
         }
 
-        /* ===== TESTIMONIALS SECTION ===== */
+        /* ===== CENTERED TESTIMONIALS SECTION ===== */
         .testimonials-container {
             padding: 5rem 5%;
             background: var(--off-white);
@@ -245,12 +245,15 @@
             line-height: 1.6;
         }
 
-        /* ===== TESTIMONIALS GRID ===== */
+        /* ===== CENTERED TESTIMONIALS GRID ===== */
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .testimonial-card {
@@ -264,6 +267,8 @@
             animation: slideUp 0.6s ease;
             opacity: 0;
             animation-fill-mode: forwards;
+            margin: 0 auto;
+            max-width: 500px;
         }
 
         .testimonial-card:nth-child(1) { animation-delay: 0.1s; }
@@ -294,6 +299,7 @@
         .testimonial-content {
             position: relative;
             z-index: 1;
+            text-align: center;
         }
 
         .testimonial-text {
@@ -303,7 +309,8 @@
             margin-bottom: 2rem;
             font-style: italic;
             position: relative;
-            padding-left: 1.5rem;
+            padding: 0 1.5rem;
+            text-align: center;
         }
 
         .testimonial-text::before {
@@ -317,8 +324,20 @@
             font-family: Georgia, serif;
         }
 
+        .testimonial-text::after {
+            content: '"';
+            position: absolute;
+            bottom: -20px;
+            right: 0;
+            font-size: 3rem;
+            color: var(--hastings-sky);
+            opacity: 0.5;
+            font-family: Georgia, serif;
+        }
+
         .testimonial-author {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 1rem;
             border-top: 1px solid var(--gray-light);
@@ -326,46 +345,71 @@
         }
 
         .author-avatar {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: var(--hastings-blue);
+            background: linear-gradient(135deg, var(--hastings-blue), var(--hastings-accent));
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             flex-shrink: 0;
+        }
+
+        .author-info {
+            text-align: center;
         }
 
         .author-info h4 {
             color: var(--hastings-blue);
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .author-info p {
             color: var(--gray);
-            font-size: 0.9rem;
+            font-size: 1rem;
+            line-height: 1.4;
         }
 
-        /* ===== SOCIAL PROOF SECTION ===== */
+        .project-type {
+            display: inline-block;
+            background: var(--hastings-sky);
+            color: var(--white);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== CENTERED SOCIAL PROOF SECTION ===== */
         .social-proof {
             text-align: center;
-            margin: 4rem 0;
+            margin: 4rem auto;
             padding: 3rem;
             background: var(--white);
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
             animation: fadeIn 1s ease;
+            max-width: 800px;
         }
 
         .social-proof h3 {
             font-size: 1.8rem;
             color: var(--hastings-blue);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .social-proof p {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
         .mybuilder-link {
@@ -393,14 +437,14 @@
             font-size: 1.3rem;
         }
 
-        /* ===== CONTACT FORM ===== */
+        /* ===== CENTERED CONTACT FORM ===== */
         .contact-section {
             padding: 5rem 5%;
             background: var(--white);
         }
 
         .contact-form-container {
-            max-width: 700px;
+            max-width: 600px;
             margin: 0 auto;
             background: var(--off-white);
             padding: 4rem;
@@ -423,6 +467,7 @@
         .contact-header p {
             color: var(--gray-dark);
             font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         .form-group {
@@ -480,7 +525,7 @@
             border-color: var(--hastings-blue);
         }
 
-        /* ===== SOCIAL BAR ===== */
+        /* ===== CENTERED SOCIAL BAR ===== */
         .social-bar {
             position: fixed;
             bottom: 40px;
@@ -534,6 +579,13 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 3rem;
             margin-bottom: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-brand {
+            text-align: center;
         }
 
         .footer-brand img {
@@ -552,6 +604,8 @@
         .footer-brand p {
             color: var(--gray-light);
             line-height: 1.6;
+            max-width: 300px;
+            margin: 0 auto;
         }
 
         .footer-links h3, .footer-contact h3 {
@@ -559,14 +613,15 @@
             margin-bottom: 1.5rem;
             color: var(--white);
             font-weight: 600;
+            text-align: center;
         }
 
         .footer-links ul {
             list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
         }
 
         .footer-links a {
@@ -577,7 +632,11 @@
 
         .footer-links a:hover {
             color: var(--hastings-sky);
-            padding-left: 5px;
+            transform: translateX(5px);
+        }
+
+        .footer-contact {
+            text-align: center;
         }
 
         .footer-contact p {
@@ -585,6 +644,7 @@
             margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.8rem;
         }
 
@@ -598,15 +658,33 @@
             padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--gray);
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            }
+        }
+
         @media (max-width: 1024px) {
             .testimonials-hero h1 {
                 font-size: 3rem;
             }
             .testimonials-header h2 {
                 font-size: 2.5rem;
+            }
+            .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                max-width: 600px;
             }
         }
 
@@ -642,6 +720,10 @@
             .mobile-menu-btn {
                 display: block;
             }
+            .testimonials-hero {
+                min-height: 50vh;
+                margin-top: 70px;
+            }
             .testimonials-hero h1 {
                 font-size: 2.5rem;
             }
@@ -660,18 +742,27 @@
                 width: 20px;
                 height: 20px;
             }
+            .testimonial-card {
+                max-width: 100%;
+                padding: 2rem;
+            }
             .testimonials-grid {
                 grid-template-columns: 1fr;
+                max-width: 500px;
             }
             .contact-form-container {
                 padding: 2.5rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
         }
 
         @media (max-width: 480px) {
             .testimonials-hero {
-                min-height: 50vh;
-                margin-top: 70px;
+                min-height: 40vh;
+                margin-top: 60px;
             }
             .testimonials-hero h1 {
                 font-size: 2rem;
@@ -680,10 +771,35 @@
                 font-size: 2rem;
             }
             .testimonial-card {
-                padding: 2rem;
+                padding: 1.5rem;
+            }
+            .testimonial-text {
+                padding: 0 1rem;
+                font-size: 1rem;
             }
             .mybuilder-link {
                 padding: 1rem 2rem;
+                font-size: 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .contact-form-container {
+                padding: 2rem;
+            }
+            .social-proof {
+                padding: 2rem;
+                margin: 3rem auto;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .testimonial-card {
+                padding: 1.2rem;
+            }
+            .testimonials-header h2 {
+                font-size: 1.8rem;
+            }
+            .testimonials-header p {
                 font-size: 1rem;
             }
         }
@@ -764,6 +880,7 @@
                         <div class="author-info">
                             <h4>Dan King</h4>
                             <p>Complete Heritage Property Renovation</p>
+                            <span class="project-type">House Renovation</span>
                         </div>
                     </div>
                 </div>
@@ -782,6 +899,7 @@
                         <div class="author-info">
                             <h4>John Smith</h4>
                             <p>New Build Residential Property</p>
+                            <span class="project-type">New Construction</span>
                         </div>
                     </div>
                 </div>
@@ -800,13 +918,14 @@
                         <div class="author-info">
                             <h4>Sarah Miller</h4>
                             <p>Various Projects - Plumbing to Extension</p>
+                            <span class="project-type">Multiple Services</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Social Proof Section -->
+        <!-- Centered Social Proof Section -->
         <div class="social-proof">
             <h3>Want to read more verified reviews?</h3>
             <p>Visit our profile on MyBuilder to see additional testimonials from satisfied clients.</p>
@@ -818,7 +937,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Centered Contact Section -->
     <section id="contact" class="contact-section">
         <div class="contact-form-container">
             <div class="contact-header">
