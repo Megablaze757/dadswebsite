@@ -18,6 +18,9 @@
             --gray-light: #E9ECEF;
             --gray: #6C757D;
             --gray-dark: #343A40;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
             --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -30,45 +33,58 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--off-white);
-            color: var(--hastings-navy);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             line-height: 1.6;
-            min-height: 100vh;
+            color: var(--hastings-navy);
+            background: var(--off-white);
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== IMPROVED MOBILE-FIRST HEADER ===== */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 1.5rem 5%;
+            padding: 0.8rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--white);
-            box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
+            box-shadow: 0 2px 20px rgba(10, 46, 92, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 0.6rem 5%;
+            box-shadow: 0 4px 25px rgba(10, 46, 92, 0.15);
         }
 
         .logo {
-            height: 60px;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
+            text-decoration: none;
+            z-index: 1001;
+            max-width: 70%;
         }
 
         .logo-image {
-            height: 100%;
-            max-height: 60px;
+            height: 45px;
             width: auto;
-            filter: brightness(0.9);
+            object-fit: contain;
             transition: var(--transition);
         }
 
@@ -78,39 +94,88 @@
         }
 
         .logo-main {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--hastings-blue);
-            letter-spacing: -0.5px;
+            line-height: 1.1;
+            letter-spacing: -0.3px;
         }
 
         .logo-tagline {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             color: var(--gray);
-            font-weight: 400;
-            letter-spacing: 1px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
         }
 
-        .logo:hover .logo-image {
-            transform: scale(1.05);
-            filter: brightness(1);
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 40px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .hamburger-line {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: var(--hastings-blue);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+            transform: translateY(11px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+            transform: translateY(-11px) rotate(-45deg);
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            align-items: center;
+            gap: 1.8rem;
             list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            position: relative;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--hastings-blue);
-            font-weight: 500;
-            font-size: 1rem;
-            position: relative;
-            padding: 0.5rem 0;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 0.25rem;
             transition: var(--transition);
-            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            white-space: nowrap;
+            position: relative;
         }
 
         .nav-links a::after {
@@ -118,36 +183,199 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 0;
+            width: 100%;
             height: 2px;
             background: var(--hastings-accent);
-            transition: var(--transition);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a:focus::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .nav-links a:hover {
             color: var(--hastings-accent);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
+        .nav-links a.active {
+            color: var(--hastings-accent);
         }
 
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: 2px solid var(--hastings-blue);
-            color: var(--hastings-blue);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: var(--transition);
+        .nav-links a.active::after {
+            transform: scaleX(1);
         }
 
-        .mobile-menu-btn:hover {
-            background: var(--hastings-blue);
+        .nav-cta .cta-btn {
+            background: linear-gradient(135deg, var(--hastings-blue), var(--hastings-accent));
             color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(53, 122, 189, 0.2);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-cta .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(53, 122, 189, 0.3);
+            background: linear-gradient(135deg, var(--hastings-accent), var(--hastings-sky));
+        }
+
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 46, 92, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 998;
+        }
+
+        .nav-overlay.active {
+            display: block;
+        }
+
+        /* ===== MOBILE RESPONSIVE NAVIGATION ===== */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 1.2rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.7rem 4%;
+            }
+            
+            .logo {
+                gap: 0.6rem;
+            }
+            
+            .logo-image {
+                height: 40px;
+            }
+            
+            .logo-main {
+                font-size: 1.1rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.65rem;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .main-nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                max-width: 400px;
+                height: 100vh;
+                height: 100dvh;
+                background: var(--white);
+                box-shadow: -5px 0 25px rgba(10, 46, 92, 0.15);
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 80px;
+                overflow-y: auto;
+                z-index: 999;
+            }
+            
+            .main-nav.active {
+                right: 0;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            .nav-links li {
+                width: 100%;
+                border-bottom: 1px solid var(--gray-light);
+            }
+            
+            .nav-links li:last-child {
+                border-bottom: none;
+                margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid var(--gray-light);
+            }
+            
+            .nav-links a {
+                padding: 1.2rem 1rem;
+                font-size: 1.1rem;
+                justify-content: flex-start;
+                width: 100%;
+                border-radius: 8px;
+            }
+            
+            .nav-links a.active {
+                background: rgba(53, 122, 189, 0.1);
+            }
+            
+            .nav-links a::after {
+                display: none;
+            }
+            
+            .nav-cta .cta-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem 1.5rem;
+                font-size: 1.1rem;
+            }
+            
+            body.menu-open {
+                overflow: hidden;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.6rem 4%;
+            }
+            
+            .logo-main {
+                font-size: 1rem;
+            }
+            
+            .logo-tagline {
+                font-size: 0.6rem;
+            }
+            
+            .logo-image {
+                height: 35px;
+            }
+            
+            .main-nav {
+                width: 90%;
+            }
         }
 
         /* ===== MAIN CONTAINER ===== */
@@ -157,6 +385,14 @@
             padding: 0 20px;
         }
 
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 80px auto 20px;
+                padding: 0 15px;
+            }
+        }
+
+        /* ===== PAGE HEADER ===== */
         .page-header {
             text-align: center;
             margin-bottom: 3rem;
@@ -165,10 +401,11 @@
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
             border-left: 4px solid var(--hastings-accent);
+            animation: slideUp 0.6s ease;
         }
 
         .page-header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
             color: var(--hastings-blue);
             margin-bottom: 1rem;
             font-weight: 700;
@@ -176,7 +413,7 @@
 
         .page-header p {
             color: var(--gray-dark);
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2vw, 1.1rem);
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.6;
@@ -203,6 +440,7 @@
             padding: 2rem;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
+            animation: slideUp 0.6s ease 0.2s both;
         }
 
         .section-title {
@@ -212,6 +450,13 @@
             padding-bottom: 0.8rem;
             border-bottom: 2px solid var(--hastings-accent);
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--hastings-accent);
         }
 
         .design-grid {
@@ -219,6 +464,18 @@
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .design-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .design-item {
@@ -229,6 +486,8 @@
             cursor: pointer;
             transition: var(--transition);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .design-item:hover {
@@ -241,11 +500,28 @@
             background: var(--hastings-blue);
             border-color: var(--hastings-blue);
             color: var(--white);
+            box-shadow: var(--shadow-lg);
         }
 
         .design-item.selected .design-name,
         .design-item.selected .design-price {
             color: var(--white);
+        }
+
+        .design-item.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--hastings-accent);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         .design-preview {
@@ -255,12 +531,18 @@
             margin-bottom: 0.8rem;
             overflow: hidden;
             background: var(--gray-light);
+            position: relative;
         }
 
         .design-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .design-item:hover .design-preview img {
+            transform: scale(1.05);
         }
 
         .design-name {
@@ -268,12 +550,14 @@
             color: var(--hastings-blue);
             margin-bottom: 0.3rem;
             font-size: 1rem;
+            transition: var(--transition);
         }
 
         .design-price {
             color: var(--hastings-accent);
             font-weight: 700;
             font-size: 1.1rem;
+            transition: var(--transition);
         }
 
         /* ===== CONFIGURATION OPTIONS ===== */
@@ -283,10 +567,12 @@
             padding: 2rem;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
+            animation: slideUp 0.6s ease 0.3s both;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+            position: relative;
         }
 
         .form-group label {
@@ -295,6 +581,9 @@
             color: var(--hastings-blue);
             font-weight: 600;
             font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .form-control {
@@ -306,6 +595,7 @@
             transition: var(--transition);
             background: var(--white);
             color: var(--hastings-navy);
+            font-family: inherit;
         }
 
         .form-control:focus {
@@ -316,6 +606,12 @@
 
         select.form-control {
             cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230A2E5C' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px;
+            padding-right: 2.5rem;
         }
 
         .dimensions-group {
@@ -324,17 +620,30 @@
             gap: 1rem;
         }
 
+        @media (max-width: 768px) {
+            .dimensions-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .info-text {
             color: var(--gray);
             font-size: 0.9rem;
             margin-top: 0.5rem;
             line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-text i {
+            color: var(--hastings-accent);
         }
 
         .calculate-btn {
             width: 100%;
             padding: 1.1rem;
-            background: var(--hastings-blue);
+            background: linear-gradient(135deg, var(--hastings-blue), var(--hastings-accent));
             color: var(--white);
             border: none;
             border-radius: var(--border-radius);
@@ -343,12 +652,20 @@
             cursor: pointer;
             transition: var(--transition);
             margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .calculate-btn:hover {
-            background: var(--hastings-accent);
+            background: linear-gradient(135deg, var(--hastings-accent), var(--hastings-sky));
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
         }
 
         /* ===== PRICE BREAKDOWN ===== */
@@ -358,6 +675,7 @@
             padding: 2rem;
             box-shadow: var(--shadow);
             margin-bottom: 2rem;
+            animation: slideUp 0.6s ease 0.4s both;
         }
 
         .breakdown-item {
@@ -365,6 +683,14 @@
             justify-content: space-between;
             padding: 0.8rem 0;
             border-bottom: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .breakdown-item:hover {
+            background: rgba(53, 122, 189, 0.05);
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            border-radius: var(--border-radius);
         }
 
         .breakdown-item.total {
@@ -374,6 +700,7 @@
             border-bottom: none;
             margin-top: 0.5rem;
             padding-top: 1rem;
+            font-size: 1.1rem;
         }
 
         /* ===== PREVIEW PANEL ===== */
@@ -384,6 +711,14 @@
             box-shadow: var(--shadow);
             position: sticky;
             top: 120px;
+            animation: slideUp 0.6s ease 0.5s both;
+        }
+
+        @media (max-width: 1024px) {
+            .preview-panel {
+                position: static;
+                order: -1;
+            }
         }
 
         .window-preview {
@@ -397,6 +732,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
 
         .preview-image {
@@ -422,31 +758,49 @@
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .control-btn:hover {
             background: var(--hastings-blue);
             color: var(--white);
+            border-color: var(--hastings-blue);
+        }
+
+        .control-btn:active {
+            transform: translateY(1px);
         }
 
         .price-display {
             text-align: center;
             padding: 1.5rem;
-            background: var(--off-white);
+            background: linear-gradient(135deg, var(--hastings-blue), var(--hastings-light));
             border-radius: var(--border-radius);
             border: 2px solid var(--hastings-accent);
+            color: var(--white);
         }
 
         .price-label {
-            color: var(--gray);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
             margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
         .price-amount {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--hastings-blue);
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .price-vat {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
         }
 
         .validation-message {
@@ -455,18 +809,23 @@
             border-radius: var(--border-radius);
             font-size: 0.9rem;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            animation: fadeIn 0.3s ease;
         }
 
         .validation-message.success {
             background: rgba(46, 204, 113, 0.1);
-            color: #27ae60;
-            border: 1px solid #27ae60;
+            color: var(--success);
+            border: 1px solid var(--success);
         }
 
         .validation-message.error {
             background: rgba(231, 76, 60, 0.1);
-            color: #c0392b;
-            border: 1px solid #c0392b;
+            color: var(--danger);
+            border: 1px solid var(--danger);
         }
 
         /* ===== REPORTS SECTION ===== */
@@ -476,6 +835,7 @@
             padding: 2rem;
             box-shadow: var(--shadow);
             margin-top: 2rem;
+            animation: slideUp 0.6s ease 0.6s both;
         }
 
         .report-controls {
@@ -495,16 +855,18 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 1rem;
         }
 
         .add-report-btn {
-            background: var(--hastings-blue);
+            background: linear-gradient(135deg, var(--hastings-blue), var(--hastings-accent));
             color: var(--white);
         }
 
         .add-report-btn:hover {
-            background: var(--hastings-accent);
+            background: linear-gradient(135deg, var(--hastings-accent), var(--hastings-sky));
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .clear-reports-btn {
@@ -515,16 +877,30 @@
 
         .clear-reports-btn:hover {
             background: var(--gray-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .download-btn {
-            background: #27ae60;
+            background: linear-gradient(135deg, var(--success), #2ecc71);
             color: var(--white);
         }
 
         .download-btn:hover {
-            background: #219653;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .report-controls {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         .reports-container {
@@ -533,12 +909,33 @@
             padding-right: 10px;
         }
 
+        .reports-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .reports-container::-webkit-scrollbar-track {
+            background: var(--gray-light);
+            border-radius: 3px;
+        }
+
+        .reports-container::-webkit-scrollbar-thumb {
+            background: var(--hastings-accent);
+            border-radius: 3px;
+        }
+
         .report-item {
             background: var(--off-white);
             border-radius: var(--border-radius);
             padding: 1.5rem;
             margin-bottom: 1rem;
             border-left: 4px solid var(--hastings-accent);
+            transition: var(--transition);
+            animation: slideUp 0.4s ease;
+        }
+
+        .report-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .report-header {
@@ -546,12 +943,17 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .report-title {
             font-size: 1.2rem;
             color: var(--hastings-blue);
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .report-price {
@@ -567,33 +969,50 @@
             margin-bottom: 1rem;
         }
 
+        @media (max-width: 480px) {
+            .report-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .report-detail {
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         .report-detail strong {
             color: var(--hastings-blue);
+            font-weight: 600;
         }
 
         .report-actions {
             display: flex;
             gap: 0.8rem;
             margin-top: 1rem;
+            flex-wrap: wrap;
         }
 
         .delete-btn {
             padding: 0.6rem 1.2rem;
             background: rgba(231, 76, 60, 0.1);
-            color: #c0392b;
-            border: 1px solid #c0392b;
+            color: var(--danger);
+            border: 1px solid var(--danger);
             border-radius: var(--border-radius);
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
         }
 
         .delete-btn:hover {
-            background: #c0392b;
+            background: var(--danger);
             color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .no-reports {
@@ -601,6 +1020,16 @@
             padding: 3rem;
             color: var(--gray);
             font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .no-reports i {
+            font-size: 3rem;
+            color: var(--gray-light);
+            opacity: 0.5;
         }
 
         .grand-total {
@@ -611,586 +1040,194 @@
             margin-top: 1.5rem;
             padding-top: 1rem;
             border-top: 2px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem 5%;
-            }
+        .grand-total-amount {
+            font-size: 1.5rem;
+            color: var(--hastings-accent);
+        }
 
-            .logo {
-                height: 50px;
-            }
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-            .logo-main {
-                font-size: 1.5rem;
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
             }
-
-            .logo-tagline {
-                font-size: 0.8rem;
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
             }
+        }
 
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 80px;
-                left: 5%;
-                width: 90%;
-                background: var(--white);
-                flex-direction: column;
-                padding: 2rem;
-                border-radius: var(--border-radius);
-                box-shadow: var(--shadow-lg);
-                z-index: 999;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--hastings-blue);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 1001;
+            animation: slideUp 0.3s ease;
+            max-width: 400px;
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.warning {
+            background: var(--warning);
+        }
+
+        /* ===== LOADING SPINNER ===== */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--gray-light);
+            border-top: 4px solid var(--hastings-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ===== ACCESSIBILITY ===== */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            .header, .report-controls, .preview-controls, .nav-overlay, .toast {
+                display: none !important;
             }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
+            
             .main-container {
-                margin: 80px auto 20px;
-                padding: 0 15px;
+                margin: 0;
+                padding: 0;
             }
-
-            .page-header {
-                padding: 1.5rem;
+            
+            body {
+                background: white;
+                color: black;
             }
-
-            .page-header h1 {
-                font-size: 2rem;
-            }
-
-            .design-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .dimensions-group {
-                grid-template-columns: 1fr;
-            }
-
-            .preview-panel {
-                position: static;
-            }
-
-            .report-controls {
-                flex-direction: column;
-            }
-
-            .action-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .design-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .page-header h1 {
-                font-size: 1.8rem;
-            }
-
-            .report-details {
-                grid-template-columns: 1fr;
+            
+            .report-item {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-   <!-- Header -->
-<header class="header">
-    <div class="logo">
-        <img src='images/images/logo.png' alt="Hastings Build Company Logo" class="logo-image">
-        <div class="logo-text">
-            <div class="logo-main">Hastings Build Company</div>
-            <div class="logo-tagline">DESIGN & CONSTRUCTION</div>
-        </div>
+    <!-- Improved Mobile-Friendly Header -->
+    <header class="header" id="header">
+        <a href="index.html" class="logo">
+            <img src='images/images/logo.png' alt="Hastings Build Company Logo" class="logo-image">
+            <div class="logo-text">
+                <div class="logo-main">Hastings Build Company</div>
+                <div class="logo-tagline">DESIGN & CONSTRUCTION</div>
+            </div>
+        </a>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="nav-overlay" id="navOverlay"></div>
+        
+        <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="about.html" class="nav-link" onclick="closeMobileMenu()">Projects</a></li>
+                <li><a href="Testimonials.html" class="nav-link" onclick="closeMobileMenu()">Testimonials</a></li>
+                <li><a href="Windows.html" class="nav-link active" onclick="closeMobileMenu()">Windows</a></li>
+                <li><a href="contact.html" class="nav-link" onclick="closeMobileMenu()">Contact</a></li>
+                <li class="nav-cta">
+                    <a href="tel:+447359057111" class="cta-btn" onclick="closeMobileMenu()">
+                        <i class="fas fa-phone"></i>
+                        <span>Call Now</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loadingSpinner">
+        <div class="spinner"></div>
     </div>
-    
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-    </button>
-    
-    <nav class="main-nav" id="mainNav">
-        <ul class="nav-links">
-            <li><a href="index.html" onclick="closeMobileMenu()">Home</a></li>
-            <li><a href="about.html" onclick="closeMobileMenu()">Projects</a></li>
-            <li><a href="Testomonials.html" onclick="closeMobileMenu()">Testimonials</a></li>
-            <li><a href="Windows.html" onclick="closeMobileMenu()" class="active">Windows</a></li>
-            <li><a href="contact.html" onclick="closeMobileMenu()">Contact</a></li>
-            <li class="nav-cta">
-                <a href="tel:+447359057111" class="cta-btn">
-                    <i class="fas fa-phone"></i>
-                    <span>Call Now</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
 
-<style>
-/* ===== MOBILE-OPTIMIZED NAVIGATION ===== */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--white);
-    box-shadow: 0 2px 15px rgba(10, 46, 92, 0.1);
-    z-index: 1000;
-    transition: all 0.3s ease;
-}
-
-.header.scrolled {
-    padding: 0.8rem 5%;
-    box-shadow: 0 4px 20px rgba(10, 46, 92, 0.15);
-}
-
-.logo {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    z-index: 1001;
-}
-
-.logo-image {
-    height: 100%;
-    max-height: 50px;
-    width: auto;
-    transition: transform 0.3s ease;
-}
-
-.logo-text {
-    display: flex;
-    flex-direction: column;
-}
-
-.logo-main {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--hastings-blue);
-    letter-spacing: -0.3px;
-    line-height: 1.2;
-}
-
-.logo-tagline {
-    font-size: 0.75rem;
-    color: var(--gray);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-}
-
-.mobile-menu-btn {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 40px;
-    height: 30px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 1001;
-}
-
-.hamburger-line {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background: var(--hastings-blue);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    transform-origin: center;
-}
-
-.mobile-menu-btn.active .hamburger-line:nth-child(1) {
-    transform: translateY(11px) rotate(45deg);
-}
-
-.mobile-menu-btn.active .hamburger-line:nth-child(2) {
-    opacity: 0;
-    transform: scale(0);
-}
-
-.mobile-menu-btn.active .hamburger-line:nth-child(3) {
-    transform: translateY(-11px) rotate(-45deg);
-}
-
-.main-nav {
-    display: flex;
-    align-items: center;
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li {
-    position: relative;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--hastings-blue);
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 0.5rem 0.3rem;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    white-space: nowrap;
-}
-
-.nav-links a:hover {
-    color: var(--hastings-accent);
-}
-
-.nav-links a.active {
-    color: var(--hastings-accent);
-    position: relative;
-}
-
-.nav-links a.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--hastings-accent);
-    transform: scaleX(1);
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--hastings-accent);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
-}
-
-.nav-links a:hover::after,
-.nav-links a:focus::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-.nav-cta .cta-btn {
-    background: linear-gradient(135deg, var(--hastings-blue), var(--hastings-accent));
-    color: var(--white);
-    padding: 0.6rem 1.2rem;
-    border-radius: 50px;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(53, 122, 189, 0.2);
-    transition: all 0.3s ease;
-}
-
-.nav-cta .cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(53, 122, 189, 0.3);
-    background: linear-gradient(135deg, var(--hastings-accent), var(--hastings-sky));
-    color: var(--white);
-}
-
-.nav-cta .cta-btn:active {
-    transform: translateY(0);
-}
-
-/* ===== MOBILE RESPONSIVE STYLES ===== */
-@media (max-width: 1024px) {
-    .nav-links {
-        gap: 1.5rem;
-    }
-    
-    .nav-links a {
-        font-size: 0.95rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .header {
-        padding: 0.8rem 5%;
-    }
-    
-    .logo {
-        height: 45px;
-    }
-    
-    .logo-main {
-        font-size: 1.2rem;
-    }
-    
-    .logo-tagline {
-        font-size: 0.7rem;
-    }
-    
-    .mobile-menu-btn {
-        display: flex;
-    }
-    
-    .main-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 85%;
-        max-width: 400px;
-        height: 100vh;
-        background: var(--white);
-        box-shadow: -5px 0 25px rgba(10, 46, 92, 0.15);
-        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding-top: 80px;
-        overflow-y: auto;
-        z-index: 1000;
-    }
-    
-    .main-nav.active {
-        right: 0;
-    }
-    
-    .main-nav::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(10, 46, 92, 0.5);
-        backdrop-filter: blur(4px);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: -1;
-    }
-    
-    .main-nav.active::before {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .nav-links {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        width: 100%;
-        padding: 1rem;
-    }
-    
-    .nav-links li {
-        width: 100%;
-        border-bottom: 1px solid var(--gray-light);
-    }
-    
-    .nav-links li:last-child {
-        border-bottom: none;
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--gray-light);
-    }
-    
-    .nav-links a {
-        padding: 1.2rem 1rem;
-        font-size: 1.1rem;
-        justify-content: flex-start;
-        width: 100%;
-    }
-    
-    .nav-links a.active {
-        background: rgba(53, 122, 189, 0.1);
-        border-radius: 8px;
-    }
-    
-    .nav-links a.active::after {
-        display: none;
-    }
-    
-    .nav-links a::after {
-        display: none;
-    }
-    
-    .nav-cta .cta-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 1rem 1.5rem;
-        font-size: 1.1rem;
-    }
-    
-    /* Prevent body scroll when menu is open */
-    body.menu-open {
-        overflow: hidden;
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        padding: 0.7rem 4%;
-    }
-    
-    .logo-main {
-        font-size: 1.1rem;
-    }
-    
-    .logo-tagline {
-        font-size: 0.65rem;
-    }
-    
-    .main-nav {
-        width: 90%;
-    }
-    
-    .nav-links a {
-        font-size: 1rem;
-        padding: 1rem 0.8rem;
-    }
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.header {
-    animation: fadeInDown 0.5s ease;
-}
-
-/* ===== ACCESSIBILITY ===== */
-.mobile-menu-btn:focus,
-.nav-links a:focus {
-    outline: 2px solid var(--hastings-accent);
-    outline-offset: 2px;
-}
-
-.nav-links a:focus-visible {
-    outline: 2px solid var(--hastings-accent);
-    outline-offset: 2px;
-}
-
-/* ===== SMOOTH TRANSITIONS ===== */
-.nav-links a,
-.cta-btn,
-.mobile-menu-btn,
-.logo-image {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ===== TOUCH FRIENDLY TARGETS ===== */
-@media (hover: none) and (pointer: coarse) {
-    .nav-links a {
-        padding: 1rem 0.8rem;
-        min-height: 48px;
-    }
-    
-    .mobile-menu-btn {
-        width: 44px;
-        height: 34px;
-    }
-    
-    .cta-btn {
-        min-height: 48px;
-    }
-}
-</style>
-
-<script>
-// Mobile Navigation Functions
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mainNav = document.getElementById('mainNav');
-const body = document.body;
-
-function toggleMobileMenu() {
-    mobileMenuBtn.classList.toggle('active');
-    mainNav.classList.toggle('active');
-    body.classList.toggle('menu-open');
-}
-
-function closeMobileMenu() {
-    mobileMenuBtn.classList.remove('active');
-    mainNav.classList.remove('active');
-    body.classList.remove('menu-open');
-}
-
-// Initialize mobile menu
-mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-
-// Close menu when clicking outside on mobile
-document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768) {
-        if (!mainNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            closeMobileMenu();
-        }
-    }
-});
-
-// Close menu on ESC key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeMobileMenu();
-    }
-});
-
-// Close menu when clicking on nav links
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', closeMobileMenu);
-});
-
-// Header scroll effect
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
-    if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-});
-
-// Close mobile menu on window resize (if resized to desktop)
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-        closeMobileMenu();
-    }
-});
-</script>
+    <!-- Toast Notification Container -->
+    <div id="toastContainer"></div>
 
     <!-- Main Content -->
     <div class="main-container">
         <div class="page-header">
             <h1>Sash Window Configurator</h1>
-            <p>Design your perfect sash window with our interactive configurator. Select from various designs, customize dimensions, and get instant pricing.</p>
+            <p>Design your perfect sash window with our interactive configurator. Select from various designs, customize dimensions, and get instant pricing. All prices include VAT.</p>
         </div>
 
         <div class="configurator-layout">
@@ -1198,7 +1235,10 @@ window.addEventListener('resize', () => {
             <div>
                 <!-- Design Selection -->
                 <div class="design-selection">
-                    <h2 class="section-title">Choose Your Window Design</h2>
+                    <h2 class="section-title">
+                        <i class="fas fa-palette"></i>
+                        Choose Your Window Design
+                    </h2>
                     <div class="design-grid" id="designGrid">
                         <!-- Designs will be populated by JavaScript -->
                     </div>
@@ -1206,50 +1246,86 @@ window.addEventListener('resize', () => {
 
                 <!-- Configuration Options -->
                 <div class="configuration-options">
-                    <h2 class="section-title">Customize Your Window</h2>
+                    <h2 class="section-title">
+                        <i class="fas fa-sliders-h"></i>
+                        Customize Your Window
+                    </h2>
                     
                     <div class="form-group">
-                        <label for="balance">Balance Type:</label>
+                        <label for="balance">
+                            <i class="fas fa-balance-scale"></i>
+                            Balance Type:
+                        </label>
                         <select id="balance" class="form-control">
-                            <option value="weights">Weights Balance</option>
-                            <option value="spring">Spring Balance</option>
+                            <option value="weights">Weights Balance (Traditional)</option>
+                            <option value="spring">Spring Balance (Modern)</option>
                             <option value="fixed">Fixed (No Opening)</option>
                         </select>
+                        <div class="info-text">
+                            <i class="fas fa-info-circle"></i>
+                            Weights are traditional, springs are modern and require less maintenance.
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="wood">Wood Type:</label>
+                        <label for="wood">
+                            <i class="fas fa-tree"></i>
+                            Wood Type:
+                        </label>
                         <select id="wood" class="form-control">
                             <option value="pine">Engineered Pine with Sapele Sill</option>
                             <option value="sapele">Full Hardwood Sapele</option>
                         </select>
+                        <div class="info-text">
+                            <i class="fas fa-info-circle"></i>
+                            Sapele is a premium hardwood with excellent durability.
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="bars">Window Bars:</label>
+                        <label for="bars">
+                            <i class="fas fa-th"></i>
+                            Window Bars:
+                        </label>
                         <select id="bars" class="form-control">
-                            <option value="none">No Bars</option>
-                            <option value="with-bars">22mm Bars with Spacer</option>
+                            <option value="none">No Bars (Clean Look)</option>
+                            <option value="with-bars">22mm Bars with Spacer (Traditional)</option>
                         </select>
+                        <div class="info-text">
+                            <i class="fas fa-info-circle"></i>
+                            Bars add traditional character and authentic period style.
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Dimensions (mm):</label>
+                        <label>
+                            <i class="fas fa-ruler-combined"></i>
+                            Dimensions (mm):
+                        </label>
                         <div class="dimensions-group">
                             <div>
-                                <input type="number" id="widthInput" class="form-control" min="100" max="3000" value="1000" placeholder="Width">
+                                <input type="number" id="widthInput" class="form-control" min="500" max="2400" value="1000" placeholder="Width" aria-label="Window width in millimeters">
                             </div>
                             <div>
-                                <input type="number" id="heightInput" class="form-control" min="100" max="3000" value="1000" placeholder="Height">
+                                <input type="number" id="heightInput" class="form-control" min="500" max="2400" value="1000" placeholder="Height" aria-label="Window height in millimeters">
                             </div>
                         </div>
-                        <div id="sizeHelp" class="info-text">Enter dimensions between 500-2400mm</div>
+                        <div id="sizeHelp" class="info-text">
+                            <i class="fas fa-info-circle"></i>
+                            Standard sizes: 900×1200mm, 1200×1500mm, 1500×1800mm
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" class="form-control" min="1" value="1">
-                        <div class="info-text">Bulk discounts available for orders over 5 units</div>
+                        <label for="quantity">
+                            <i class="fas fa-boxes"></i>
+                            Quantity:
+                        </label>
+                        <input type="number" id="quantity" class="form-control" min="1" max="100" value="1">
+                        <div class="info-text">
+                            <i class="fas fa-tags"></i>
+                            Bulk discounts: 5+ units (5% off), 10+ units (10% off)
+                        </div>
                     </div>
 
                     <button class="calculate-btn" id="calcBtn">
@@ -1258,8 +1334,11 @@ window.addEventListener('resize', () => {
                 </div>
 
                 <!-- Price Breakdown -->
-                <div class="price-breakdown" id="priceBreakdown">
-                    <h2 class="section-title">Price Breakdown</h2>
+                <div class="price-breakdown">
+                    <h2 class="section-title">
+                        <i class="fas fa-pound-sign"></i>
+                        Price Breakdown
+                    </h2>
                     <div class="breakdown-item">
                         <span>Base Design Price:</span>
                         <span id="break_base">£0.00</span>
@@ -1280,13 +1359,17 @@ window.addEventListener('resize', () => {
                         <span>Window Bars:</span>
                         <span id="break_bars">£0.00</span>
                     </div>
+                    <div class="breakdown-item">
+                        <span>Quantity Discount:</span>
+                        <span id="break_discount">£0.00</span>
+                    </div>
                     <div class="breakdown-item total">
-                        <span>Total per Unit:</span>
-                        <span id="break_unit">£0.00</span>
+                        <span>Subtotal:</span>
+                        <span id="break_subtotal">£0.00</span>
                     </div>
                     <div class="breakdown-item">
-                        <span>Quantity:</span>
-                        <span id="break_qty">1</span>
+                        <span>VAT (20%):</span>
+                        <span id="break_vat">£0.00</span>
                     </div>
                     <div class="breakdown-item total">
                         <span>Total Price:</span>
@@ -1297,111 +1380,326 @@ window.addEventListener('resize', () => {
 
             <!-- Right Column: Preview Panel -->
             <div class="preview-panel">
-                <h2 class="section-title">Window Preview</h2>
+                <h2 class="section-title">
+                    <i class="fas fa-eye"></i>
+                    Window Preview
+                </h2>
                 
                 <div class="window-preview">
-                    <img id="preview-image" src="design1.png" alt="Window Preview" class="preview-image">
+                    <img id="preview-image" src="design1.png" alt="Window Preview - Classic 2-Panel Design" class="preview-image">
                 </div>
 
                 <div class="preview-controls">
-                    <button class="control-btn" id="zoomInBtn">
+                    <button class="control-btn" id="zoomInBtn" aria-label="Zoom in">
                         <i class="fas fa-search-plus"></i> Zoom In
                     </button>
-                    <button class="control-btn" id="zoomOutBtn">
+                    <button class="control-btn" id="zoomOutBtn" aria-label="Zoom out">
                         <i class="fas fa-search-minus"></i> Zoom Out
                     </button>
-                    <button class="control-btn" id="resetZoomBtn">
-                        <i class="fas fa-sync"></i> Reset
+                    <button class="control-btn" id="resetZoomBtn" aria-label="Reset zoom">
+                        <i class="fas fa-sync-alt"></i> Reset
+                    </button>
+                    <button class="control-btn" id="rotateBtn" aria-label="Rotate view">
+                        <i class="fas fa-redo"></i> Rotate
                     </button>
                 </div>
 
-                <div id="errorMsg" class="validation-message"></div>
+                <div id="errorMsg" class="validation-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Ready to calculate</span>
+                </div>
 
                 <div class="price-display">
                     <div class="price-label">Estimated Price</div>
                     <div class="price-amount" id="mainPrice">£0.00</div>
-                    <div class="info-text">Including VAT</div>
+                    <div class="price-vat">Including VAT</div>
                 </div>
             </div>
         </div>
 
         <!-- Reports Section -->
         <div class="reports-section">
-            <h2 class="section-title">Your Window Quotes</h2>
+            <h2 class="section-title">
+                <i class="fas fa-file-invoice"></i>
+                Your Window Quotes
+            </h2>
             
             <div class="report-controls">
                 <button class="action-btn add-report-btn" id="addReportBtn">
-                    <i class="fas fa-plus"></i> Add to Quotes
+                    <i class="fas fa-plus"></i> Add Current to Quotes
                 </button>
                 <button class="action-btn clear-reports-btn" id="clearReportsBtn">
-                    <i class="fas fa-trash"></i> Clear All
+                    <i class="fas fa-trash-alt"></i> Clear All Quotes
                 </button>
                 <button class="action-btn download-btn" id="downloadAllBtn">
-                    <i class="fas fa-file-pdf"></i> Download PDF
+                    <i class="fas fa-file-pdf"></i> Download All as PDF
+                </button>
+                <button class="action-btn download-btn" id="exportBtn">
+                    <i class="fas fa-file-csv"></i> Export as CSV
                 </button>
             </div>
 
             <div class="reports-container" id="reportsContainer">
                 <div class="no-reports" id="noReportsMessage">
-                    <i class="fas fa-file-alt" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <i class="fas fa-file-alt"></i>
                     <p>No quotes added yet. Configure a window and click "Add to Quotes" to create your first quote.</p>
                 </div>
             </div>
 
-            <div class="grand-total" id="grandTotal">
-                Grand Total: £0.00
+            <div class="grand-total">
+                <span>Grand Total:</span>
+                <span class="grand-total-amount" id="grandTotal">£0.00</span>
             </div>
         </div>
     </div>
 
     <script>
-        // Configuration Data
+        // Enhanced Configuration Data
         const windowDesigns = [
-            { id: 1, name: "Classic 2-Panel", basePrice: 518.41, image: "design1.png", balance: "weights", wood: "pine", bars: "none" },
-            { id: 2, name: "Modern Spring", basePrice: 522.34, image: "design2.png", balance: "spring", wood: "pine", bars: "with-bars" },
-            { id: 3, name: "Premium Sapele", basePrice: 740.32, image: "design3.png", balance: "weights", wood: "sapele", bars: "with-bars" },
-            { id: 4, name: "Traditional Bay", basePrice: 705.08, image: "design4.png", balance: "weights", wood: "pine", bars: "with-bars" },
-            { id: 5, name: "Victorian Style", basePrice: 673.88, image: "design5.png", balance: "weights", wood: "pine", bars: "with-bars" },
-            { id: 6, name: "Georgian Grid", basePrice: 731.80, image: "design6.png", balance: "weights", wood: "pine", bars: "with-bars" },
-            { id: 7, name: "Edwardian", basePrice: 706.70, image: "design7.png", balance: "weights", wood: "pine", bars: "with-bars" },
-            { id: 8, name: "Large Format", basePrice: 865.52, image: "design8.png", balance: "weights", wood: "pine", bars: "with-bars" },
-            { id: 9, name: "Fixed Light", basePrice: 432.15, image: "design9.png", balance: "fixed", wood: "pine", bars: "none" },
-            { id: 10, name: "Slim Profile", basePrice: 602.87, image: "design10.png", balance: "weights", wood: "pine", bars: "none" },
-            { id: 11, name: "Arch Top", basePrice: 950.00, image: "design11.png", balance: "weights", wood: "pine", bars: "with-bars" },
-            { id: 12, name: "Premium Arch", basePrice: 1100.00, image: "design12.png", balance: "weights", wood: "sapele", bars: "with-bars" }
+            { 
+                id: 1, 
+                name: "Classic 2-Panel", 
+                basePrice: 518.41, 
+                image: "design1.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "none",
+                description: "Traditional two-panel design with authentic detailing"
+            },
+            { 
+                id: 2, 
+                name: "Modern Spring", 
+                basePrice: 522.34, 
+                image: "design2.png", 
+                balance: "spring", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Contemporary spring balance system with bars"
+            },
+            { 
+                id: 3, 
+                name: "Premium Sapele", 
+                basePrice: 740.32, 
+                image: "design3.png", 
+                balance: "weights", 
+                wood: "sapele", 
+                bars: "with-bars",
+                description: "Full hardwood construction with premium finish"
+            },
+            { 
+                id: 4, 
+                name: "Traditional Bay", 
+                basePrice: 705.08, 
+                image: "design4.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Authentic bay window design with multiple panels"
+            },
+            { 
+                id: 5, 
+                name: "Victorian Style", 
+                basePrice: 673.88, 
+                image: "design5.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Classic Victorian-style with intricate detailing"
+            },
+            { 
+                id: 6, 
+                name: "Georgian Grid", 
+                basePrice: 731.80, 
+                image: "design6.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Georgian-style with authentic grid pattern"
+            },
+            { 
+                id: 7, 
+                name: "Edwardian", 
+                basePrice: 706.70, 
+                image: "design7.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Elegant Edwardian design with slim profiles"
+            },
+            { 
+                id: 8, 
+                name: "Large Format", 
+                basePrice: 865.52, 
+                image: "design8.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Large format window with enhanced structural support"
+            },
+            { 
+                id: 9, 
+                name: "Fixed Light", 
+                basePrice: 432.15, 
+                image: "design9.png", 
+                balance: "fixed", 
+                wood: "pine", 
+                bars: "none",
+                description: "Fixed pane for maximum light with no opening mechanism"
+            },
+            { 
+                id: 10, 
+                name: "Slim Profile", 
+                basePrice: 602.87, 
+                image: "design10.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "none",
+                description: "Modern slim profile with clean lines"
+            },
+            { 
+                id: 11, 
+                name: "Arch Top", 
+                basePrice: 950.00, 
+                image: "design11.png", 
+                balance: "weights", 
+                wood: "pine", 
+                bars: "with-bars",
+                description: "Elegant arched top with traditional detailing"
+            },
+            { 
+                id: 12, 
+                name: "Premium Arch", 
+                basePrice: 1100.00, 
+                image: "design12.png", 
+                balance: "weights", 
+                wood: "sapele", 
+                bars: "with-bars",
+                description: "Premium hardwood arched window with full detailing"
+            }
         ];
 
         const featureCosts = {
-            balance: { weights: 0, spring: 3.93, fixed: -86.26 },
-            wood: { pine: 0, sapele: 221.91 },
-            bars: { none: 0, 'with-bars': 213.39 }
+            balance: { 
+                weights: 0, 
+                spring: 3.93, 
+                fixed: -86.26 
+            },
+            wood: { 
+                pine: 0, 
+                sapele: 221.91 
+            },
+            bars: { 
+                none: 0, 
+                'with-bars': 213.39 
+            }
         };
 
+        // Discount tiers
+        const discountTiers = {
+            1: 0,
+            5: 0.05,
+            10: 0.10,
+            20: 0.15
+        };
+
+        // State variables
         let selectedDesign = windowDesigns[0];
-        let reports = [];
+        let reports = JSON.parse(localStorage.getItem('windowQuotes')) || [];
         let grandTotal = 0;
         let zoomLevel = 1;
+        let rotation = 0;
+
+        // DOM Elements
+        const elements = {
+            designGrid: document.getElementById('designGrid'),
+            calcBtn: document.getElementById('calcBtn'),
+            addReportBtn: document.getElementById('addReportBtn'),
+            clearReportsBtn: document.getElementById('clearReportsBtn'),
+            downloadAllBtn: document.getElementById('downloadAllBtn'),
+            exportBtn: document.getElementById('exportBtn'),
+            zoomInBtn: document.getElementById('zoomInBtn'),
+            zoomOutBtn: document.getElementById('zoomOutBtn'),
+            resetZoomBtn: document.getElementById('resetZoomBtn'),
+            rotateBtn: document.getElementById('rotateBtn'),
+            previewImage: document.getElementById('preview-image'),
+            errorMsg: document.getElementById('errorMsg'),
+            mainPrice: document.getElementById('mainPrice'),
+            reportsContainer: document.getElementById('reportsContainer'),
+            noReportsMessage: document.getElementById('noReportsMessage'),
+            grandTotal: document.getElementById('grandTotal'),
+            loadingSpinner: document.getElementById('loadingSpinner'),
+            toastContainer: document.getElementById('toastContainer')
+        };
+
+        // Toast notification system
+        function showToast(message, type = 'info', duration = 5000) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            elements.toastContainer.appendChild(toast);
+            
+            // Remove after duration
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+            
+            // Click to dismiss
+            toast.addEventListener('click', () => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            });
+        }
+
+        // Show loading spinner
+        function showLoading() {
+            elements.loadingSpinner.classList.add('active');
+        }
+
+        // Hide loading spinner
+        function hideLoading() {
+            elements.loadingSpinner.classList.remove('active');
+        }
 
         // Initialize Design Grid
         function initializeDesignGrid() {
-            const grid = document.getElementById('designGrid');
-            grid.innerHTML = '';
+            elements.designGrid.innerHTML = '';
             
             windowDesigns.forEach(design => {
                 const designItem = document.createElement('div');
                 designItem.className = 'design-item';
-                if (design.id === 1) designItem.classList.add('selected');
+                designItem.setAttribute('role', 'button');
+                designItem.setAttribute('tabindex', '0');
+                designItem.setAttribute('aria-label', `Select ${design.name} window design - ${design.description}`);
+                
+                if (design.id === 1) {
+                    designItem.classList.add('selected');
+                    designItem.setAttribute('aria-current', 'true');
+                }
                 
                 designItem.innerHTML = `
                     <div class="design-preview">
-                        <img src="${design.image}" alt="${design.name}">
+                        <img src="${design.image}" alt="${design.name}" loading="lazy">
                     </div>
                     <div class="design-name">${design.name}</div>
                     <div class="design-price">£${design.basePrice.toFixed(2)}</div>
                 `;
                 
                 designItem.addEventListener('click', () => selectDesign(design));
-                grid.appendChild(designItem);
+                designItem.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectDesign(design);
+                    }
+                });
+                
+                elements.designGrid.appendChild(designItem);
             });
         }
 
@@ -1412,8 +1710,11 @@ window.addEventListener('resize', () => {
             // Update UI
             document.querySelectorAll('.design-item').forEach(item => {
                 item.classList.remove('selected');
+                item.removeAttribute('aria-current');
             });
+            
             event.currentTarget.classList.add('selected');
+            event.currentTarget.setAttribute('aria-current', 'true');
             
             // Update dropdowns
             document.getElementById('balance').value = design.balance;
@@ -1421,10 +1722,30 @@ window.addEventListener('resize', () => {
             document.getElementById('bars').value = design.bars;
             
             // Update preview
-            document.getElementById('preview-image').src = design.image;
+            elements.previewImage.src = design.image;
+            elements.previewImage.alt = `${design.name} - ${design.description}`;
             
             // Recalculate price
             calculatePrice();
+            
+            // Show notification
+            showToast(`Selected: ${design.name}`, 'success');
+        }
+
+        // Calculate discount based on quantity
+        function calculateDiscount(quantity) {
+            let discountRate = 0;
+            
+            // Find appropriate discount tier
+            const tiers = Object.keys(discountTiers).map(Number).sort((a, b) => b - a);
+            for (const tier of tiers) {
+                if (quantity >= tier) {
+                    discountRate = discountTiers[tier];
+                    break;
+                }
+            }
+            
+            return discountRate;
         }
 
         // Calculate Price
@@ -1439,20 +1760,25 @@ window.addEventListener('resize', () => {
             
             // Validate dimensions
             let error = '';
-            if (width < 500 || width > 2400) error = 'Width must be between 500mm and 2400mm';
-            if (height < 500 || height > 2400) error = 'Height must be between 500mm and 2400mm';
+            if (width < 500 || width > 2400) {
+                error = 'Width must be between 500mm and 2400mm';
+            } else if (height < 500 || height > 2400) {
+                error = 'Height must be between 500mm and 2400mm';
+            }
             
             if (error) {
-                document.getElementById('errorMsg').textContent = error;
-                document.getElementById('errorMsg').className = 'validation-message error';
-                return;
+                elements.errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${error}</span>`;
+                elements.errorMsg.className = 'validation-message error';
+                elements.errorMsg.style.animation = 'shake 0.5s ease';
+                setTimeout(() => elements.errorMsg.style.animation = '', 500);
+                return null;
             }
             
             // Clear error
-            document.getElementById('errorMsg').textContent = 'Dimensions are valid';
-            document.getElementById('errorMsg').className = 'validation-message success';
+            elements.errorMsg.innerHTML = `<i class="fas fa-check-circle"></i><span>Dimensions are valid</span>`;
+            elements.errorMsg.className = 'validation-message success';
             
-            // Calculate price
+            // Calculate price components
             const basePrice = selectedDesign.basePrice;
             const balanceAdjustment = featureCosts.balance[balance] || 0;
             const woodAdjustment = featureCosts.wood[wood] || 0;
@@ -1462,22 +1788,39 @@ window.addEventListener('resize', () => {
             const referenceArea = 1000000; // 1000x1000mm
             const area = width * height;
             const sizeFactor = Math.pow(area / referenceArea, 0.8);
+            const sizeAdjustment = (sizeFactor - 1) * basePrice;
             
-            const unitPrice = (basePrice + balanceAdjustment + woodAdjustment + barsAdjustment) * sizeFactor;
-            const totalPrice = unitPrice * quantity * 1.2; // Including VAT
+            // Unit price before discount
+            const unitPriceBeforeDiscount = (basePrice + balanceAdjustment + woodAdjustment + barsAdjustment) * sizeFactor;
+            
+            // Calculate discount
+            const discountRate = calculateDiscount(quantity);
+            const discountAmount = unitPriceBeforeDiscount * discountRate;
+            const unitPrice = unitPriceBeforeDiscount - discountAmount;
+            
+            // Calculate subtotal and VAT
+            const subtotal = unitPrice * quantity;
+            const vat = subtotal * 0.2;
+            const totalPrice = subtotal + vat;
             
             // Update breakdown
             document.getElementById('break_base').textContent = `£${basePrice.toFixed(2)}`;
-            document.getElementById('break_size').textContent = sizeFactor > 1 ? `+${((sizeFactor - 1) * 100).toFixed(1)}%` : '0%';
-            document.getElementById('break_balance').textContent = `£${balanceAdjustment.toFixed(2)}`;
-            document.getElementById('break_wood').textContent = `£${woodAdjustment.toFixed(2)}`;
-            document.getElementById('break_bars').textContent = `£${barsAdjustment.toFixed(2)}`;
-            document.getElementById('break_unit').textContent = `£${unitPrice.toFixed(2)}`;
-            document.getElementById('break_qty').textContent = quantity;
+            document.getElementById('break_size').textContent = `${sizeAdjustment >= 0 ? '+' : ''}£${sizeAdjustment.toFixed(2)}`;
+            document.getElementById('break_balance').textContent = `${balanceAdjustment >= 0 ? '+' : ''}£${balanceAdjustment.toFixed(2)}`;
+            document.getElementById('break_wood').textContent = `${woodAdjustment >= 0 ? '+' : ''}£${woodAdjustment.toFixed(2)}`;
+            document.getElementById('break_bars').textContent = `${barsAdjustment >= 0 ? '+' : ''}£${barsAdjustment.toFixed(2)}`;
+            document.getElementById('break_discount').textContent = `-£${discountAmount.toFixed(2)} (${(discountRate * 100).toFixed(0)}%)`;
+            document.getElementById('break_subtotal').textContent = `£${subtotal.toFixed(2)}`;
+            document.getElementById('break_vat').textContent = `£${vat.toFixed(2)}`;
             document.getElementById('break_total').textContent = `£${totalPrice.toFixed(2)}`;
             
             // Update main price
-            document.getElementById('mainPrice').textContent = `£${totalPrice.toFixed(2)}`;
+            elements.mainPrice.textContent = `£${totalPrice.toFixed(2)}`;
+            
+            // Show discount notification
+            if (discountRate > 0) {
+                showToast(`Applied ${(discountRate * 100).toFixed(0)}% quantity discount!`, 'success', 3000);
+            }
             
             return {
                 design: selectedDesign,
@@ -1488,7 +1831,12 @@ window.addEventListener('resize', () => {
                 totalPrice,
                 balance,
                 wood,
-                bars
+                bars,
+                subtotal,
+                vat,
+                discount: discountAmount,
+                discountRate,
+                timestamp: new Date().toISOString()
             };
         }
 
@@ -1500,13 +1848,23 @@ window.addEventListener('resize', () => {
             const report = {
                 id: Date.now(),
                 ...calculation,
-                timestamp: new Date().toLocaleDateString()
+                date: new Date().toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
             };
             
             reports.push(report);
             grandTotal += report.totalPrice;
             
+            // Save to localStorage
+            localStorage.setItem('windowQuotes', JSON.stringify(reports));
+            
             renderReports();
+            showToast('Quote added successfully!', 'success');
         }
 
         // Delete Report
@@ -1515,53 +1873,181 @@ window.addEventListener('resize', () => {
             if (index !== -1) {
                 grandTotal -= reports[index].totalPrice;
                 reports.splice(index, 1);
+                
+                // Update localStorage
+                localStorage.setItem('windowQuotes', JSON.stringify(reports));
+                
                 renderReports();
+                showToast('Quote removed', 'info');
             }
         }
 
         // Clear Reports
         function clearReports() {
-            if (reports.length === 0) return;
-            if (!confirm('Are you sure you want to clear all quotes?')) return;
+            if (reports.length === 0) {
+                showToast('No quotes to clear', 'info');
+                return;
+            }
+            
+            if (!confirm('Are you sure you want to clear all quotes? This action cannot be undone.')) return;
             
             reports = [];
             grandTotal = 0;
+            localStorage.removeItem('windowQuotes');
+            
             renderReports();
+            showToast('All quotes cleared', 'success');
+        }
+
+        // Export as CSV
+        function exportToCSV() {
+            if (reports.length === 0) {
+                showToast('No quotes to export', 'warning');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const headers = ['Design', 'Width (mm)', 'Height (mm)', 'Quantity', 'Balance', 'Wood', 'Bars', 'Unit Price', 'Total Price', 'Date'];
+                const csvContent = [
+                    headers.join(','),
+                    ...reports.map(report => [
+                        `"${report.design.name}"`,
+                        report.width,
+                        report.height,
+                        report.quantity,
+                        report.balance,
+                        report.wood,
+                        report.bars,
+                        report.unitPrice.toFixed(2),
+                        report.totalPrice.toFixed(2),
+                        `"${report.date}"`
+                    ].join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                
+                link.setAttribute('href', url);
+                link.setAttribute('download', `window-quotes-${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                hideLoading();
+                showToast('CSV exported successfully', 'success');
+            }, 1000);
+        }
+
+        // Download PDF (simulated)
+        function downloadPDF() {
+            if (reports.length === 0) {
+                showToast('No quotes to download', 'warning');
+                return;
+            }
+            
+            showLoading();
+            
+            setTimeout(() => {
+                // In a real implementation, this would generate a PDF
+                // For now, we'll create a printable version
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Window Quotes - ${new Date().toLocaleDateString()}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; }
+                            h1 { color: #0A2E5C; }
+                            .quote { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+                            .total { font-weight: bold; color: #0A2E5C; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Hastings Build Company - Window Quotes</h1>
+                        <p>Generated: ${new Date().toLocaleString()}</p>
+                        <hr>
+                        ${reports.map(report => `
+                            <div class="quote">
+                                <h3>${report.design.name}</h3>
+                                <p><strong>Size:</strong> ${report.width}mm × ${report.height}mm</p>
+                                <p><strong>Quantity:</strong> ${report.quantity}</p>
+                                <p><strong>Balance:</strong> ${report.balance}</p>
+                                <p><strong>Wood:</strong> ${report.wood}</p>
+                                <p><strong>Bars:</strong> ${report.bars}</p>
+                                <p><strong>Unit Price:</strong> £${report.unitPrice.toFixed(2)}</p>
+                                <p><strong>Total Price:</strong> £${report.totalPrice.toFixed(2)}</p>
+                                <p><strong>Date:</strong> ${report.date}</p>
+                            </div>
+                        `).join('')}
+                        <hr>
+                        <p class="total">Grand Total: £${grandTotal.toFixed(2)}</p>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+                
+                hideLoading();
+                showToast('PDF generated for printing', 'success');
+            }, 1500);
         }
 
         // Render Reports
         function renderReports() {
-            const container = document.getElementById('reportsContainer');
-            const noReports = document.getElementById('noReportsMessage');
+            const container = elements.reportsContainer;
             
             if (reports.length === 0) {
-                noReports.style.display = 'block';
+                elements.noReportsMessage.style.display = 'flex';
                 container.innerHTML = '';
-                document.getElementById('grandTotal').textContent = 'Grand Total: £0.00';
+                elements.grandTotal.textContent = '£0.00';
                 return;
             }
             
-            noReports.style.display = 'none';
+            elements.noReportsMessage.style.display = 'none';
             
             let html = '';
             reports.forEach(report => {
                 html += `
-                    <div class="report-item">
+                    <div class="report-item" id="report-${report.id}">
                         <div class="report-header">
-                            <div class="report-title">${report.design.name}</div>
+                            <div class="report-title">
+                                <i class="fas fa-window-maximize"></i>
+                                ${report.design.name}
+                            </div>
                             <div class="report-price">£${report.totalPrice.toFixed(2)}</div>
                         </div>
                         <div class="report-details">
-                            <div class="report-detail"><strong>Size:</strong> ${report.width}mm × ${report.height}mm</div>
-                            <div class="report-detail"><strong>Quantity:</strong> ${report.quantity}</div>
-                            <div class="report-detail"><strong>Balance:</strong> ${report.balance}</div>
-                            <div class="report-detail"><strong>Wood:</strong> ${report.wood}</div>
-                            <div class="report-detail"><strong>Bars:</strong> ${report.bars}</div>
-                            <div class="report-detail"><strong>Unit Price:</strong> £${report.unitPrice.toFixed(2)}</div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-ruler"></i> Size:</strong> ${report.width}mm × ${report.height}mm
+                            </div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-boxes"></i> Quantity:</strong> ${report.quantity}
+                            </div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-balance-scale"></i> Balance:</strong> ${report.balance}
+                            </div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-tree"></i> Wood:</strong> ${report.wood}
+                            </div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-th"></i> Bars:</strong> ${report.bars}
+                            </div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-pound-sign"></i> Unit Price:</strong> £${report.unitPrice.toFixed(2)}
+                            </div>
+                            <div class="report-detail">
+                                <strong><i class="fas fa-calendar"></i> Date:</strong> ${report.date}
+                            </div>
                         </div>
                         <div class="report-actions">
-                            <button class="delete-btn" onclick="deleteReport(${report.id})">
-                                <i class="fas fa-trash"></i> Remove
+                            <button class="delete-btn" onclick="deleteReport(${report.id})" aria-label="Delete quote">
+                                <i class="fas fa-trash"></i> Remove Quote
                             </button>
                         </div>
                     </div>
@@ -1569,24 +2055,30 @@ window.addEventListener('resize', () => {
             });
             
             container.innerHTML = html;
-            document.getElementById('grandTotal').textContent = `Grand Total: £${grandTotal.toFixed(2)}`;
-        }
-
-        // Download PDF
-        function downloadPDF() {
-            if (reports.length === 0) {
-                alert('No quotes to download');
-                return;
-            }
-            
-            alert('PDF download feature would be implemented here. For now, you can print the page.');
-            window.print();
+            elements.grandTotal.textContent = `£${grandTotal.toFixed(2)}`;
         }
 
         // Zoom Functions
-        function updateImageZoom() {
-            const img = document.getElementById('preview-image');
-            img.style.transform = `scale(${zoomLevel})`;
+        function updateImageTransform() {
+            elements.previewImage.style.transform = `scale(${zoomLevel}) rotate(${rotation}deg)`;
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            mobileMenuBtn.classList.toggle('active');
+            mainNav.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            body.classList.toggle('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+        }
+
+        function closeMobileMenu() {
+            mobileMenuBtn.classList.remove('active');
+            mainNav.classList.remove('active');
+            navOverlay.classList.remove('active');
+            body.classList.remove('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
 
         // Initialize
@@ -1597,26 +2089,48 @@ window.addEventListener('resize', () => {
             // Calculate initial price
             calculatePrice();
             
+            // Load saved reports
+            if (reports.length > 0) {
+                reports.forEach(report => {
+                    grandTotal += report.totalPrice;
+                });
+                renderReports();
+            }
+            
             // Event Listeners
-            document.getElementById('calcBtn').addEventListener('click', calculatePrice);
-            document.getElementById('addReportBtn').addEventListener('click', addReport);
-            document.getElementById('clearReportsBtn').addEventListener('click', clearReports);
-            document.getElementById('downloadAllBtn').addEventListener('click', downloadPDF);
+            elements.calcBtn.addEventListener('click', () => {
+                const result = calculatePrice();
+                if (result) {
+                    showToast('Price updated!', 'success', 2000);
+                }
+            });
+            
+            elements.addReportBtn.addEventListener('click', addReport);
+            elements.clearReportsBtn.addEventListener('click', clearReports);
+            elements.downloadAllBtn.addEventListener('click', downloadPDF);
+            elements.exportBtn.addEventListener('click', exportToCSV);
             
             // Zoom controls
-            document.getElementById('zoomInBtn').addEventListener('click', () => {
-                zoomLevel = Math.min(zoomLevel + 0.1, 2);
-                updateImageZoom();
+            elements.zoomInBtn.addEventListener('click', () => {
+                zoomLevel = Math.min(zoomLevel + 0.2, 3);
+                updateImageTransform();
             });
             
-            document.getElementById('zoomOutBtn').addEventListener('click', () => {
-                zoomLevel = Math.max(zoomLevel - 0.1, 0.5);
-                updateImageZoom();
+            elements.zoomOutBtn.addEventListener('click', () => {
+                zoomLevel = Math.max(zoomLevel - 0.2, 0.5);
+                updateImageTransform();
             });
             
-            document.getElementById('resetZoomBtn').addEventListener('click', () => {
+            elements.resetZoomBtn.addEventListener('click', () => {
                 zoomLevel = 1;
-                updateImageZoom();
+                rotation = 0;
+                updateImageTransform();
+                showToast('View reset', 'info', 1500);
+            });
+            
+            elements.rotateBtn.addEventListener('click', () => {
+                rotation = (rotation + 90) % 360;
+                updateImageTransform();
             });
             
             // Live updates on input changes
@@ -1624,24 +2138,95 @@ window.addEventListener('resize', () => {
                 document.getElementById(id).addEventListener('input', calculatePrice);
                 document.getElementById(id).addEventListener('change', calculatePrice);
             });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + Enter to add report
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    addReport();
+                }
+                
+                // Escape to close mobile menu
+                if (e.key === 'Escape' && window.innerWidth <= 768) {
+                    closeMobileMenu();
+                }
+            });
+            
+            // Mobile menu elements
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+            const navOverlay = document.getElementById('navOverlay');
+            const body = document.body;
+            const header = document.getElementById('header');
+            
+            // Initialize mobile menu
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            navOverlay.addEventListener('click', closeMobileMenu);
+            
+            // Close menu when clicking on nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+            
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Auto-close mobile menu on resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    closeMobileMenu();
+                }
+            });
+            
+            // Initialize with scroll check
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            }
+            
+            // Show welcome message
+            setTimeout(() => {
+                if (reports.length === 0) {
+                    showToast('Welcome to the Window Configurator! Start by selecting a design.', 'info', 6000);
+                }
+            }, 1000);
         });
 
-        // Mobile Menu Functions
-        function toggleMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            const btn = document.querySelector('.mobile-menu-btn i');
-            navLinks.classList.toggle('active');
-            btn.classList.toggle('fa-bars');
-            btn.classList.toggle('fa-times');
-        }
+        // Add keyboard navigation for design grid
+        document.addEventListener('keydown', (e) => {
+            if (e.target.classList.contains('design-item')) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = e.target.nextElementSibling || e.target.parentElement.firstElementChild;
+                    next.focus();
+                    next.click();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prev = e.target.previousElementSibling || e.target.parentElement.lastElementChild;
+                    prev.focus();
+                    prev.click();
+                }
+            }
+        });
 
-        function closeMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            const btn = document.querySelector('.mobile-menu-btn i');
-            navLinks.classList.remove('active');
-            btn.classList.add('fa-bars');
-            btn.classList.remove('fa-times');
-        }
+        // Save configuration on beforeunload
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('windowConfig', JSON.stringify({
+                selectedDesignId: selectedDesign.id,
+                width: document.getElementById('widthInput').value,
+                height: document.getElementById('heightInput').value,
+                quantity: document.getElementById('quantity').value,
+                balance: document.getElementById('balance').value,
+                wood: document.getElementById('wood').value,
+                bars: document.getElementById('bars').value
+            }));
+        });
     </script>
 </body>
 </html>
