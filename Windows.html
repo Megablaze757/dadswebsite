@@ -1,655 +1,1190 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Sash Window Configurator — Mobile Friendly</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-/* ===== GLOBAL ===== */
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background-color:#f5f7f9; color:#2c3e50; line-height:1.6; padding:20px; min-height:100vh; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sash Window Configurator | Hastings Build Company</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== HASTINGS BUILD COMPANY BRANDING ===== */
+        :root {
+            --hastings-blue: #0A2E5C;
+            --hastings-light: #1C4B82;
+            --hastings-accent: #357ABD;
+            --hastings-navy: #051A38;
+            --hastings-sky: #5D8FCA;
+            --white: #FFFFFF;
+            --off-white: #F8F9FA;
+            --gray-light: #E9ECEF;
+            --gray: #6C757D;
+            --gray-dark: #343A40;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --border-radius: 8px;
+            --border-radius-lg: 16px;
+        }
 
-/* ===== NAV / STICKY HEADER ===== */
-.navbar { 
-  background-color: #2c3e50; 
-  padding: 0 20px; 
-  border-radius: 10px 10px 0 0;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.1);
-}
-.nav-container { 
-  max-width: 1200px; 
-  margin: 0 auto; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  height: 70px;
-}
-.nav-logo { color: white; font-size: 20px; font-weight: 700; text-decoration: none; display:flex; align-items:center; gap:8px; }
-.nav-logo i { font-size:20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
 
-/* Mobile sticky total (hidden on desktop) */
-.mobile-sticky {
-  display: none;
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  background: linear-gradient(90deg,#2c3e50,#2a6b86);
-  color: white;
-  padding: 10px 16px;
-  font-weight: 600;
-  box-shadow: 0 4px 18px rgba(0,0,0,.12);
-  align-items: center;
-  justify-content: space-between;
-}
-.mobile-sticky .title { font-size:16px; }
-.mobile-sticky .total { font-size:16px; }
+        body {
+            background-color: var(--off-white);
+            color: var(--hastings-navy);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-/* ===== LAYOUT CONTAINER ===== */
-.container { max-width:1200px; margin:0 auto; background:white; border-radius:0 0 10px 10px; box-shadow:0 5px 20px rgba(0,0,0,.1); overflow:hidden; }
-header { background:#2c3e50; color:white; padding:16px; text-align:center; }
-.content { display:flex; flex-wrap:nowrap; gap:0; align-items:flex-start; padding:20px; }
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
 
-/* ===== LEFT / RIGHT PANELS ===== */
-.configurator { flex: 0 0 640px; max-width:640px; padding:20px 22px; background:#f9fafb; border-right:1px solid #eaecee; }
-.preview { flex: 1 1 520px; min-width:300px; padding:20px 22px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; background:white; }
+        .logo {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-/* ===== COMPONENTS ===== */
-.section-title { font-size:18px; font-weight:600; margin-bottom:12px; color:#2c3e50; padding-bottom:10px; border-bottom:2px solid #eaecee; }
-.form-group { margin-bottom:14px; }
-label { display:block; margin-bottom:8px; font-weight:600; color:#2c3e50; font-size:14px; }
-select,input { width:100%; padding:10px 12px; border-radius:6px; border:1px solid #d1d8e0; font-size:14px; background:white; transition:all .18s ease; }
-select:focus,input:focus { outline:none; border-color:#3498db; box-shadow:0 0 0 3px rgba(52,152,219,.12); }
+        .logo-image {
+            height: 100%;
+            max-height: 60px;
+            width: auto;
+            filter: brightness(0.9);
+            transition: var(--transition);
+        }
 
-.dimensions { display:grid; grid-template-columns:1fr 1fr; gap:8px; align-items:end; }
-.calculate-btn { width:100%; padding:12px 14px; background:#3498db; color:white; border:none; border-radius:6px; font-size:15px; font-weight:700; cursor:pointer; margin-top:8px; }
-.calculate-btn:hover { background:#2980b9; }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
 
-/* ===== PREVIEW ===== */
-.window-preview { width:100%; max-width:360px; background:#fff; border:3px solid #2c3e50; border-radius:5px; margin-bottom:12px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:8px; }
-.window-preview img { width:100%; height:100%; object-fit:contain; display:block; transition:transform .18s ease; }
+        .logo-main {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--hastings-blue);
+            letter-spacing: -0.5px;
+        }
 
-/* ===== DESIGN GRID ===== */
-/* keep grid tidy on wide screens but enforce thumbnail proportions everywhere */
-.design-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px; }
-.design-item { text-align:center; padding:8px; border:2px solid #e8e8e8; border-radius:8px; cursor:pointer; transition:all .22s ease; background:white; display:flex; flex-direction:column; align-items:center; }
-.design-item:hover { border-color:#3498db; transform:translateY(-4px); box-shadow:0 8px 18px rgba(0,0,0,.06); }
-.design-item.selected { border-color:#3498db; background:#eaf6fb; }
-.design-preview { width:100px; height:175px; border-radius:4px; margin-bottom:8px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:linear-gradient(45deg,#e6e6e6,#f9f9f9); }
-.design-preview img { width:100px; height:175px; object-fit:cover; display:block; }
+        .logo-tagline {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
 
-/* Ensure designs 11/12 don't break layout: force thumbnail box & contain */
-.design-item img { display:block; max-width:100%; }
+        .logo:hover .logo-image {
+            transform: scale(1.05);
+            filter: brightness(1);
+        }
 
-/* ===== BREAKDOWN ===== */
-.breakdown { margin-top:12px; background:white; padding:12px; border-radius:8px; border:1px solid #eaecee; }
-.breakdown-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
-.breakdown-total { font-weight:bold; border-top:2px solid #eee; margin-top:6px; padding-top:10px; }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
 
-/* ===== REPORTS ===== */
-.reports-section { margin-top: 20px; padding: 18px; border-top: 1px solid #eaecee; width: 100%; }
-.report-controls { display:flex; justify-content:space-between; gap:12px; align-items:center; margin-bottom:12px; }
-.add-report-btn, .clear-reports-btn { padding:10px 14px; border-radius:6px; border:none; font-weight:700; cursor:pointer; }
-.add-report-btn { background:#2ecc71; color:white; }
-.clear-reports-btn { background:#e74c3c; color:white; }
-.reports-container { max-height:520px; overflow-y:auto; border:1px solid #eaecee; border-radius:8px; padding:12px; background:#f9fafb; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--hastings-blue);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+        }
 
-/* invoice-style report */
-.report { display:flex; gap:12px; padding:14px; background:white; border-radius:8px; border:1px solid #e6e6e6; margin-bottom:12px; align-items:flex-start; }
-.report img { width:100px; height:175px; object-fit:cover; border-radius:4px; border:1px solid #ddd; }
-.report-details { flex:1; }
-.report-details h3 { margin-bottom:6px; }
-.report-details p { margin:4px 0; color:#3b4a55; font-size:14px; }
-.report .total-price { margin-left:auto; font-weight:800; font-size:18px; color:#2c3e50; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--hastings-accent);
+            transition: var(--transition);
+        }
 
-/* grand total box */
-.grand-total { text-align:right; font-size:18px; font-weight:700; margin-top:10px; }
+        .nav-links a:hover {
+            color: var(--hastings-accent);
+        }
 
-/* ===== SMALL SCREEN ADJUSTMENTS ===== */
-@media (max-width: 980px) {
-  .content { flex-wrap:wrap; }
-  .configurator { flex: 1 1 100%; max-width:100%; border-right:none; border-bottom:1px solid #eaecee; padding:16px; }
-  .preview { flex: 1 1 100%; max-width:100%; padding:16px; }
-  .design-grid { grid-template-columns:repeat(4,1fr); } /* show more columns on mid screens */
-}
+        .nav-links a:hover::after {
+            width: 100%;
+        }
 
-@media (max-width: 768px) {
-  /* show sticky mobile total bar */
-  .mobile-sticky { display:flex; gap:12px; padding:10px 14px; }
-  .navbar { display:none; } /* hide large navbar on phone */
-  body { padding-top:0; }
-  header { padding:12px; }
-  .content { display:block; padding:10px; }
-  .configurator, .preview { padding:12px; }
-  .design-grid { grid-template-columns:repeat(3,1fr); gap:10px; }
-  .design-item { padding:8px; }
-  .design-preview { width:100px; height:175px; }
-  .report { flex-direction:column; align-items:center; text-align:center; }
-  .report-details { width:100%; }
-  .report img { margin-bottom:10px; }
-  .report-controls { flex-direction:column; gap:10px; align-items:stretch; }
-  .add-report-btn, .clear-reports-btn { width:100%; }
-  .window-preview { max-width: 100%; aspect-ratio: 3/5; }
-  .window-preview img { object-fit:contain; }
-  .grand-total { font-size:16px; text-align:center; }
-}
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: 2px solid var(--hastings-blue);
+            color: var(--hastings-blue);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
 
-/* preserve print-friendly styles */
-@media print {
-  body { padding:0; }
-  .no-print, .mobile-sticky, .add-report-btn, .clear-reports-btn, .preview-controls { display:none !important; }
-}
-</style>
+        .mobile-menu-btn:hover {
+            background: var(--hastings-blue);
+            color: var(--white);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--hastings-accent);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--hastings-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ===== CONFIGURATOR LAYOUT ===== */
+        .configurator-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 1024px) {
+            .configurator-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== DESIGN SELECTION ===== */
+        .design-selection {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--hastings-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--hastings-accent);
+            font-weight: 600;
+        }
+
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .design-item {
+            background: var(--off-white);
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .design-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--hastings-accent);
+        }
+
+        .design-item.selected {
+            background: var(--hastings-blue);
+            border-color: var(--hastings-blue);
+            color: var(--white);
+        }
+
+        .design-item.selected .design-name,
+        .design-item.selected .design-price {
+            color: var(--white);
+        }
+
+        .design-preview {
+            width: 100%;
+            height: 150px;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+            overflow: hidden;
+            background: var(--gray-light);
+        }
+
+        .design-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .design-name {
+            font-weight: 600;
+            color: var(--hastings-blue);
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .design-price {
+            color: var(--hastings-accent);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* ===== CONFIGURATION OPTIONS ===== */
+        .configuration-options {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--hastings-blue);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+            color: var(--hastings-navy);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--hastings-accent);
+            box-shadow: 0 0 0 3px rgba(53, 122, 189, 0.1);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        .dimensions-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .info-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--hastings-blue);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .calculate-btn:hover {
+            background: var(--hastings-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== PRICE BREAKDOWN ===== */
+        .price-breakdown {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .breakdown-item.total {
+            font-weight: 700;
+            color: var(--hastings-blue);
+            border-top: 2px solid var(--gray-light);
+            border-bottom: none;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+        }
+
+        /* ===== PREVIEW PANEL ===== */
+        .preview-panel {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 120px;
+        }
+
+        .window-preview {
+            width: 100%;
+            height: 300px;
+            background: var(--off-white);
+            border: 2px solid var(--hastings-blue);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: var(--off-white);
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            color: var(--hastings-blue);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: var(--hastings-blue);
+            color: var(--white);
+        }
+
+        .price-display {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--off-white);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--hastings-accent);
+        }
+
+        .price-label {
+            color: var(--gray);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--hastings-blue);
+        }
+
+        .validation-message {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .validation-message.success {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+        .validation-message.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #c0392b;
+            border: 1px solid #c0392b;
+        }
+
+        /* ===== REPORTS SECTION ===== */
+        .reports-section {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .report-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-report-btn {
+            background: var(--hastings-blue);
+            color: var(--white);
+        }
+
+        .add-report-btn:hover {
+            background: var(--hastings-accent);
+            transform: translateY(-2px);
+        }
+
+        .clear-reports-btn {
+            background: var(--off-white);
+            color: var(--hastings-navy);
+            border: 2px solid var(--gray-light);
+        }
+
+        .clear-reports-btn:hover {
+            background: var(--gray-light);
+        }
+
+        .download-btn {
+            background: #27ae60;
+            color: var(--white);
+        }
+
+        .download-btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+
+        .reports-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .report-item {
+            background: var(--off-white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--hastings-accent);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .report-title {
+            font-size: 1.2rem;
+            color: var(--hastings-blue);
+            font-weight: 600;
+        }
+
+        .report-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--hastings-accent);
+        }
+
+        .report-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .report-detail {
+            font-size: 0.9rem;
+        }
+
+        .report-detail strong {
+            color: var(--hastings-blue);
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .delete-btn {
+            padding: 0.6rem 1.2rem;
+            background: rgba(231, 76, 60, 0.1);
+            color: #c0392b;
+            border: 1px solid #c0392b;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+            color: var(--white);
+        }
+
+        .no-reports {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .grand-total {
+            text-align: right;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--hastings-blue);
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gray-light);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 5%;
+            }
+
+            .logo {
+                height: 50px;
+            }
+
+            .logo-main {
+                font-size: 1.5rem;
+            }
+
+            .logo-tagline {
+                font-size: 0.8rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 5%;
+                width: 90%;
+                background: var(--white);
+                flex-direction: column;
+                padding: 2rem;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow-lg);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .main-container {
+                margin: 80px auto 20px;
+                padding: 0 15px;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .design-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dimensions-group {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-panel {
+                position: static;
+            }
+
+            .report-controls {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .report-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Mobile sticky header showing title + running grand total -->
-<div class="mobile-sticky no-print" id="mobileSticky">
-  <div class="title"><i class="fas fa-window-restore"></i> Sash Window Configurator</div>
- 
-</div>
-
-<!-- Desktop navbar (kept for wide screens) -->
-<nav class="navbar no-print">
-  <div class="nav-container">
-    <a href="#" class="nav-logo"><i class="fas fa-window-restore"></i> Sash Windows</a>
-    <ul class="nav-menu">
-      <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">Projects</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">Testimonials</a></li>
-    </ul>
-    <div class="hamburger no-print" aria-hidden="true"><i class="fas fa-bars"></i></div>
-  </div>
-</nav>
-
-<div class="container">
-  <header><h1>Sash Window Configurator</h1></header>
-
-  <div class="content">
-    <!-- CONFIGURATOR -->
-    <div class="configurator">
-      <h2 class="section-title">Choose Your Design</h2>
-      <div class="form-group">
-        <div class="design-grid" id="designGrid">
-          <!-- KEEP IMAGE TAGS AS-IS. Replace src values later with your base64 or file paths if needed -->
-          <div class="design-item selected" data-design="1" data-base-price="518.41" data-balance="weights" data-wood="pine" data-bars="none" data-preview="design1.png">
-            <div class="design-preview"><img src="design1.png" alt="Design 1"></div>
-            <div class="design-name">Design 1</div>
-            <div class="design-price">£518.41</div>
-          </div>
-          <div class="design-item" data-design="2" data-base-price="522.34" data-balance="spring" data-wood="pine" data-bars="with-bars" data-preview="design2.png">
-            <div class="design-preview"><img src="design2.png" alt="Design 2"></div>
-            <div class="design-name">Design 2</div>
-            <div class="design-price">£522.34</div>
-          </div>
-          <div class="design-item" data-design="3" data-base-price="740.32" data-balance="weights" data-wood="sapele" data-bars="with-bars" data-preview="design3.png">
-            <div class="design-preview"><img src="design3.png" alt="Design 3"></div>
-            <div class="design-name">Design 3</div>
-            <div class="design-price">£740.32</div>
-          </div>
-          <div class="design-item" data-design="4" data-base-price="705.08" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design4.png">
-            <div class="design-preview"><img src="design4.png" alt="Design 4"></div>
-            <div class="design-name">Design 4</div>
-            <div class="design-price">£705.08</div>
-          </div>
-          <div class="design-item" data-design="5" data-base-price="673.88" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design5.png">
-            <div class="design-preview"><img src="design5.png" alt="Design 5"></div>
-            <div class="design-name">Design 5</div>
-            <div class="design-price">£673.88</div>
-          </div>
-          <div class="design-item" data-design="6" data-base-price="731.8" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design6.png">
-            <div class="design-preview"><img src="design6.png" alt="Design 6"></div>
-            <div class="design-name">Design 6</div>
-            <div class="design-price">£731.80</div>
-          </div>
-          <div class="design-item" data-design="7" data-base-price="706.7" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design7.png">
-            <div class="design-preview"><img src="design7.png" alt="Design 7"></div>
-            <div class="design-name">Design 7</div>
-            <div class="design-price">£706.70</div>
-          </div>
-          <div class="design-item" data-design="8" data-base-price="865.52" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design8.png">
-            <div class="design-preview"><img src="design8.png" alt="Design 8"></div>
-            <div class="design-name">Design 8</div>
-            <div class="design-price">£865.52</div>
-          </div>
-
-          <!-- Design 9: keep wood selectable; balance/bars locked in code -->
-          <div class="design-item" data-design="9" data-base-price="432.15" data-balance="fixed" data-wood="pine" data-bars="none" data-preview="design9.png">
-            <div class="design-preview"><img src="design9.png" alt="Design 9"></div>
-            <div class="design-name">Design 9</div>
-            <div class="design-price">£432.15</div>
-          </div>
-
-          <div class="design-item" data-design="10" data-base-price="602.87" data-balance="weights" data-wood="pine" data-bars="none" data-preview="design10.png">
-            <div class="design-preview"><img src="design10.png" alt="Design 10"></div>
-            <div class="design-name">Design 10</div>
-            <div class="design-price">£602.87</div>
-          </div>
-
-          <!-- Designs 11 & 12 had caused mobile problems — thumbnails are now forced and contained -->
-          <div class="design-item" data-design="11" data-base-price="950.00" data-balance="weights" data-wood="pine" data-bars="with-bars" data-preview="design11.png">
-            <div class="design-preview"><img src="design11.png" alt="Design 11"></div>
-            <div class="design-name">Design 11</div>
-            <div class="design-price">£950.00</div>
-          </div>
-
-          <div class="design-item" data-design="12" data-base-price="1100.00" data-balance="weights" data-wood="sapele" data-bars="with-bars" data-preview="design12.png">
-            <div class="design-preview"><img src="design12.png" alt="Design 12"></div>
-            <div class="design-name">Design 12</div>
-            <div class="design-price">£1100.00</div>
-          </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src='images/images/logo.png' alt="Hastings Build Company Logo" class="logo-image">
+            <div class="logo-text">
+                <div class="logo-main">Hastings Build Company</div>
+                <div class="logo-tagline">DESIGN & CONSTRUCTION</div>
+            </div>
         </div>
-      </div>
+        
+        <button class="mobile-menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" onclick="closeMenu()">Home</a></li>
+                <li><a href="about.html" onclick="closeMenu()">Projects</a></li>
+                <li><a href="Testomonials.html" onclick="closeMenu()">Testimonials</a></li>
+                <li><a href="#configurator" onclick="closeMenu()" class="active">Window Configurator</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-      <div class="form-group">
-        <label for="balance">Balance Type:</label>
-        <select id="balance">
-          <option value="weights">Weights Balance</option>
-          <option value="spring">Spring Balance</option>
-          <option value="fixed">Fixed (No Opening)</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="wood">Wood Type:</label>
-        <select id="wood">
-          <option value="pine">Engineered Pine with Sapele Sill</option>
-          <option value="sapele">Full Hardwood Sapele</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="bars">Window Bars:</label>
-        <select id="bars">
-          <option value="none">No Bars</option>
-          <option value="with-bars">22mm Bars with Spacer</option>
-        </select>
-      </div>
-
-      <div class="form-group dimensions">
-        <div>
-          <label for="width">Width (mm)</label>
-          <input type="number" id="widthInput" min="100" max="3000" value="1000">
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="page-header">
+            <h1>Sash Window Configurator</h1>
+            <p>Design your perfect sash window with our interactive configurator. Select from various designs, customize dimensions, and get instant pricing.</p>
         </div>
-        <div>
-          <label for="height">Height (mm)</label>
-          <input type="number" id="heightInput" min="100" max="3000" value="1000">
+
+        <div class="configurator-layout">
+            <!-- Left Column: Configuration Options -->
+            <div>
+                <!-- Design Selection -->
+                <div class="design-selection">
+                    <h2 class="section-title">Choose Your Window Design</h2>
+                    <div class="design-grid" id="designGrid">
+                        <!-- Designs will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Configuration Options -->
+                <div class="configuration-options">
+                    <h2 class="section-title">Customize Your Window</h2>
+                    
+                    <div class="form-group">
+                        <label for="balance">Balance Type:</label>
+                        <select id="balance" class="form-control">
+                            <option value="weights">Weights Balance</option>
+                            <option value="spring">Spring Balance</option>
+                            <option value="fixed">Fixed (No Opening)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wood">Wood Type:</label>
+                        <select id="wood" class="form-control">
+                            <option value="pine">Engineered Pine with Sapele Sill</option>
+                            <option value="sapele">Full Hardwood Sapele</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bars">Window Bars:</label>
+                        <select id="bars" class="form-control">
+                            <option value="none">No Bars</option>
+                            <option value="with-bars">22mm Bars with Spacer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dimensions (mm):</label>
+                        <div class="dimensions-group">
+                            <div>
+                                <input type="number" id="widthInput" class="form-control" min="100" max="3000" value="1000" placeholder="Width">
+                            </div>
+                            <div>
+                                <input type="number" id="heightInput" class="form-control" min="100" max="3000" value="1000" placeholder="Height">
+                            </div>
+                        </div>
+                        <div id="sizeHelp" class="info-text">Enter dimensions between 500-2400mm</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" class="form-control" min="1" value="1">
+                        <div class="info-text">Bulk discounts available for orders over 5 units</div>
+                    </div>
+
+                    <button class="calculate-btn" id="calcBtn">
+                        <i class="fas fa-calculator"></i> Calculate Price
+                    </button>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div class="price-breakdown" id="priceBreakdown">
+                    <h2 class="section-title">Price Breakdown</h2>
+                    <div class="breakdown-item">
+                        <span>Base Design Price:</span>
+                        <span id="break_base">£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Size Adjustment:</span>
+                        <span id="break_size">£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Balance Type:</span>
+                        <span id="break_balance">£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Wood Type:</span>
+                        <span id="break_wood">£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Window Bars:</span>
+                        <span id="break_bars">£0.00</span>
+                    </div>
+                    <div class="breakdown-item total">
+                        <span>Total per Unit:</span>
+                        <span id="break_unit">£0.00</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Quantity:</span>
+                        <span id="break_qty">1</span>
+                    </div>
+                    <div class="breakdown-item total">
+                        <span>Total Price:</span>
+                        <span id="break_total">£0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Preview Panel -->
+            <div class="preview-panel">
+                <h2 class="section-title">Window Preview</h2>
+                
+                <div class="window-preview">
+                    <img id="preview-image" src="design1.png" alt="Window Preview" class="preview-image">
+                </div>
+
+                <div class="preview-controls">
+                    <button class="control-btn" id="zoomInBtn">
+                        <i class="fas fa-search-plus"></i> Zoom In
+                    </button>
+                    <button class="control-btn" id="zoomOutBtn">
+                        <i class="fas fa-search-minus"></i> Zoom Out
+                    </button>
+                    <button class="control-btn" id="resetZoomBtn">
+                        <i class="fas fa-sync"></i> Reset
+                    </button>
+                </div>
+
+                <div id="errorMsg" class="validation-message"></div>
+
+                <div class="price-display">
+                    <div class="price-label">Estimated Price</div>
+                    <div class="price-amount" id="mainPrice">£0.00</div>
+                    <div class="info-text">Including VAT</div>
+                </div>
+            </div>
         </div>
-        <div id="sizeHelp" class="default" style="align-self:start;margin-top:8px;">Enter dimensions (max 2400mm).</div>
-      </div>
 
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" min="1" value="1">
-        <p class="info-text" style="color:#7f8c8d;margin-top:8px;font-size:13px;">Bulk discounts available for orders over 5 units</p>
-      </div>
+        <!-- Reports Section -->
+        <div class="reports-section">
+            <h2 class="section-title">Your Window Quotes</h2>
+            
+            <div class="report-controls">
+                <button class="action-btn add-report-btn" id="addReportBtn">
+                    <i class="fas fa-plus"></i> Add to Quotes
+                </button>
+                <button class="action-btn clear-reports-btn" id="clearReportsBtn">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+                <button class="action-btn download-btn" id="downloadAllBtn">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+            </div>
 
-      <button class="calculate-btn" id="calcBtn">CALCULATE PRICE</button>
+            <div class="reports-container" id="reportsContainer">
+                <div class="no-reports" id="noReportsMessage">
+                    <i class="fas fa-file-alt" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                    <p>No quotes added yet. Configure a window and click "Add to Quotes" to create your first quote.</p>
+                </div>
+            </div>
 
-      <div class="breakdown" aria-live="polite" style="margin-top:12px;">
-        <h3 style="margin:0 0 8px 0;">Price Breakdown</h3>
-        <div class="breakdown-item"><span>Base Design Price:</span><span id="break_base">£0.00</span></div>
-        <div class="breakdown-item"><span>Size Adjustment:</span><span id="break_size">£0.00</span></div>
-        <div class="breakdown-item"><span>Balance Type:</span><span id="break_balance">£0.00</span></div>
-        <div class="breakdown-item"><span>Wood Type:</span><span id="break_wood">£0.00</span></div>
-        <div class="breakdown-item"><span>Window Bars:</span><span id="break_bars">£0.00</span></div>
-        <div class="breakdown-item breakdown-total"><span>Total per Unit:</span><span id="break_unit">£0.00</span></div>
-        <div class="breakdown-item"><span>Quantity:</span><span id="break_qty">1</span></div>
-        <div class="breakdown-item breakdown-total"><span>Total Price:</span><span id="break_total">£0.00</span></div>
-      </div>
-    </div>
-
-    <!-- PREVIEW PANEL -->
-    <div class="preview">
-      <h2 class="section-title">Window Preview</h2>
-      <div class="window-preview">
-        <!-- preview image uses contain so it never stretches/crops -->
-        <img id="preview-image" src="design1.png" alt="Window Preview" style="transform-origin:center;">
-      </div>
-
-      <div class="preview-controls no-print" style="margin-bottom:10px;">
-        <button id="zoomInBtn"><i class="fas fa-search-plus"></i> Zoom In</button>
-        <button id="zoomOutBtn"><i class="fas fa-search-minus"></i> Zoom Out</button>
-        <button id="resetZoomBtn"><i class="fas fa-sync"></i> Reset</button>
-      </div>
-
-      <div class="price-display" style="margin-top:8px;">
-        <div class="price-label" style="color:#7f8c8d;font-weight:600;">Estimated Price</div>
-        <div class="price" id="mainPrice" style="font-size:22px;font-weight:800;margin-top:6px;">£0.00</div>
-        <div id="errorMsg" class="" role="status" aria-live="polite" style="display:inline-block;margin-top:8px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- REPORTS SECTION -->
-  <div class="reports-section">
-    <h2 class="section-title">Your Reports</h2>
-    <div class="report-controls">
-      <button class="add-report-btn" id="addReportBtn"><i class="fas fa-plus"></i> Add Current Configuration to Report</button>
-      <div style="display:flex;gap:8px;">
-        <button class="clear-reports-btn" id="clearReportsBtn"><i class="fas fa-trash"></i> Clear All Reports</button>
-        <button class="clear-reports-btn" id="downloadAllBtn" style="background:#3498db;"><i class="fas fa-file-download"></i> Download All Reports (PDF)</button>
-      </div>
-    </div>
-
-    <div class="reports-container" id="reportsContainer">
-      <div class="no-reports" id="noReportsMessage" style="padding:22px;text-align:center;color:#7f8c8d;">No reports added yet. Configure a window and click "Add to Report" to create your first report.</div>
-    </div>
-
-    <div class="grand-total" id="grandTotal" style="margin-top:12px;">Grand Total: £0.00</div>
-  </div>
-
-</div>
-
-<script>
-/* ===== DATA & UTILS ===== */
-const featureCosts = { balance: { weights:0, spring:3.93, fixed:-86.26 }, wood: { pine:0, sapele:221.91 }, bars: { none:0, 'with-bars':213.39 } };
-let reports = []; let grandTotal = 0;
-const designImages = { 1:'design1.png',2:'design2.png',3:'design3.png',4:'design4.png',5:'design5.png',6:'design6.png',7:'design7.png',8:'design8.png',9:'design9.png',10:'design10.png',11:'design11.png',12:'design12.png' };
-function toInt(v){ return parseInt(v) || 0; }
-function formatDate(d){ const dd=String(d.getDate()).padStart(2,'0'); const mm=String(d.getMonth()+1).padStart(2,'0'); return dd+'/'+mm+'/'+d.getFullYear(); }
-
-/* ===== VALIDATION & HELP ===== */
-function validateSize(design, width, height){
-  if (width > 2400 || height > 2400) return "Width and height cannot exceed 2400mm.";
-  if (design >=1 && design <=10) {
-    if (width < 500 || width > 1400 || height < 1000 || height > 2500) return "Designs 1–10 require width 500–1400mm and height 1000–2500mm.";
-    return "";
-  }
-  if (design === 11) {
-    if (width < 1500 || width > 2400 || height < 1500 || height > 2400) return "Design 11 requires width 1500–2400mm and height 1500–2400mm.";
-    return "";
-  }
-  if (design === 12) {
-    if (width < 1500 || width > 2400 || height < 1500 || height > 2400) return "Design 12 requires width 1500–2400mm and height 1500–2400mm.";
-    return "";
-  }
-  return "";
-}
-
-function toggleOptionsForDesign(design) {
-  const balance = document.getElementById('balance');
-  const wood = document.getElementById('wood');
-  const bars = document.getElementById('bars');
-  if (design === 9) {
-    if (balance) { balance.disabled = true; balance.value = 'fixed'; }
-    if (bars) { bars.disabled = true; bars.value = 'none'; }
-    if (wood) { wood.disabled = false; }
-  } else {
-    if (balance) balance.disabled = false;
-    if (bars) bars.disabled = false;
-    if (wood) wood.disabled = false;
-  }
-}
-
-function updateSizeHelp(design){
-  const help = document.getElementById('sizeHelp'); if (!help) return;
-  if (design >=1 && design <=10) help.textContent = "Designs 1–10: width 500–1400mm, height 1000–2500mm.";
-  else if (design === 11) help.textContent = "Design 11: width 1500–2400mm, height 1500–2400mm.";
-  else if (design === 12) help.textContent = "Design 12: width 1500–2400mm, height 1500–2400mm.";
-  else help.textContent = "Enter dimensions (max 2400mm).";
-}
-
-function getBalanceTypeText(value){
-  const balanceTypes = { 'weights':'Traditional 147mm sash box with weights balance', 'spring':'Spring balance', 'fixed':'Fixed (No Opening)' };
-  return balanceTypes[value] || value;
-}
-function getWoodTypeText(value){ const woodTypes={ 'pine':'Engineered core wood PINE with hardwood SAPELE sill', 'sapele':'Full Hardwood SAPELE' }; return woodTypes[value] || value; }
-function getBarsText(value){ const barsTypes = { 'none':'Not requested / no groove', 'with-bars':'22mm bars with spacer' }; return barsTypes[value] || value; }
-
-/* ===== IMAGE ZOOM ===== */
-let zoomLevel = 1;
-function updateImageZoom(){ const img = document.getElementById('preview-image'); if (!img) return; img.style.transform = 'scale(' + zoomLevel + ')'; img.style.transformOrigin = 'center'; }
-
-/* ===== PRICE CALCULATION ===== */
-function calculatePrice(){
-  const selected = document.querySelector('.design-item.selected');
-  const errorBox = document.getElementById('errorMsg');
-  const helpBox = document.getElementById('sizeHelp');
-  const widthInput = document.getElementById('widthInput'); const heightInput = document.getElementById('heightInput'); const qtyInput = document.getElementById('quantity'); const mainPrice = document.getElementById('mainPrice');
-  if (!selected) return null;
-  errorBox.textContent=''; errorBox.className='';
-  const designId = toInt(selected.dataset.design);
-  const basePrice = parseFloat(selected.dataset.basePrice) || 0;
-  const width = toInt(widthInput.value), height = toInt(heightInput.value), qty = Math.max(1,toInt(qtyInput.value));
-  const validationError = validateSize(designId, width, height);
-  if (validationError) {
-    errorBox.textContent = validationError; errorBox.className = 'error';
-    if (widthInput) { widthInput.classList.add('invalid'); widthInput.classList.remove('valid'); }
-    if (heightInput) { heightInput.classList.add('invalid'); heightInput.classList.remove('valid'); }
-    if (helpBox) { helpBox.classList.remove('valid'); helpBox.classList.add('invalid'); }
-    // reset breakdown
-    document.getElementById('break_base').textContent='£0.00'; document.getElementById('break_size').textContent='£0.00';
-    document.getElementById('break_balance').textContent='£0.00'; document.getElementById('break_wood').textContent='£0.00'; document.getElementById('break_bars').textContent='£0.00';
-    document.getElementById('break_unit').textContent='£0.00'; document.getElementById('break_qty').textContent=qty; document.getElementById('break_total').textContent='£0.00';
-    mainPrice.textContent='£0.00';
-    toggleOptionsForDesign(designId);
-    return null;
-  }
-
-  // valid
-  errorBox.textContent='✅ Size OK'; errorBox.className='success';
-  if (widthInput) { widthInput.classList.remove('invalid'); widthInput.classList.add('valid'); }
-  if (heightInput) { heightInput.classList.remove('invalid'); heightInput.classList.add('valid'); }
-  if (helpBox) { helpBox.classList.remove('invalid'); helpBox.classList.add('valid'); }
-  toggleOptionsForDesign(designId);
-
-  const area = width * height; const referenceArea = 1000000; const sizeFactor = Math.pow(area / referenceArea, 0.8);
-  const balanceVal = document.getElementById('balance').value; const woodVal = document.getElementById('wood').value; const barsVal = document.getElementById('bars').value;
-  const balanceAdj = featureCosts.balance[balanceVal] || 0; const woodAdj = featureCosts.wood[woodVal] || 0; const barsAdj = featureCosts.bars[barsVal] || 0;
-  const adjustedPrice = (basePrice + balanceAdj + woodAdj + barsAdj) * sizeFactor;
-  const totalPrice = adjustedPrice * qty * 1.5; // VAT multiplier kept
-
-  document.getElementById('break_base').textContent = '£' + basePrice.toFixed(2);
-  document.getElementById('break_size').textContent = (sizeFactor>1?'+':'') + ((sizeFactor - 1) * 100).toFixed(1) + '%';
-  document.getElementById('break_balance').textContent = (balanceAdj!==0)? '£'+balanceAdj.toFixed(2) : '£0.00';
-  document.getElementById('break_wood').textContent = (woodAdj!==0)? '£'+woodAdj.toFixed(2) : '£0.00';
-  document.getElementById('break_bars').textContent = (barsAdj!==0)? '£'+barsAdj.toFixed(2) : '£0.00';
-  document.getElementById('break_unit').textContent = '£' + adjustedPrice.toFixed(2);
-  document.getElementById('break_qty').textContent = qty;
-  document.getElementById('break_total').textContent = '£' + totalPrice.toFixed(2);
-  mainPrice.textContent = '£' + totalPrice.toFixed(2);
-
-  return { designId, basePrice, width, height, qty, balanceVal, woodVal, barsVal, adjustedPrice, totalPrice };
-}
-
-/* ===== REPORTS ===== */
-function addReport(){
-  const calc = calculatePrice();
-  if (!calc) { alert('Please fix validation errors before adding to report.'); return; }
-  const selected = document.querySelector('.design-item.selected');
-  const designName = selected.querySelector('.design-name').textContent;
-  const preview = selected.dataset.preview || designImages[calc.designId];
-  const rpt = { id: Date.now(), designId:calc.designId, designName, imageUrl:preview, balanceType:calc.balanceVal, woodType:calc.woodVal, bars:calc.barsVal, width:calc.width, height:calc.height, quantity:calc.qty, unitPrice:calc.adjustedPrice, totalPrice:calc.totalPrice };
-  reports.push(rpt); grandTotal += rpt.totalPrice; renderReports(); updateMobileTotal(); document.querySelector('.reports-section').scrollIntoView({behavior:'smooth'});
-}
-
-function deleteReport(id){
-  const idx = reports.findIndex(r=>r.id===id); if (idx===-1) return;
-  grandTotal -= reports[idx].totalPrice; reports.splice(idx,1); renderReports(); updateMobileTotal();
-}
-
-function clearReports(){
-  if (reports.length===0) return;
-  if (!confirm('Are you sure you want to clear all reports?')) return;
-  reports=[]; grandTotal=0; renderReports(); updateMobileTotal();
-}
-
-function renderReports(){
-  const container = document.getElementById('reportsContainer');
-  const noMsg = document.getElementById('noReportsMessage');
-  const grandEl = document.getElementById('grandTotal');
-  if (reports.length===0){ noMsg.style.display='block'; container.innerHTML=''; grandEl.textContent='Grand Total: £0.00'; return; }
-  noMsg.style.display='none';
-  let html = '';
-  reports.forEach(r=>{
-    html += `<div class="report" id="report-${r.id}">
-      <img src="${r.imageUrl}" alt="Design Image">
-      <div class="report-details">
-        <h3>${r.designName}</h3>
-        <p><strong>Window Size:</strong> ${r.width} mm x ${r.height} mm</p>
-        <p><strong>Quantity:</strong> ${r.quantity}</p>
-        <p><strong>Unit Price:</strong> £${r.unitPrice.toFixed(2)}</p>
-        <p class="total-price"><strong>Total:</strong> £${r.totalPrice.toFixed(2)}</p>
-        <p><strong>Profile:</strong> ${getBalanceTypeText(r.balanceType)}</p>
-        <p><strong>Timber:</strong> ${getWoodTypeText(r.woodType)}</p>
-        <p><strong>Finish:</strong> Internal/External RAL9016 White</p>
-        <p><strong>Glass:</strong> 4mm / 12 argon / 4mm Low-E / 1.1W/m2K</p>
-        <p><strong>Bars:</strong> ${getBarsText(r.bars)}</p>
-        <p><strong>Ironmongery:</strong> Lockable fastener, sash lifts & pulleys</p>
-        <p><strong>Sill:</strong> Flush hardwood SAPELE</p>
-        <p><strong>Board:</strong> Not requested / no groove</p>
-        <p><strong>Ventilation:</strong> Not requested</p>
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
-          <button onclick="downloadSingleReportPDF(${r.id})" style="background:#3498db;color:white;border:none;padding:8px 12px;border-radius:4px;cursor:pointer;"><i class="fas fa-file-pdf"></i> Download PDF Sketch</button>
-          <button class="delete-report" data-report-id="${r.id}" style="background:#e74c3c;color:white;border:none;padding:8px 12px;border-radius:4px;cursor:pointer;"><i class="fas fa-trash"></i> Remove</button>
+            <div class="grand-total" id="grandTotal">
+                Grand Total: £0.00
+            </div>
         </div>
-      </div>
-    </div>`; 
-  });
-  container.innerHTML = html; grandEl.textContent = `Grand Total: £${grandTotal.toFixed(2)}`; updateMobileTotal();
-  // wire delete buttons
-  document.querySelectorAll('.delete-report').forEach(btn=> btn.addEventListener('click', function(){ const id = parseInt(this.getAttribute('data-report-id')); deleteReport(id); }));
-}
-
-/* ===== PRINTABLE PDF (browser print pipeline) ===== */
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function openPrintWindow(htmlContent){
-  const w = window.open('','_blank','toolbar=0,location=0,menubar=0');
-  if (!w) { alert('Popup blocked. Allow popups to download PDFs.'); return; }
-  w.document.open();
-  const style = `
-  <style>
-    body{font-family:Arial,Helvetica,sans-serif;color:#222;padding:18px;}
-    .header{text-align:center;margin-bottom:8px;}
-    .header h1{margin:0;font-size:20px;}
-    .meta{text-align:center;color:#666;margin-bottom:10px;}
-    .report-page{page-break-after:always;}
-    .report-block{display:flex;gap:14px;margin-bottom:10px;align-items:flex-start;}
-    .report-block img{width:160px;height:280px;object-fit:cover;border:1px solid #ddd;}
-    .specs h2{margin:0 0 8px 0;font-size:18px;}
-    .specs p{margin:4px 0;}
-    table{width:100%;border-collapse:collapse;margin-top:8px;}
-    table th, table td{border:1px solid #ccc;padding:6px 8px;text-align:left;}
-    .summary{text-align:right;font-weight:bold;margin-top:12px;font-size:16px;}
-    @media print{ .no-print{display:none;} }
-  </style>
-  `;
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Printable Report</title>${style}</head><body>${htmlContent}</body></html>`);
-  w.document.close();
-  w.onload = function(){ setTimeout(()=>{ w.focus(); w.print(); }, 350); };
-}
-
-function buildSingleReportHTML(report){
-  const dateStr = formatDate(new Date());
-  return `
-    <div class="report-page">
-      <div class="header"><h1>Sash Window Configurator</h1></div>
-      <div class="meta">Date: ${dateStr}</div>
-      <div class="report-block">
-        <img src="${report.imageUrl}" alt="Design">
-        <div class="specs">
-          <h2>${esc(report.designName)}</h2>
-          <p><strong>Size:</strong> ${report.width} mm x ${report.height} mm</p>
-          <p><strong>Quantity:</strong> ${report.quantity}</p>
-          <p><strong>Unit Price:</strong> £${report.unitPrice.toFixed(2)}</p>
-          <p><strong>Total Price:</strong> £${report.totalPrice.toFixed(2)}</p>
-          <p><strong>Profile:</strong> ${esc(getBalanceTypeText(report.balanceType))}</p>
-          <p><strong>Timber:</strong> ${esc(getWoodTypeText(report.woodType))}</p>
-          <p><strong>Finish:</strong> Internal/External RAL9016 White</p>
-          <p><strong>Glass:</strong> 4mm / 12 argon / 4mm Low-E / 1.1W/m2K</p>
-          <p><strong>Bars:</strong> ${esc(getBarsText(report.bars))}</p>
-          <p><strong>Ironmongery:</strong> Lockable fastener, sash lifts & pulleys</p>
-          <p><strong>Sill:</strong> Flush hardwood SAPELE</p>
-          <p><strong>Board:</strong> Not requested / no groove</p>
-          <p><strong>Ventilation:</strong> Not requested</p>
-        </div>
-      </div>
     </div>
-  `;
-}
 
-function downloadSingleReportPDF(reportId){
-  const r = reports.find(x=>x.id===reportId); if (!r) { alert('Report not found'); return; }
-  const html = buildSingleReportHTML(r);
-  openPrintWindow(html);
-}
+    <script>
+        // Configuration Data
+        const windowDesigns = [
+            { id: 1, name: "Classic 2-Panel", basePrice: 518.41, image: "design1.png", balance: "weights", wood: "pine", bars: "none" },
+            { id: 2, name: "Modern Spring", basePrice: 522.34, image: "design2.png", balance: "spring", wood: "pine", bars: "with-bars" },
+            { id: 3, name: "Premium Sapele", basePrice: 740.32, image: "design3.png", balance: "weights", wood: "sapele", bars: "with-bars" },
+            { id: 4, name: "Traditional Bay", basePrice: 705.08, image: "design4.png", balance: "weights", wood: "pine", bars: "with-bars" },
+            { id: 5, name: "Victorian Style", basePrice: 673.88, image: "design5.png", balance: "weights", wood: "pine", bars: "with-bars" },
+            { id: 6, name: "Georgian Grid", basePrice: 731.80, image: "design6.png", balance: "weights", wood: "pine", bars: "with-bars" },
+            { id: 7, name: "Edwardian", basePrice: 706.70, image: "design7.png", balance: "weights", wood: "pine", bars: "with-bars" },
+            { id: 8, name: "Large Format", basePrice: 865.52, image: "design8.png", balance: "weights", wood: "pine", bars: "with-bars" },
+            { id: 9, name: "Fixed Light", basePrice: 432.15, image: "design9.png", balance: "fixed", wood: "pine", bars: "none" },
+            { id: 10, name: "Slim Profile", basePrice: 602.87, image: "design10.png", balance: "weights", wood: "pine", bars: "none" },
+            { id: 11, name: "Arch Top", basePrice: 950.00, image: "design11.png", balance: "weights", wood: "pine", bars: "with-bars" },
+            { id: 12, name: "Premium Arch", basePrice: 1100.00, image: "design12.png", balance: "weights", wood: "sapele", bars: "with-bars" }
+        ];
 
-function buildAllReportsHTML(){
-  if (reports.length===0){ alert('No reports to export'); return ''; }
-  let pages = '';
-  reports.forEach(r=> pages += buildSingleReportHTML(r));
-  // summary table
-  let rows = '';
-  reports.forEach((r,i)=> rows += `<tr><td>${i+1}</td><td>${esc(r.designName)}</td><td>${r.width} x ${r.height}</td><td>${r.quantity}</td><td>£${r.unitPrice.toFixed(2)}</td><td>£${r.totalPrice.toFixed(2)}</td></tr>`);
-  rows += `<tr style="font-weight:bold;"><td colspan="5" style="text-align:right;">Grand Total</td><td>£${grandTotal.toFixed(2)}</td></tr>`;
-  const summary = `
-    <div class="report-page">
-      <div class="header"><h1>Sash Window Configurator - Quote Summary</h1></div>
-      <div class="meta">Date: ${formatDate(new Date())}</div>
-      <table><thead><tr><th>#</th><th>Design</th><th>Size (W x H)</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead><tbody>${rows}</tbody></table>
-      <div class="summary">Grand Total: £${grandTotal.toFixed(2)}</div>
-    </div>
-  `;
-  return pages + summary;
-}
+        const featureCosts = {
+            balance: { weights: 0, spring: 3.93, fixed: -86.26 },
+            wood: { pine: 0, sapele: 221.91 },
+            bars: { none: 0, 'with-bars': 213.39 }
+        };
 
-function downloadAllReportsPDF(){
-  if (reports.length===0){ alert('No reports to export'); return; }
-  const html = buildAllReportsHTML();
-  openPrintWindow(html);
-}
+        let selectedDesign = windowDesigns[0];
+        let reports = [];
+        let grandTotal = 0;
+        let zoomLevel = 1;
 
-/* ===== STICKY MOBILE TOTAL ===== */
-function updateMobileTotal(){
-  const mobileEl = document.getElementById('mobileGrandTotal');
-  const grand = document.getElementById('grandTotal');
-  const formatted = `Grand Total: £${grandTotal.toFixed(2)}`;
-  if (mobileEl) mobileEl.textContent = formatted;
-  if (grand) grand.textContent = formatted;
-}
+        // Initialize Design Grid
+        function initializeDesignGrid() {
+            const grid = document.getElementById('designGrid');
+            grid.innerHTML = '';
+            
+            windowDesigns.forEach(design => {
+                const designItem = document.createElement('div');
+                designItem.className = 'design-item';
+                if (design.id === 1) designItem.classList.add('selected');
+                
+                designItem.innerHTML = `
+                    <div class="design-preview">
+                        <img src="${design.image}" alt="${design.name}">
+                    </div>
+                    <div class="design-name">${design.name}</div>
+                    <div class="design-price">£${design.basePrice.toFixed(2)}</div>
+                `;
+                
+                designItem.addEventListener('click', () => selectDesign(design));
+                grid.appendChild(designItem);
+            });
+        }
 
-/* ===== INIT & EVENT WIRING ===== */
-document.addEventListener('DOMContentLoaded', function(){
-  // selection behavior
-  document.querySelectorAll('.design-item').forEach(item=>{
-    item.addEventListener('click', function(){
-      document.querySelectorAll('.design-item').forEach(i=>i.classList.remove('selected')); this.classList.add('selected');
-      const designId = toInt(this.dataset.design);
-      const bal = this.dataset.balance; const br = this.dataset.bars;
-      if (document.getElementById('balance')) document.getElementById('balance').value = bal;
-      if (document.getElementById('bars')) document.getElementById('bars').value = br;
-      if (this.dataset.wood && designId !== 9) { if (document.getElementById('wood')) document.getElementById('wood').value = this.dataset.wood; }
-      if (this.dataset.preview) { document.getElementById('preview-image').src = this.dataset.preview; zoomLevel = 1; updateImageZoom(); }
-      updateSizeHelp(designId); calculatePrice();
-    });
-  });
+        // Select Design
+        function selectDesign(design) {
+            selectedDesign = design;
+            
+            // Update UI
+            document.querySelectorAll('.design-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Update dropdowns
+            document.getElementById('balance').value = design.balance;
+            document.getElementById('wood').value = design.wood;
+            document.getElementById('bars').value = design.bars;
+            
+            // Update preview
+            document.getElementById('preview-image').src = design.image;
+            
+            // Recalculate price
+            calculatePrice();
+        }
 
-  // live validation inputs
-  const widthInput = document.getElementById('widthInput'); const heightInput = document.getElementById('heightInput');
-  [widthInput,heightInput].forEach(inp=>{ if (!inp) return; inp.addEventListener('input', ()=> calculatePrice()); });
+        // Calculate Price
+        function calculatePrice() {
+            const width = parseInt(document.getElementById('widthInput').value) || 1000;
+            const height = parseInt(document.getElementById('heightInput').value) || 1000;
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            
+            const balance = document.getElementById('balance').value;
+            const wood = document.getElementById('wood').value;
+            const bars = document.getElementById('bars').value;
+            
+            // Validate dimensions
+            let error = '';
+            if (width < 500 || width > 2400) error = 'Width must be between 500mm and 2400mm';
+            if (height < 500 || height > 2400) error = 'Height must be between 500mm and 2400mm';
+            
+            if (error) {
+                document.getElementById('errorMsg').textContent = error;
+                document.getElementById('errorMsg').className = 'validation-message error';
+                return;
+            }
+            
+            // Clear error
+            document.getElementById('errorMsg').textContent = 'Dimensions are valid';
+            document.getElementById('errorMsg').className = 'validation-message success';
+            
+            // Calculate price
+            const basePrice = selectedDesign.basePrice;
+            const balanceAdjustment = featureCosts.balance[balance] || 0;
+            const woodAdjustment = featureCosts.wood[wood] || 0;
+            const barsAdjustment = featureCosts.bars[bars] || 0;
+            
+            // Size factor calculation
+            const referenceArea = 1000000; // 1000x1000mm
+            const area = width * height;
+            const sizeFactor = Math.pow(area / referenceArea, 0.8);
+            
+            const unitPrice = (basePrice + balanceAdjustment + woodAdjustment + barsAdjustment) * sizeFactor;
+            const totalPrice = unitPrice * quantity * 1.2; // Including VAT
+            
+            // Update breakdown
+            document.getElementById('break_base').textContent = `£${basePrice.toFixed(2)}`;
+            document.getElementById('break_size').textContent = sizeFactor > 1 ? `+${((sizeFactor - 1) * 100).toFixed(1)}%` : '0%';
+            document.getElementById('break_balance').textContent = `£${balanceAdjustment.toFixed(2)}`;
+            document.getElementById('break_wood').textContent = `£${woodAdjustment.toFixed(2)}`;
+            document.getElementById('break_bars').textContent = `£${barsAdjustment.toFixed(2)}`;
+            document.getElementById('break_unit').textContent = `£${unitPrice.toFixed(2)}`;
+            document.getElementById('break_qty').textContent = quantity;
+            document.getElementById('break_total').textContent = `£${totalPrice.toFixed(2)}`;
+            
+            // Update main price
+            document.getElementById('mainPrice').textContent = `£${totalPrice.toFixed(2)}`;
+            
+            return {
+                design: selectedDesign,
+                width,
+                height,
+                quantity,
+                unitPrice,
+                totalPrice,
+                balance,
+                wood,
+                bars
+            };
+        }
 
-  // option changes
-  ['balance','wood','bars','quantity'].forEach(id=>{ const el=document.getElementById(id); if (el) el.addEventListener('change', calculatePrice); });
+        // Add Report
+        function addReport() {
+            const calculation = calculatePrice();
+            if (!calculation) return;
+            
+            const report = {
+                id: Date.now(),
+                ...calculation,
+                timestamp: new Date().toLocaleDateString()
+            };
+            
+            reports.push(report);
+            grandTotal += report.totalPrice;
+            
+            renderReports();
+        }
 
-  // buttons
-  const calcBtn = document.getElementById('calcBtn'); if (calcBtn) calcBtn.addEventListener('click', e=>{ e.preventDefault(); calculatePrice(); });
-  const addBtn = document.getElementById('addReportBtn'); if (addBtn) addBtn.addEventListener('click', addReport);
-  const clearBtn = document.getElementById('clearReportsBtn'); if (clearBtn) clearBtn.addEventListener('click', clearReports);
-  const downloadAllBtn = document.getElementById('downloadAllBtn'); if (downloadAllBtn) downloadAllBtn.addEventListener('click', downloadAllReportsPDF);
+        // Delete Report
+        function deleteReport(id) {
+            const index = reports.findIndex(r => r.id === id);
+            if (index !== -1) {
+                grandTotal -= reports[index].totalPrice;
+                reports.splice(index, 1);
+                renderReports();
+            }
+        }
 
-  // zoom controls
-  const zin = document.getElementById('zoomInBtn'), zout = document.getElementById('zoomOutBtn'), rsz = document.getElementById('resetZoomBtn');
-  if (zin) zin.addEventListener('click', ()=>{ zoomLevel = Math.min(zoomLevel + 0.1, 2); updateImageZoom(); });
-  if (zout) zout.addEventListener('click', ()=>{ zoomLevel = Math.max(zoomLevel - 0.1, 0.5); updateImageZoom(); });
-  if (rsz) rsz.addEventListener('click', ()=>{ zoomLevel = 1; updateImageZoom(); });
+        // Clear Reports
+        function clearReports() {
+            if (reports.length === 0) return;
+            if (!confirm('Are you sure you want to clear all quotes?')) return;
+            
+            reports = [];
+            grandTotal = 0;
+            renderReports();
+        }
 
-  // initial selection & calc
-  const initial = document.querySelector('.design-item.selected') || document.querySelector('.design-item');
-  if (initial) { updateSizeHelp(toInt(initial.dataset.design)); if (initial.dataset.preview) document.getElementById('preview-image').src = initial.dataset.preview; }
-  calculatePrice(); renderReports(); updateMobileTotal();
-});
-</script>
+        // Render Reports
+        function renderReports() {
+            const container = document.getElementById('reportsContainer');
+            const noReports = document.getElementById('noReportsMessage');
+            
+            if (reports.length === 0) {
+                noReports.style.display = 'block';
+                container.innerHTML = '';
+                document.getElementById('grandTotal').textContent = 'Grand Total: £0.00';
+                return;
+            }
+            
+            noReports.style.display = 'none';
+            
+            let html = '';
+            reports.forEach(report => {
+                html += `
+                    <div class="report-item">
+                        <div class="report-header">
+                            <div class="report-title">${report.design.name}</div>
+                            <div class="report-price">£${report.totalPrice.toFixed(2)}</div>
+                        </div>
+                        <div class="report-details">
+                            <div class="report-detail"><strong>Size:</strong> ${report.width}mm × ${report.height}mm</div>
+                            <div class="report-detail"><strong>Quantity:</strong> ${report.quantity}</div>
+                            <div class="report-detail"><strong>Balance:</strong> ${report.balance}</div>
+                            <div class="report-detail"><strong>Wood:</strong> ${report.wood}</div>
+                            <div class="report-detail"><strong>Bars:</strong> ${report.bars}</div>
+                            <div class="report-detail"><strong>Unit Price:</strong> £${report.unitPrice.toFixed(2)}</div>
+                        </div>
+                        <div class="report-actions">
+                            <button class="delete-btn" onclick="deleteReport(${report.id})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            document.getElementById('grandTotal').textContent = `Grand Total: £${grandTotal.toFixed(2)}`;
+        }
+
+        // Download PDF
+        function downloadPDF() {
+            if (reports.length === 0) {
+                alert('No quotes to download');
+                return;
+            }
+            
+            alert('PDF download feature would be implemented here. For now, you can print the page.');
+            window.print();
+        }
+
+        // Zoom Functions
+        function updateImageZoom() {
+            const img = document.getElementById('preview-image');
+            img.style.transform = `scale(${zoomLevel})`;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize design grid
+            initializeDesignGrid();
+            
+            // Calculate initial price
+            calculatePrice();
+            
+            // Event Listeners
+            document.getElementById('calcBtn').addEventListener('click', calculatePrice);
+            document.getElementById('addReportBtn').addEventListener('click', addReport);
+            document.getElementById('clearReportsBtn').addEventListener('click', clearReports);
+            document.getElementById('downloadAllBtn').addEventListener('click', downloadPDF);
+            
+            // Zoom controls
+            document.getElementById('zoomInBtn').addEventListener('click', () => {
+                zoomLevel = Math.min(zoomLevel + 0.1, 2);
+                updateImageZoom();
+            });
+            
+            document.getElementById('zoomOutBtn').addEventListener('click', () => {
+                zoomLevel = Math.max(zoomLevel - 0.1, 0.5);
+                updateImageZoom();
+            });
+            
+            document.getElementById('resetZoomBtn').addEventListener('click', () => {
+                zoomLevel = 1;
+                updateImageZoom();
+            });
+            
+            // Live updates on input changes
+            ['widthInput', 'heightInput', 'quantity', 'balance', 'wood', 'bars'].forEach(id => {
+                document.getElementById(id).addEventListener('input', calculatePrice);
+                document.getElementById(id).addEventListener('change', calculatePrice);
+            });
+        });
+
+        // Mobile Menu Functions
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const btn = document.querySelector('.mobile-menu-btn i');
+            navLinks.classList.toggle('active');
+            btn.classList.toggle('fa-bars');
+            btn.classList.toggle('fa-times');
+        }
+
+        function closeMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const btn = document.querySelector('.mobile-menu-btn i');
+            navLinks.classList.remove('active');
+            btn.classList.add('fa-bars');
+            btn.classList.remove('fa-times');
+        }
+    </script>
 </body>
 </html>
