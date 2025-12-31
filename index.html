@@ -980,9 +980,9 @@
     </style>
 </head>
 <body>
-    <!-- Updated Mobile-Friendly Header -->
+    <!-- Updated Mobile-Friendly Header with ORIGINAL LINKS -->
     <header class="header" id="header">
-        <a href="#home" class="logo">
+        <a href="index.html" class="logo">
             <img src='images/images/logo.png' alt="Hastings Build Company Logo" class="logo-image">
             <div class="logo-text">
                 <div class="logo-main">Hastings Build Company</div>
@@ -1000,11 +1000,11 @@
         
         <nav class="main-nav" id="mainNav" aria-label="Main navigation">
             <ul class="nav-links">
-                <li><a href="#home" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
-                <li><a href="#services" class="nav-link" onclick="closeMobileMenu()">Services</a></li>
-                <li><a href="#about" class="nav-link" onclick="closeMobileMenu()">About</a></li>
-                <li><a href="#testimonials" class="nav-link" onclick="closeMobileMenu()">Testimonials</a></li>
-                <li><a href="#contact" class="nav-link" onclick="closeMobileMenu()">Contact</a></li>
+                <li><a href="index.html" class="nav-link" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="about.html" class="nav-link" onclick="closeMobileMenu()">Projects</a></li>
+                <li><a href="Testimonials.html" class="nav-link" onclick="closeMobileMenu()">Testimonials</a></li>
+                <li><a href="Windows.html" class="nav-link active" onclick="closeMobileMenu()">Windows</a></li>
+                <li><a href="contact.html" class="nav-link" onclick="closeMobileMenu()">Contact</a></li>
                 <li class="nav-cta">
                     <a href="tel:+447359057111" class="cta-btn" onclick="closeMobileMenu()">
                         <i class="fas fa-phone"></i>
@@ -1404,9 +1404,25 @@
             });
         });
 
+        // ===== SET ACTIVE NAV LINK BASED ON CURRENT PAGE =====
+        function setActiveNavLink() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
         // ===== INITIALIZE ON LOAD =====
         window.addEventListener('load', () => {
             animateOnScroll();
+            setActiveNavLink();
             
             // Add scroll event listener for animations
             window.addEventListener('scroll', animateOnScroll);
